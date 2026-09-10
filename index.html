@@ -335,11 +335,19 @@
   .match-card {
     position: relative;
     border-radius: 12px;
-    padding: 20px clamp(16px, 4vw, 28px) 22px;
+    padding: 23px clamp(16px, 4vw, 28px) 22px;
     background:
       repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0px, rgba(255,255,255,.07) 2px, transparent 2px, transparent 14px),
       linear-gradient(160deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 68%, #140d0c) 100%);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
+  }
+  .match-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), #fff6da, var(--gold));
   }
   .match-tag {
     display: inline-block;
@@ -377,7 +385,7 @@
     font-weight: 700;
     font-size: 14px;
     color: var(--accent);
-    box-shadow: 0 4px 10px -4px rgba(0,0,0,.4);
+    box-shadow: 0 4px 10px -4px rgba(0,0,0,.4), 0 0 0 2px var(--gold);
     overflow: hidden;
   }
   .match-crest img {
@@ -1177,7 +1185,6 @@
       <div class="hero-chip"><span class="k">창단</span><span class="v">1955년</span></div>
       <div class="hero-chip"><span class="k">홈구장</span><span class="v" id="chip-venue">정보 입력 예정</span></div>
       <div class="hero-chip"><span class="k">소속리그</span><span class="v" id="chip-league">정보 입력 예정</span></div>
-      <div class="hero-chip"><span class="k">등록 선수</span><span class="v" id="chip-players">정보 입력 예정</span></div>
       <div class="hero-chip"><span class="k">현재 순위</span><span class="v" id="chip-rank">정보 입력 예정</span></div>
     </div>
   </div>
@@ -1502,8 +1509,8 @@
         bio: "골키퍼 고유 기록(실점·선방)은 별도로 집계되지 않는다.",
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 3, starts: null, goals: 0, assists: null, yellowCards: 1, redCards: 0 },
         verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
-      { id: "player-024", number: 24, name: "박태양", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-03", height: 187, weight: null, preferredFoot: null, school: "서울영등포공고", photo: null, captain: false,
-        bio: "26학번 새내기. 입학 시즌부터 존재감을 보여줬다 — 2월 춘계연맹전에서 멀티골을 포함해 5골을 몰아치더니, U리그에서도 7경기 4골로 팀 내 득점 공동 1위를 달리고 있다.",
+      { id: "player-024", number: 24, name: "박태양", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-03", height: 187, weight: 76, preferredFoot: null, school: "서울영등포공고", photo: null, captain: false,
+        bio: "26학번 새내기. 입학 시즌부터 존재감을 보여줬다 — 2월 춘계연맹전에서 멀티골을 포함해 5골을 몰아치더니, U리그에서도 7경기 4골로 팀 내 득점 공동 1위에 올랐다. 이 활약을 발판 삼아 2026-07-12 일본 J3리그 카마타마레 사누키 입단을 확정지으며 2026/27시즌부터 해외 무대로 향한다 — 이적 이후 기록은 경희대 소속 시절과 다를 수 있다.",
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 4, assists: null, yellowCards: 0, redCards: 0, note: "한산대첩기 춘계연맹전(별도 대회) 5골은 이 필드에 포함되지 않음 — 대회별로 구분 집계" },
         verification: "[복수 자료 확인] KUFC + KUSF + 경희대 공식미디어 + 언론보도", confirmedActiveIn2026: true },
       { id: "player-025", number: 25, name: "김세인", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-05", height: 185, weight: 88, preferredFoot: null, school: "충남아산FC U18", photo: null, captain: false,
@@ -1583,6 +1590,8 @@
         summary: "2025시즌 주장을 지낸 이호연 선수의 인터뷰. 태백산기 제61회 추계대학축구연맹전 우승(승부차기 포함) 등 2025시즌을 돌아보는 내용을 다룬다. 2026 U리그 3권역 기록과는 다른 시즌(2025)을 다룬 기사이니 혼동에 주의.", url: "https://kusf.or.kr/news/uni_news_view.html?page=8&seq=18&ecode=45" },
       { id: "news-2026-005", title: "[공식발표] '덴소컵 주장+U-21 대표' 장하윤, 파주서 프로 무대 도전", date: "2026-08-19", category: "이적",
         summary: "경희대 축구부 주장 장하윤이 K리그2 파주 프런티어FC에 입단해 프로 무대에 도전한다. 191cm 센터백으로 U-21 대표팀·덴소컵 대학선발 주장 경력.", url: "https://www.osen.co.kr/article/G1112859793" },
+      { id: "news-2026-006", title: "경희대 공격수 박태양, 일본 J3 카마타마레 사누키 입단 내정", date: "2026-07-12", category: "이적",
+        summary: "19세 공격수 박태양(187cm)이 일본 J3리그 카마타마레 사누키와 계약, 2026/27시즌부터 합류한다. 수원삼성 U-12·영등포공고를 거친 유망주로 \"포워드로서 최대한 많은 골로 팀의 승격에 기여하겠다\"고 소감을 밝혔다.", url: "https://wonju.kpnnews.org/news/2607120000000002" },
     ],
 
     teamRecord: {
@@ -1711,9 +1720,6 @@
 
   // ---- 홈 히어로: 파생 가능한 값 자동 계산 ----
   function renderHeroDerived() {
-    const active = activePlayers();
-    document.getElementById("chip-players").textContent = active.length ? `${active.length}명` : "정보 입력 예정";
-
     const comps = DATA.matches.map((m) => m.competition).filter(Boolean);
     const compCounts = {};
     comps.forEach((c) => { compCounts[c] = (compCounts[c] || 0) + 1; });
