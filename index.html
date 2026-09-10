@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>경희대학교 축구부</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #faf5f4;
+    --surface: #ffffff;
+    --surface-2: #f3e6e5;
+    --text: #241211;
+    --text-muted: #7a5f5d;
+    --line: #ead9d7;
+    --accent: #b31f2b;
+    --accent-soft: #f6dfe0;
+    --gold: #b3872a;
+    --gold-soft: #f5ecd6;
+    --lose: #3f6690;
+    --lose-soft: #e3eaf1;
+    --shadow: 0 1px 2px rgba(36,18,17,.05), 0 8px 24px -12px rgba(36,18,17,.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #180f0e;
+      --surface: #241615;
+      --surface-2: #2d1c1b;
+      --text: #f5ece9;
+      --text-muted: #bfa09d;
+      --line: #3c2624;
+      --accent: #e0525c;
+      --accent-soft: #3a1d1e;
+      --gold: #e0b94a;
+      --gold-soft: #2b2413;
+      --lose: #7fa7cf;
+      --lose-soft: #1c2a35;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #180f0e;
+    --surface: #241615;
+    --surface-2: #2d1c1b;
+    --text: #f5ece9;
+    --text-muted: #bfa09d;
+    --line: #3c2624;
+    --accent: #e0525c;
+    --accent-soft: #3a1d1e;
+    --gold: #e0b94a;
+    --gold-soft: #2b2413;
+    --lose: #7fa7cf;
+    --lose-soft: #1c2a35;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  }
+  [hidden] { display: none !important; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---- top nav (site shell) ---- */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--accent);
+  }
+  .topnav-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    border-radius: 8px;
+  }
+  .brand:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 4px; }
+  .crest {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .crest span {
+    font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
+    color: var(--accent);
+    font-size: 15px;
+    line-height: 1;
+  }
+  .brand-name {
+    font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: .01em;
+    color: var(--gold-soft);
+  }
+  .nav-links {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+  .nav-link {
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: rgba(245, 236, 214, .78);
+    padding: 8px 12px;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+  .nav-link:hover { color: var(--gold-soft); background: rgba(0,0,0,.15); }
+  .nav-link:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+  .nav-link[aria-current="page"] { color: var(--accent); background: var(--gold-soft); }
+
+  main.page { padding: clamp(24px, 5vw, 48px) 0 64px; }
+
+  /* ---- home hero band (full-bleed) ---- */
+  .hero-band {
+    background:
+      radial-gradient(120% 160% at 100% 0%, rgba(255,255,255,.08), transparent 55%),
+      linear-gradient(155deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 78%, #1a0a0a) 100%);
+  }
+  .hero-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: clamp(36px, 7vw, 64px) 20px clamp(30px, 6vw, 48px);
+  }
+  .hero-eyebrow {
+    font-family: "Oswald", sans-serif;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 12px;
+  }
+  .hero-band h1 {
+    font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
+    font-weight: 400;
+    font-size: clamp(32px, 6.5vw, 50px);
+    margin: 0 0 14px;
+    text-wrap: balance;
+    line-height: 1.15;
+    color: #fff;
+  }
+  .hero-band p {
+    max-width: 48ch;
+    color: rgba(250, 245, 244, .82);
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 26px;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold);
+    color: #241d08;
+    border: none;
+    font: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 100px;
+    cursor: pointer;
+    margin-bottom: clamp(28px, 5vw, 36px);
+  }
+  .cta:hover { filter: brightness(1.06); }
+  .cta:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hero-chip {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 100px;
+    padding: 8px 14px;
+  }
+  .hero-chip .k { font-size: 12px; color: rgba(250,245,244,.72); }
+  .hero-chip .v {
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- widgets row: 최근 경기결과 / 리그 순위 ---- */
+  .widgets-row {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 14px;
+    margin: clamp(28px, 5vw, 40px) 0;
+  }
+  @media (max-width: 640px) {
+    .widgets-row { grid-template-columns: 1fr; }
+  }
+  .widget {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .widget-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-2);
+  }
+  .widget-head h3 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .widget-head span {
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+  }
+
+  .scoreboard {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .scoreboard-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+  .scoreboard-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 96px;
+  }
+  .scoreboard-badge {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .scoreboard-badge.us { background: var(--accent-soft); color: var(--accent); }
+  .scoreboard-badge.them { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--line); }
+  .scoreboard-team span:last-child {
+    font-size: 12.5px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .scoreboard-score {
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+  .scoreboard-result {
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    letter-spacing: .06em;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: var(--gold-soft);
+    color: var(--gold);
+  }
+  .scoreboard-meta {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .standings {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .standings th, .standings td {
+    padding: 10px 8px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .standings th {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    letter-spacing: .04em;
+    font-weight: 600;
+  }
+  .standings td { font-variant-numeric: tabular-nums; }
+  .standings td:nth-child(2) { text-align: left; font-weight: 700; }
+  .standings tr:last-child td { border-bottom: none; }
+  .standings tr.us td { background: var(--accent-soft); color: var(--accent); }
+  .standings td:first-child { font-family: "Oswald", sans-serif; color: var(--text-muted); }
+  .standings tr.us td:first-child { color: var(--accent); font-weight: 700; }
+
+  .section-heading {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 14px;
+  }
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  /* ---- empty / pending-data state ---- */
+  .empty-state {
+    border: 1px dashed var(--line);
+    border-radius: 14px;
+    padding: 36px 24px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .empty-state .icon {
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .empty-state h3 {
+    font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+  .empty-state p { margin: 0; font-size: 13px; line-height: 1.6; }
+  .empty-cell { padding: 22px 8px !important; color: var(--text-muted); font-size: 13px; }
+
+  /* ---- 경기일정 ---- */
+  .next-match {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px clamp(18px, 4vw, 28px);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .next-match-label {
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .next-match-teams {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .next-match-meta {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .next-match-dday {
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--accent);
+    flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .table-scroll { overflow-x: auto; }
+  .fixtures {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .fixtures th, .fixtures td {
+    padding: 11px 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .fixtures th {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: .04em;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+  }
+  .fixtures td { font-variant-numeric: tabular-nums; }
+  .fixtures td:nth-child(4) { text-align: left; font-weight: 600; }
+  .fixtures tr.upcoming td { color: var(--text-muted); }
+  .fixtures tr.upcoming td:nth-child(4) { color: var(--text); }
+
+  .status-pill {
+    display: inline-block;
+    font-family: "Oswald", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+  .status-pill.win { background: var(--accent-soft); color: var(--accent); }
+  .status-pill.draw { background: var(--surface-2); color: var(--text-muted); }
+  .status-pill.lose { background: var(--lose-soft); color: var(--lose); }
+  .status-pill.upcoming { background: var(--gold-soft); color: var(--gold); }
+
+  /* ---- roster grid ---- */
+  .roster-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .roster-meta h2 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+  }
+  .roster-meta span {
+    font-family: "Oswald", "Noto Sans KR", sans-serif;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .player-card {
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .player-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+  .player-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .card-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--accent);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+  .pos-pill {
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 3px 9px;
+    margin-top: 4px;
+  }
+  .card-name {
+    font-weight: 700;
+    font-size: 16.5px;
+  }
+  .card-sub {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+    padding-top: 9px;
+  }
+  .card-sub b {
+    color: var(--text);
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- player detail ---- */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    margin-bottom: 22px;
+  }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .detail-head {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px clamp(20px, 4vw, 36px);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .detail-num {
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    font-size: 76px;
+    color: var(--gold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+  .detail-id h2 {
+    font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
+    font-weight: 400;
+    font-size: clamp(26px, 4vw, 34px);
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  .detail-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: "Oswald", sans-serif;
+    font-size: 11.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .tag.pos { background: var(--accent-soft); color: var(--accent); }
+  .tag.cap { background: var(--gold-soft); color: var(--gold); }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .stat {
+    background: var(--surface);
+    padding: 16px 18px;
+  }
+  .stat .label {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    letter-spacing: .03em;
+    margin-bottom: 5px;
+  }
+  .stat .value {
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .apps-block {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .apps-block .label {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    letter-spacing: .03em;
+    margin-bottom: 10px;
+  }
+  .apps-bar-track {
+    height: 10px;
+    border-radius: 100px;
+    background: var(--surface-2);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .apps-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--accent);
+  }
+  .apps-caption {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    font-family: "Oswald", sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- 구단소개 ---- */
+  .about-lede {
+    max-width: 62ch;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin: 0 0 clamp(24px, 4vw, 32px);
+  }
+  .crest-showcase {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px clamp(18px, 4vw, 28px);
+    margin-bottom: clamp(28px, 5vw, 40px);
+  }
+  .crest.crest-lg {
+    width: 84px;
+    height: 84px;
+    flex: none;
+  }
+  .crest.crest-lg span { font-size: 32px; }
+  .crest-showcase p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 52ch;
+  }
+
+  .timeline {
+    border-left: 2px solid var(--line);
+    margin-left: 6px;
+    padding-left: 26px;
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 26px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -33px;
+    top: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg);
+  }
+  .timeline-date {
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: .04em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+  .timeline-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  footer {
+    padding: 18px 0 40px;
+    border-top: 1px solid var(--line);
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <button class="brand" data-nav="home" aria-label="홈으로 이동">
+      <span class="crest"><span>경</span></span>
+      <span class="brand-name">경희대 축구부</span>
+    </button>
+    <div class="nav-links" role="navigation">
+      <button class="nav-link" data-nav="home">홈</button>
+      <button class="nav-link" data-nav="roster">선수단</button>
+      <button class="nav-link" data-nav="schedule">경기일정</button>
+      <button class="nav-link" data-nav="about">구단소개</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero-band" id="hero-band">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">2026 시즌</div>
+    <h1>그라운드 위의 경희</h1>
+    <p>경희대학교 축구부를 소개하는 페이지입니다. 선수단 명단과 시즌 기록은 정보가 준비되는 대로 이곳에 채워질 예정입니다.</p>
+    <button class="cta" data-nav="roster">선수단 보기 →</button>
+    <div class="hero-chips">
+      <div class="hero-chip"><span class="k">창단</span><span class="v">정보 입력 예정</span></div>
+      <div class="hero-chip"><span class="k">홈구장</span><span class="v">정보 입력 예정</span></div>
+      <div class="hero-chip"><span class="k">소속리그</span><span class="v">정보 입력 예정</span></div>
+      <div class="hero-chip"><span class="k">등록 선수</span><span class="v">정보 입력 예정</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <!-- ===== 홈 ===== -->
+  <main class="page" id="page-home">
+    <div class="widgets-row">
+      <div class="widget">
+        <div class="widget-head"><h3>최근 경기 결과</h3><span id="scoreboard-date"></span></div>
+        <div class="scoreboard" id="scoreboard"></div>
+      </div>
+      <div class="widget">
+        <div class="widget-head"><h3>리그 순위</h3><span>2026 시즌</span></div>
+        <table class="standings">
+          <thead>
+            <tr><th>순위</th><th>클럽</th><th>승점</th><th>승</th><th>무</th><th>패</th></tr>
+          </thead>
+          <tbody id="standings-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <h2 class="section-heading">주요 선수</h2>
+    <div class="preview-grid" id="home-preview"></div>
+  </main>
+
+  <!-- ===== 선수단 ===== -->
+  <main class="page" id="page-roster" hidden>
+    <div id="roster-list">
+      <div class="roster-meta">
+        <h2>1군 명단</h2>
+        <span id="roster-count"></span>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div id="roster-detail" hidden>
+      <button class="back-btn" id="back-btn" type="button">← 명단으로</button>
+      <div id="detail-content"></div>
+    </div>
+  </main>
+
+  <!-- ===== 경기일정 ===== -->
+  <main class="page" id="page-schedule" hidden>
+    <div class="roster-meta">
+      <h2>2026 시즌 경기일정</h2>
+      <span id="record-summary"></span>
+    </div>
+
+    <div id="next-match"></div>
+
+    <div class="table-scroll">
+      <table class="fixtures">
+        <thead>
+          <tr><th>R</th><th>날짜</th><th>구분</th><th>상대</th><th>결과</th><th>경기장</th></tr>
+        </thead>
+        <tbody id="fixtures-body"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ===== 구단소개 ===== -->
+  <main class="page" id="page-about" hidden>
+    <div class="roster-meta">
+      <h2>구단소개</h2>
+      <span>정보 준비 중</span>
+    </div>
+
+    <p class="about-lede">경희대학교 축구부를 소개하는 페이지입니다. 아래 정보는 실제 데이터가 준비되는 대로 채워질 예정입니다.</p>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="label">구단명</div><div class="value" style="font-size:16px">경희대학교 축구부</div></div>
+      <div class="stat"><div class="label">연고지</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
+      <div class="stat"><div class="label">창단</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
+      <div class="stat"><div class="label">홈구장</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
+      <div class="stat"><div class="label">소속리그</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
+      <div class="stat"><div class="label">구단 컬러</div><div class="value" style="font-size:15px">레드 · 골드</div></div>
+    </div>
+
+    <h3 class="section-heading">엠블럼</h3>
+    <div class="crest-showcase">
+      <div class="crest crest-lg"><span>경</span></div>
+      <p>지금 보이는 엠블럼은 색상 톤(레드·골드)을 미리 맞춰본 임시 표시입니다. 실제 엠블럼과 그 의미는 정보가 도착하는 대로 교체될 예정입니다.</p>
+    </div>
+
+    <h3 class="section-heading">연혁</h3>
+    <div class="empty-state">
+      <div class="icon">Coming Soon</div>
+      <h3>구단 연혁 준비 중입니다</h3>
+      <p>창단부터 현재까지의 주요 기록이 정리되는 대로 이곳에 표시됩니다.</p>
+    </div>
+  </main>
+
+  <footer>선수단·경기 기록 정보는 준비되는 대로 업데이트됩니다. · 본 페이지는 비공식 소개 페이지입니다.</footer>
+</div>
+
+<script>
+  const CLUB_NAME = "경희대 축구부";
+  const CLUB_SHORT = "경희";
+  const SEASON_MATCHES = 0;
+
+  // 아래 데이터는 정보가 도착하면 채워 넣을 자리입니다.
+  const players = [];
+  const recentMatch = null;
+  const standings = [];
+  const opponentVenue = {};
+  const HOME_VENUE = "정보 입력 예정";
+  // side: "홈" | "원정" / us, them: 스코어(played) / null이면 예정 경기
+  const fixtures = [];
+
+  // ---- 페이지(사이트 프레임) 전환 ----
+  const pages = {
+    home: document.getElementById("page-home"),
+    roster: document.getElementById("page-roster"),
+    schedule: document.getElementById("page-schedule"),
+    about: document.getElementById("page-about"),
+  };
+  const heroBand = document.getElementById("hero-band");
+  const navButtons = document.querySelectorAll("[data-nav]");
+
+  function goTo(name) {
+    Object.entries(pages).forEach(([key, el]) => { el.hidden = key !== name; });
+    heroBand.hidden = name !== "home";
+    document.querySelectorAll(".nav-link").forEach((btn) => {
+      btn.toggleAttribute("aria-current", btn.dataset.nav === name);
+      if (btn.dataset.nav === name) btn.setAttribute("aria-current", "page");
+      else btn.removeAttribute("aria-current");
+    });
+    if (name === "roster") resetRosterView();
+    window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  }
+
+  navButtons.forEach((btn) => btn.addEventListener("click", () => goTo(btn.dataset.nav)));
+
+  // ---- 선수단: 목록 / 상세 ----
+  const grid = document.getElementById("grid");
+  const rosterCount = document.getElementById("roster-count");
+  const homePreview = document.getElementById("home-preview");
+  const rosterList = document.getElementById("roster-list");
+  const rosterDetail = document.getElementById("roster-detail");
+  const detailContent = document.getElementById("detail-content");
+  const backBtn = document.getElementById("back-btn");
+
+  function emptyStateHTML(title, desc) {
+    return `<div class="empty-state"><div class="icon">Coming Soon</div><h3>${title}</h3><p>${desc}</p></div>`;
+  }
+
+  function playerCard(p) {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "player-card";
+    card.setAttribute("aria-label", `${p.name} 상세 정보 보기`);
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-num">${p.num}</div>
+        <div class="pos-pill">${p.pos}</div>
+      </div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-sub">
+        <span>출전</span>
+        <b>${p.apps}/${SEASON_MATCHES}</b>
+      </div>
+    `;
+    card.addEventListener("click", () => {
+      goTo("roster");
+      showDetail(p);
+    });
+    return card;
+  }
+
+  function renderGrid() {
+    rosterCount.textContent = players.length ? `${players.length} PLAYERS` : "선수단 정보 입력 예정";
+    if (players.length === 0) {
+      grid.innerHTML = emptyStateHTML("선수단 명단 준비 중입니다", "선수 정보가 도착하면 이곳에 카드로 표시됩니다.");
+      return;
+    }
+    grid.innerHTML = "";
+    players.forEach((p) => grid.appendChild(playerCard(p)));
+  }
+
+  function renderHomePreview() {
+    if (players.length === 0) {
+      homePreview.innerHTML = emptyStateHTML("주요 선수 준비 중입니다", "선수단 정보가 등록되면 이곳에 대표 선수가 소개됩니다.");
+      return;
+    }
+    homePreview.innerHTML = "";
+    const featured = [...players].sort((a, b) => (b.captain === a.captain ? b.apps - a.apps : b.captain - a.captain)).slice(0, 3);
+    featured.forEach((p) => homePreview.appendChild(playerCard(p)));
+  }
+
+  function resetRosterView() {
+    rosterDetail.hidden = true;
+    rosterList.hidden = false;
+  }
+
+  // ---- 홈 위젯: 최근 경기 결과 / 리그 순위 ----
+  function renderScoreboard() {
+    if (!recentMatch) {
+      document.getElementById("scoreboard-date").textContent = "";
+      document.getElementById("scoreboard").innerHTML = emptyStateHTML("최근 경기 정보 준비 중", "경기 결과가 등록되면 스코어보드가 표시됩니다.");
+      return;
+    }
+    const m = recentMatch;
+    const result = m.usScore > m.themScore ? "승" : m.usScore < m.themScore ? "패" : "무";
+    document.getElementById("scoreboard-date").textContent = m.date;
+    document.getElementById("scoreboard").innerHTML = `
+      <div class="scoreboard-row">
+        <div class="scoreboard-team">
+          <div class="scoreboard-badge us">${CLUB_SHORT}</div>
+          <span>${CLUB_NAME}</span>
+        </div>
+        <div class="scoreboard-score">${m.usScore} : ${m.themScore}</div>
+        <div class="scoreboard-team">
+          <div class="scoreboard-badge them">${m.opponent.slice(0, 2)}</div>
+          <span>${m.opponent}</span>
+        </div>
+      </div>
+      <div class="scoreboard-meta">
+        <span class="scoreboard-result">${result}</span>
+        &nbsp; ${m.venue}
+      </div>
+    `;
+  }
+
+  function renderStandings() {
+    const body = document.getElementById("standings-body");
+    if (standings.length === 0) {
+      body.innerHTML = `<tr><td class="empty-cell" colspan="6">리그 순위 정보 준비 중입니다</td></tr>`;
+      return;
+    }
+    body.innerHTML = standings
+      .map(
+        (s) => `
+      <tr class="${s.isUs ? "us" : ""}">
+        <td>${s.rank}</td>
+        <td>${s.team}</td>
+        <td>${s.pts}</td>
+        <td>${s.w}</td>
+        <td>${s.d}</td>
+        <td>${s.l}</td>
+      </tr>`
+      )
+      .join("");
+  }
+
+  function showDetail(p) {
+    const pct = SEASON_MATCHES ? Math.round((p.apps / SEASON_MATCHES) * 100) : 0;
+    detailContent.innerHTML = `
+      <div class="detail-head">
+        <div class="detail-num">${p.num}</div>
+        <div class="detail-id">
+          <h2>${p.name}</h2>
+          <div class="detail-tags">
+            <span class="tag pos">${p.posLabel}</span>
+            ${p.captain ? '<span class="tag cap">주장</span>' : ""}
+          </div>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat"><div class="label">나이</div><div class="value">${p.age}세</div></div>
+        <div class="stat"><div class="label">등번호</div><div class="value">${p.num}</div></div>
+        <div class="stat"><div class="label">출신학교</div><div class="value" style="font-size:15px">${p.school}</div></div>
+        <div class="stat"><div class="label">신장 / 체중</div><div class="value">${p.height}cm / ${p.weight}kg</div></div>
+        <div class="stat"><div class="label">입단연도</div><div class="value">${p.joined}</div></div>
+      </div>
+      <div class="apps-block">
+        <div class="label">경기 출전 수 (시즌 ${SEASON_MATCHES}경기 기준)</div>
+        <div class="apps-bar-track"><div class="apps-bar-fill" style="width:${pct}%"></div></div>
+        <div class="apps-caption"><span>${p.apps}경기 출전</span><span>${pct}%</span></div>
+      </div>
+    `;
+    rosterList.hidden = true;
+    rosterDetail.hidden = false;
+    backBtn.focus();
+  }
+
+  backBtn.addEventListener("click", resetRosterView);
+
+  // ---- 경기일정 ----
+  function fixtureResult(f) {
+    if (f.us === null) return "upcoming";
+    if (f.us > f.them) return "win";
+    if (f.us < f.them) return "lose";
+    return "draw";
+  }
+  const RESULT_LABEL = { win: "승", lose: "패", draw: "무", upcoming: "예정" };
+
+  function renderSchedule() {
+    const nextMatchEl = document.getElementById("next-match");
+    const body = document.getElementById("fixtures-body");
+
+    if (fixtures.length === 0) {
+      document.getElementById("record-summary").textContent = "정보 준비 중";
+      nextMatchEl.innerHTML = emptyStateHTML("경기 일정 준비 중입니다", "시즌 일정이 등록되면 다음 경기와 전체 결과가 이곳에 표시됩니다.");
+      body.innerHTML = `<tr><td class="empty-cell" colspan="6">등록된 경기가 없습니다</td></tr>`;
+      return;
+    }
+
+    const played = fixtures.filter((f) => f.us !== null);
+    const w = played.filter((f) => fixtureResult(f) === "win").length;
+    const d = played.filter((f) => fixtureResult(f) === "draw").length;
+    const l = played.filter((f) => fixtureResult(f) === "lose").length;
+    document.getElementById("record-summary").textContent = `${w}승 ${d}무 ${l}패 · ${played.length}/${fixtures.length}경기`;
+
+    const next = fixtures.find((f) => f.us === null);
+    if (next) {
+      const venue = next.side === "홈" ? HOME_VENUE : opponentVenue[next.opp];
+      const dday = Math.max(0, Math.round((new Date(next.date.replaceAll(".", "-")) - new Date()) / 86400000));
+      nextMatchEl.innerHTML = `
+        <div class="next-match">
+          <div>
+            <div class="next-match-label">다음 경기 · ${next.round}R</div>
+            <div class="next-match-teams">${CLUB_NAME} ${next.side === "홈" ? "vs" : "@"} ${next.opp}</div>
+            <div class="next-match-meta">${next.date} · ${venue}</div>
+          </div>
+          <div class="next-match-dday">D-${dday}</div>
+        </div>
+      `;
+    } else {
+      nextMatchEl.innerHTML = `<div class="next-match"><div class="next-match-teams">시즌 일정이 모두 종료되었습니다.</div></div>`;
+    }
+
+    body.innerHTML = fixtures
+      .map((f) => {
+        const status = fixtureResult(f);
+        const venue = f.side === "홈" ? HOME_VENUE : opponentVenue[f.opp];
+        const scoreText = f.us === null ? "-" : `${f.us} : ${f.them}`;
+        return `
+        <tr class="${status === "upcoming" ? "upcoming" : ""}">
+          <td>${f.round}</td>
+          <td>${f.date}</td>
+          <td>${f.side}</td>
+          <td>${f.opp}</td>
+          <td><span class="status-pill ${status}">${RESULT_LABEL[status]}</span> ${scoreText}</td>
+          <td>${venue}</td>
+        </tr>`;
+      })
+      .join("");
+  }
+
+  renderGrid();
+  renderHomePreview();
+  renderScoreboard();
+  renderStandings();
+  renderSchedule();
+  goTo("home");
+</script>
+</body>
+</html>
