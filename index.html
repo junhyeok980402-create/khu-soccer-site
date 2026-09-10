@@ -18,7 +18,7 @@
     --surface: #ffffff;
     --surface-2: #f3e6e5;
     --text: #241211;
-    --text-muted: #7a5f5d;
+    --text-muted: #6b504e;
     --line: #e6dcda;
     --accent: #8a2c2c;
     --accent-soft: #f0dedd;
@@ -38,7 +38,7 @@
       --surface: #241c1a;
       --surface-2: #2c2220;
       --text: #f0e8e5;
-      --text-muted: #b6a29d;
+      --text-muted: #c3b0aa;
       --line: #3a2e2b;
       --accent: #ad4740;
       --accent-soft: #3a2220;
@@ -56,7 +56,7 @@
     --surface: #241c1a;
     --surface-2: #2c2220;
     --text: #f0e8e5;
-    --text-muted: #b6a29d;
+    --text-muted: #c3b0aa;
     --line: #3a2e2b;
     --accent: #bc6b64;
     --accent-soft: #382222;
@@ -155,9 +155,19 @@
     cursor: pointer;
   }
   .nav-link { transition: color .18s var(--ease), background .18s var(--ease); }
-  .nav-link:hover { color: var(--gold-soft); background: rgba(0,0,0,.15); }
-  .nav-link:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
-  .nav-link[aria-current="page"] { color: var(--accent); background: linear-gradient(135deg, var(--gold-soft), #fff); box-shadow: 0 4px 12px -4px rgba(0,0,0,.35); }
+  .nav-link:hover { color: #fff; background: rgba(0,0,0,.15); }
+  .nav-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .nav-link[aria-current="page"] { color: #241d08; background: linear-gradient(135deg, #f0d488, var(--gold) 65%); box-shadow: 0 4px 12px -4px rgba(0,0,0,.35); }
+  .nav-external {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+    color: rgba(245, 236, 214, .6);
+    border: 1px solid rgba(245, 236, 214, .3);
+  }
+  .nav-external:hover { color: #fff; border-color: #fff; background: rgba(0,0,0,.15); }
 
   main.page { padding: clamp(24px, 5vw, 48px) 0 64px; }
 
@@ -210,12 +220,12 @@
   .hero-slogan {
     font-family: "Oswald", sans-serif;
     font-style: italic;
-    font-weight: 500;
-    font-size: 15px;
-    letter-spacing: .05em;
-    color: var(--gold-soft);
-    opacity: .85;
-    margin: 0 0 10px;
+    font-weight: 600;
+    font-size: clamp(17px, 2.6vw, 22px);
+    letter-spacing: .04em;
+    color: var(--gold);
+    text-shadow: 0 2px 14px rgba(0,0,0,.25);
+    margin: 0 0 14px;
   }
   .hero-band h1 {
     font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
@@ -314,7 +324,7 @@
   }
   .widget-head span {
     font-family: "Oswald", sans-serif;
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: .06em;
     color: var(--text-muted);
   }
@@ -333,7 +343,7 @@
   .match-tag {
     display: inline-block;
     font-family: "Oswald", sans-serif;
-    font-size: 11px;
+    font-size: 12.5px;
     font-weight: 700;
     letter-spacing: .09em;
     text-transform: uppercase;
@@ -412,7 +422,7 @@
     border-bottom: 1px solid var(--line);
   }
   .standings th {
-    font-size: 10.5px;
+    font-size: 12px;
     color: var(--text-muted);
     letter-spacing: .04em;
     font-weight: 600;
@@ -459,7 +469,7 @@
   }
   .empty-state .icon {
     font-family: "Oswald", sans-serif;
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--accent);
@@ -568,7 +578,7 @@
     white-space: nowrap;
   }
   .fixtures th {
-    font-size: 11px;
+    font-size: 12.5px;
     color: var(--text-muted);
     letter-spacing: .04em;
     font-weight: 600;
@@ -585,7 +595,7 @@
   .fixture-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .stage-note {
     display: block;
-    font-size: 10.5px;
+    font-size: 12px;
     color: var(--text-muted);
     margin-top: 2px;
     font-weight: 400;
@@ -602,7 +612,7 @@
   .comp-group-head h3 { margin: 0; font-size: 14.5px; font-weight: 700; }
   .comp-tag {
     font-family: "Oswald", sans-serif;
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: .06em;
     text-transform: uppercase;
     padding: 3px 11px;
@@ -700,7 +710,7 @@
   }
   .pos-pill {
     font-family: "Oswald", sans-serif;
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: .07em;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -719,7 +729,7 @@
   .captain-tag {
     display: inline-block;
     font-family: "Oswald", sans-serif;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--gold);
     border: 1px solid var(--gold);
@@ -732,7 +742,7 @@
   }
   .conflict-dot {
     color: var(--gold);
-    font-size: 10px;
+    font-size: 12px;
     vertical-align: super;
     cursor: help;
   }
@@ -805,7 +815,7 @@
   }
   .tag {
     font-family: "Oswald", sans-serif;
-    font-size: 11.5px;
+    font-size: 13px;
     letter-spacing: .06em;
     text-transform: uppercase;
     padding: 4px 10px;
@@ -829,7 +839,7 @@
     padding: 16px 18px;
   }
   .stat .label {
-    font-size: 11.5px;
+    font-size: 13px;
     color: var(--text-muted);
     letter-spacing: .03em;
     margin-bottom: 5px;
@@ -849,7 +859,7 @@
     box-shadow: var(--shadow-card);
   }
   .apps-block .label {
-    font-size: 11.5px;
+    font-size: 13px;
     color: var(--text-muted);
     letter-spacing: .03em;
     margin-bottom: 10px;
@@ -921,7 +931,7 @@
   .staff-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
   .staff-role {
     font-family: "Oswald", sans-serif;
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: .07em;
     text-transform: uppercase;
     color: var(--accent);
@@ -958,7 +968,7 @@
     margin-bottom: 6px;
   }
   .trophy-years {
-    font-size: 11.5px;
+    font-size: 13px;
     color: var(--text-muted);
     line-height: 1.5;
   }
@@ -999,7 +1009,7 @@
     gap: 8px;
     align-items: center;
     font-family: "Oswald", sans-serif;
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: .05em;
     color: var(--text-muted);
     margin-bottom: 6px;
@@ -1067,7 +1077,7 @@
   .alumni-name { font-weight: 700; font-size: 17px; }
   .alumni-badge {
     font-family: "Oswald", sans-serif;
-    font-size: 10.5px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: .06em;
     text-transform: uppercase;
@@ -1077,6 +1087,7 @@
     padding: 2px 9px;
     flex: none;
   }
+  .alumni-badge.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
   .alumni-role { font-size: 12.5px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
   .alumni-note { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
 </style>
@@ -1095,6 +1106,7 @@
       <button class="nav-link" data-nav="schedule">경기일정</button>
       <button class="nav-link" data-nav="news">소식</button>
       <button class="nav-link" data-nav="about">구단소개</button>
+      <a class="nav-link nav-external" href="https://www.khu.ac.kr" target="_blank" rel="noopener" title="경희대학교 공식 홈페이지로 이동">학교 홈페이지 ↗</a>
     </div>
   </div>
 </nav>
@@ -1204,60 +1216,68 @@
       <span>KUFC·KUSF 공식 자료 기준</span>
     </div>
 
-    <p class="about-lede">경희대학교 축구부는 한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 바탕으로 소개됩니다. 확인되지 않은 항목은 "–"로 남기며, 임의로 채워 넣지 않습니다.</p>
+    <div class="filter-row" id="about-tab-filter"></div>
 
-    <div class="stat-grid">
-      <div class="stat"><div class="label">정식 명칭</div><div class="value" style="font-size:15px">경희대학교 축구부<br><span style="font-size:12px;color:var(--text-muted)">慶熙大學校 蹴球部 · Kyung Hee University FC</span></div></div>
-      <div class="stat"><div class="label">창단</div><div class="value" style="font-size:16px">1955년</div></div>
-      <div class="stat"><div class="label">소속 협회</div><div class="value" style="font-size:15px">KFA · KUFC</div></div>
-      <div class="stat"><div class="label">소속 캠퍼스</div><div class="value" style="font-size:15px">국제캠퍼스 (경기도 용인시)</div></div>
-      <div class="stat"><div class="label">홈구장</div><div class="value" style="font-size:15px">경희대학교 대운동장</div></div>
-      <div class="stat"><div class="label">소속리그</div><div class="value" style="font-size:15px" id="about-league">정보 입력 예정</div></div>
-      <div class="stat"><div class="label">연락처</div><div class="value" style="font-size:14px">경기도 용인시 기흥구 덕영대로 1732<br>031-201-3261</div></div>
-      <div class="stat"><div class="label">학교 홈페이지</div><div class="value" style="font-size:15px"><a href="https://www.khu.ac.kr" target="_blank" rel="noopener" style="color:var(--accent)">khu.ac.kr</a></div></div>
-      <div class="stat"><div class="label">구단 컬러</div><div class="value" style="font-size:15px">레드 · 골드</div></div>
-    </div>
-    <p class="caption">창단연도·정식명칭·협회·홈구장은 나무위키 기준입니다. 경희대학교는 서울캠퍼스(동대문구)와 국제캠퍼스(용인시) 두 곳으로 운영되며, 축구부는 국제캠퍼스를 거점으로 활동합니다. 2026시즌 리그 경기는 기흥레스피아 축구장에서 열리고 있습니다.</p>
+    <div id="about-tab-overview">
+      <p class="about-lede">경희대학교 축구부는 한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 바탕으로 소개됩니다. 확인되지 않은 항목은 "–"로 남기며, 임의로 채워 넣지 않습니다.</p>
 
-    <h3 class="section-heading">엠블럼</h3>
-    <div class="crest-showcase reveal">
-      <div class="crest crest-lg"><img src="assets/khu-univ-logo.png" alt="경희대학교 엠블럼"></div>
-      <p>경희대학교 공식 홈페이지(khu.ac.kr)의 상징 마크입니다. 축구부 자체의 별도 엠블럼(유니폼 배지, KUFC 팀페이지의 방패형 로고 등)은 소속 대학 상징과 별개로 존재하나, 어느 쪽이 축구부의 "공식" 엠블럼인지는 확인되지 않아 우선 대학교 상징을 사용했습니다.</p>
-    </div>
+      <div class="stat-grid">
+        <div class="stat"><div class="label">정식 명칭</div><div class="value" style="font-size:15px">경희대학교 축구부<br><span style="font-size:12px;color:var(--text-muted)">慶熙大學校 蹴球部 · Kyung Hee University FC</span></div></div>
+        <div class="stat"><div class="label">창단</div><div class="value" style="font-size:16px">1955년</div></div>
+        <div class="stat"><div class="label">소속 협회</div><div class="value" style="font-size:15px">KFA · KUFC</div></div>
+        <div class="stat"><div class="label">소속 캠퍼스</div><div class="value" style="font-size:15px">국제캠퍼스 (경기도 용인시)</div></div>
+        <div class="stat"><div class="label">홈구장</div><div class="value" style="font-size:15px">기흥레스피아 축구장 (2026시즌 실경기장)<br><span style="font-size:12px;color:var(--text-muted)">나무위키상 공식 연고지는 '경희대학교 대운동장'</span></div></div>
+        <div class="stat"><div class="label">소속리그</div><div class="value" style="font-size:15px" id="about-league">정보 입력 예정</div></div>
+        <div class="stat"><div class="label">연락처</div><div class="value" style="font-size:14px">경기도 용인시 기흥구 덕영대로 1732<br>031-201-3261</div></div>
+        <div class="stat"><div class="label">학교 홈페이지</div><div class="value" style="font-size:15px"><a href="https://www.khu.ac.kr" target="_blank" rel="noopener" style="color:var(--accent)">khu.ac.kr</a></div></div>
+        <div class="stat"><div class="label">구단 컬러</div><div class="value" style="font-size:15px">레드 · 골드</div></div>
+      </div>
+      <p class="caption">창단연도·정식명칭·협회·홈구장은 나무위키 기준입니다. 경희대학교는 서울캠퍼스(동대문구)와 국제캠퍼스(용인시) 두 곳으로 운영되며, 축구부는 국제캠퍼스를 거점으로 활동합니다. 2026시즌 리그 경기는 기흥레스피아 축구장에서 열리고 있습니다.</p>
 
-    <h3 class="section-heading">코칭스태프</h3>
-    <div class="staff-grid reveal" id="staff-grid"></div>
+      <h3 class="section-heading">엠블럼</h3>
+      <div class="crest-showcase reveal">
+        <div class="crest crest-lg"><img src="assets/khu-univ-logo.png" alt="경희대학교 엠블럼"></div>
+        <p>경희대학교 공식 홈페이지(khu.ac.kr)의 상징 마크입니다. 축구부 자체의 별도 엠블럼(유니폼 배지, KUFC 팀페이지의 방패형 로고 등)은 소속 대학 상징과 별개로 존재하나, 어느 쪽이 축구부의 "공식" 엠블럼인지는 확인되지 않아 우선 대학교 상징을 사용했습니다.</p>
+      </div>
 
-    <h3 class="section-heading">주요 동문</h3>
-    <p class="caption">나무위키·위키백과 등 복수 출처로 경희대학교 재학 사실이 확인된 인물만 수록합니다. 확인되지 않은 동문은 임의로 추가하지 않습니다.</p>
-    <div class="alumni-grid reveal" id="alumni-grid"></div>
-
-    <h3 class="section-heading">우승 기록</h3>
-    <p class="caption">나무위키 기준. KUFC·KUSF 공식 기록이 아닌 외부자료입니다.</p>
-    <div class="trophy-grid reveal">
-      <div class="trophy"><div class="trophy-name">U리그1 (1부)</div><div class="trophy-count">1회</div><div class="trophy-years">2008</div></div>
-      <div class="trophy"><div class="trophy-name">춘계대학축구연맹전</div><div class="trophy-count">8회</div><div class="trophy-years">1966, 1972, 1973, 1976, 1990, 2000, 2003, 2015</div></div>
-      <div class="trophy"><div class="trophy-name">추계대학축구연맹전</div><div class="trophy-count">7회</div><div class="trophy-years">1969, 1973, 1974, 1975, 1976, 1977, 2025</div></div>
-      <div class="trophy"><div class="trophy-name">전국대학축구연맹전</div><div class="trophy-count">5회</div><div class="trophy-years">1962, 1968, 1977, 1987, 1994</div></div>
-      <div class="trophy"><div class="trophy-name">전국축구선수권대회</div><div class="trophy-count">2회</div><div class="trophy-years">1960, 1961</div></div>
-      <div class="trophy"><div class="trophy-name">대통령배 전국축구대회</div><div class="trophy-count">2회</div><div class="trophy-years">1978, 2001</div></div>
+      <h3 class="section-heading">코칭스태프</h3>
+      <div class="staff-grid reveal" id="staff-grid"></div>
     </div>
 
-    <h3 class="section-heading">팀 통산 기록 (KUSF 공식, 2018~2026)</h3>
-    <p class="caption">위 우승 기록과 달리 이 표는 KUSF 시스템에 남아있는 2018~2026 리그·토너먼트 경기만의 집계입니다 — 두 자료를 합산하지 마세요.</p>
-    <div class="subheading">리그</div>
-    <div class="table-scroll">
-      <table class="standings" id="history-league-table">
-        <thead><tr><th>연도</th><th>경기</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실차</th></tr></thead>
-        <tbody id="history-league-body"></tbody>
-      </table>
+    <div id="about-tab-alumni" hidden>
+      <h3 class="section-heading">주요 동문</h3>
+      <p class="caption">위키백과·나무위키 등 복수 출처로 경희대학교 재학 사실이 교차 확인된 인물만 수록합니다. 확인되지 않은 동문은 임의로 추가하지 않습니다.</p>
+      <div class="alumni-grid reveal" id="alumni-grid"></div>
     </div>
-    <div class="subheading">토너먼트(컵대회)</div>
-    <div class="table-scroll">
-      <table class="standings" id="history-cup-table">
-        <thead><tr><th>연도</th><th>경기</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실차</th></tr></thead>
-        <tbody id="history-cup-body"></tbody>
-      </table>
+
+    <div id="about-tab-records" hidden>
+      <h3 class="section-heading">우승 기록</h3>
+      <p class="caption">나무위키 기준. KUFC·KUSF 공식 기록이 아닌 외부자료입니다.</p>
+      <div class="trophy-grid reveal">
+        <div class="trophy"><div class="trophy-name">U리그1 (1부)</div><div class="trophy-count">1회</div><div class="trophy-years">2008</div></div>
+        <div class="trophy"><div class="trophy-name">춘계대학축구연맹전</div><div class="trophy-count">8회</div><div class="trophy-years">1966, 1972, 1973, 1976, 1990, 2000, 2003, 2015</div></div>
+        <div class="trophy"><div class="trophy-name">추계대학축구연맹전</div><div class="trophy-count">7회</div><div class="trophy-years">1969, 1973, 1974, 1975, 1976, 1977, 2025</div></div>
+        <div class="trophy"><div class="trophy-name">전국대학축구연맹전</div><div class="trophy-count">5회</div><div class="trophy-years">1962, 1968, 1977, 1987, 1994</div></div>
+        <div class="trophy"><div class="trophy-name">전국축구선수권대회</div><div class="trophy-count">2회</div><div class="trophy-years">1960, 1961</div></div>
+        <div class="trophy"><div class="trophy-name">대통령배 전국축구대회</div><div class="trophy-count">2회</div><div class="trophy-years">1978, 2001</div></div>
+      </div>
+
+      <h3 class="section-heading">팀 통산 기록 (KUSF 공식, 2018~2026)</h3>
+      <p class="caption">위 우승 기록과 달리 이 표는 KUSF 시스템에 남아있는 2018~2026 리그·토너먼트 경기만의 집계입니다 — 두 자료를 합산하지 마세요.</p>
+      <div class="subheading">리그</div>
+      <div class="table-scroll">
+        <table class="standings" id="history-league-table">
+          <thead><tr><th>연도</th><th>경기</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실차</th></tr></thead>
+          <tbody id="history-league-body"></tbody>
+        </table>
+      </div>
+      <div class="subheading">토너먼트(컵대회)</div>
+      <div class="table-scroll">
+        <table class="standings" id="history-cup-table">
+          <thead><tr><th>연도</th><th>경기</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실차</th></tr></thead>
+          <tbody id="history-cup-body"></tbody>
+        </table>
+      </div>
     </div>
   </main>
 
@@ -1415,6 +1435,10 @@
         note: "2002 한일 월드컵 4강 국가대표 골키퍼. 대한민국 역대 최고의 골키퍼 중 한 명으로 꼽힌다." },
       { id: "alumni-parkgeonha", name: "박건하", role: "공격수 · 졸업", status: "은퇴",
         note: "수원 삼성 블루윙즈 레전드 공격수 출신. 이후 수원 삼성 감독(2020~2023)을 역임했다." },
+      { id: "alumni-gosengbeom", name: "고승범", role: "미드필더 · 스포츠지도학과 13학번", status: "현역",
+        note: "경희대 시절 김광진 감독 체제에서 주전으로 활약, 덴소컵 한일대학축구정기전 대표 선발 경력. 2026시즌 수원 삼성 소속(2026-02-20 트레이드 이적)." },
+      { id: "alumni-kimjinsu", name: "김진수", role: "왼쪽 풀백", status: "현역",
+        note: "2014 인천 아시안게임 금메달·국가대표 출신 왼쪽 풀백. 2026시즌 FC서울 주장." },
     ],
 
     matches: [
@@ -2109,6 +2133,32 @@
       .join("");
   }
 
+  // ---- 구단소개: 하위 탭(개요/동문/기록) ----
+  const ABOUT_TABS = [
+    { key: "overview", label: "개요", el: document.getElementById("about-tab-overview") },
+    { key: "alumni", label: "동문", el: document.getElementById("about-tab-alumni") },
+    { key: "records", label: "기록", el: document.getElementById("about-tab-records") },
+  ];
+  let aboutTabVal = "overview";
+  function renderAboutTabFilter() {
+    const el = document.getElementById("about-tab-filter");
+    el.innerHTML = "";
+    ABOUT_TABS.forEach((tab) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "filter-pill" + (tab.key === aboutTabVal ? " active" : "");
+      btn.textContent = tab.label;
+      btn.addEventListener("click", () => {
+        aboutTabVal = tab.key;
+        renderAboutTabFilter();
+        ABOUT_TABS.forEach((t) => { t.el.hidden = t.key !== aboutTabVal; });
+        observeReveals(document.getElementById("page-about"));
+        window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+      });
+      el.appendChild(btn);
+    });
+  }
+
   // ---- 구단소개: 주요 동문 ----
   function renderAlumni() {
     const el = document.getElementById("alumni-grid");
@@ -2119,7 +2169,7 @@
       <div class="alumni-card">
         <div class="alumni-head">
           <span class="alumni-name">${a.name}</span>
-          <span class="alumni-badge">${a.status}</span>
+          <span class="alumni-badge${a.status === "현역" ? " active" : ""}">${a.status}</span>
         </div>
         <div class="alumni-role">${a.role}</div>
         <p class="alumni-note">${a.note}</p>
@@ -2217,6 +2267,7 @@
   renderNews();
   renderStaff();
   renderAlumni();
+  renderAboutTabFilter();
   goTo(location.hash.slice(1) || "home", { fromHash: true });
 </script>
 </body>
