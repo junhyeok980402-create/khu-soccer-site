@@ -910,6 +910,21 @@
     border: 1px solid var(--line);
     border-radius: 12px;
     padding: 16px 18px;
+    display: flex;
+    gap: 16px;
+    overflow: hidden;
+  }
+  .news-card.has-thumb { padding: 0; }
+  .news-thumb {
+    width: 180px;
+    flex: none;
+    object-fit: cover;
+    display: block;
+  }
+  .news-body { padding: 16px 18px; min-width: 0; flex: 1; }
+  @media (max-width: 520px) {
+    .news-card.has-thumb { flex-direction: column; }
+    .news-thumb { width: 100%; height: 160px; }
   }
   .news-eyebrow {
     display: flex;
@@ -1277,12 +1292,12 @@
     ],
 
     news: [
-      { id: "news-2026-001", title: "축구부, '2026 KUSF 대학축구 U-리그' 수원대와의 원정경기 1-1 무승부", date: "2026년 (상세일자 미확인)", category: "경기결과",
-        summary: "반송체육공원축구장에서 열린 수원대와의 U-리그 3권역 원정경기에서 1-1 무승부를 기록했다.", url: "https://media.khu.ac.kr/bbs/board.php?bo_table=univJubo&wr_id=39515" },
+      { id: "news-2026-001", title: "축구부 시즌 첫 4경기 무패, \"U-리그 3권역 우승이 목표\"", date: "2026-05-09", category: "경기결과", thumbnail: "assets/news-01.jpg",
+        summary: "수원대 원정 1-1 무승부로 U리그 3권역 첫 4경기 2승 2무 1위. 주장 장하윤, 신입생 박태양·박민서, 김광진 감독 인터뷰 수록. (사진=한국대학축구연맹)", url: "https://media.khu.ac.kr/bbs/board.php?bo_table=univJubo&wr_id=39515" },
       { id: "news-2026-002", title: "한산대첩기 춘계대학축구연맹전 준우승", date: "2026-03-27", category: "경기결과",
         summary: "한산대첩기 춘계대학축구연맹전 결승에서 연세대학교에 1-3으로 패배하며 대회를 마감했다.", url: "https://news.yonsei.ac.kr/kr/news/detail?bbSeq=35716" },
-      { id: "news-2026-003", title: "축구부, 조별리그 3연승으로 1,2학년연맹전 16강 진출", date: "2026-01-12", category: "경기결과",
-        summary: "1,2학년연맹전 조별리그에서 3연승을 거두며 16강에 진출했다.", url: "https://vou.khu.ac.kr/bbs/board.php?bo_table=univJubo&wr_id=38467" },
+      { id: "news-2026-003", title: "축구부, 조별리그 3연승으로 1,2학년연맹전 16강 진출", date: "2026-01-12", category: "경기결과", thumbnail: "assets/news-03.jpg",
+        summary: "1,2학년연맹전 조별리그에서 3연승을 거두며 16강에 진출했다. (사진=한국대학축구연맹 제공)", url: "https://vou.khu.ac.kr/bbs/board.php?bo_table=univJubo&wr_id=38467" },
       { id: "news-2026-004", title: "[2025 캡틴뷰] 대회 우승? 우린 아직 진행 중이다! _ep.3 경희대학교 이호연", date: "2026-02-20", category: "인터뷰",
         summary: "2025시즌 주장을 지낸 이호연 선수의 인터뷰. 태백산기 제61회 추계대학축구연맹전 우승(승부차기 포함) 등 2025시즌을 돌아보는 내용을 다룬다. 2026 U리그 3권역 기록과는 다른 시즌(2025)을 다룬 기사이니 혼동에 주의.", url: "https://kusf.or.kr/news/uni_news_view.html?page=8&seq=18&ecode=45" },
     ],
@@ -1822,7 +1837,7 @@
       .map(([name, g]) => `${name} ${g.w}승 ${g.d}무 ${g.l}패 (${g.played}/${g.total}경기)`)
       .join(" · ");
 
-    nextMatchEl.innerHTML = nextMatchHTML(scheduleSorted) || `<div class="next-match"><div class="next-match-teams">시즌 일정이 모두 종료되었습니다.</div></div>`;
+    nextMatchEl.innerHTML = nextMatchHTML(scheduleSorted) || emptyStateHTML("시즌 일정이 모두 종료되었습니다", "다음 시즌 일정이 등록되면 이곳에 표시됩니다.");
 
     renderFixturesBody();
   }
@@ -1839,11 +1854,14 @@
       .sort((a, b) => (a.date < b.date ? 1 : -1))
       .map(
         (n) => `
-      <div class="news-card">
-        <div class="news-eyebrow"><span class="cat">${fmt(n.category)}</span><span>${dotDate(n.date)}</span></div>
-        <div class="news-title">${n.title}</div>
-        <div class="news-summary">${n.summary || ""}</div>
-        ${n.url ? `<a class="news-link" href="${n.url}" target="_blank" rel="noopener">자세히 보기 →</a>` : ""}
+      <div class="news-card${n.thumbnail ? " has-thumb" : ""}">
+        ${n.thumbnail ? `<img class="news-thumb" src="${n.thumbnail}" alt="${escapeAttr(n.title)}">` : ""}
+        <div class="news-body">
+          <div class="news-eyebrow"><span class="cat">${fmt(n.category)}</span><span>${dotDate(n.date)}</span></div>
+          <div class="news-title">${n.title}</div>
+          <div class="news-summary">${n.summary || ""}</div>
+          ${n.url ? `<a class="news-link" href="${n.url}" target="_blank" rel="noopener">자세히 보기 →</a>` : ""}
+        </div>
       </div>`
       )
       .join("");
