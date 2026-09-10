@@ -627,9 +627,32 @@
     padding: 3px 9px;
     margin-top: 4px;
   }
+  .card-num.captain {
+    box-shadow: 0 0 0 2px var(--gold);
+  }
   .card-name {
     font-weight: 700;
     font-size: 16.5px;
+  }
+  .captain-tag {
+    display: inline-block;
+    font-family: "Oswald", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    line-height: 13px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .conflict-dot {
+    color: var(--gold);
+    font-size: 10px;
+    vertical-align: super;
+    cursor: help;
   }
   .card-sub {
     color: var(--text-muted);
@@ -962,6 +985,8 @@
     </div>
 
     <div id="next-match"></div>
+
+    <div class="filter-row" id="schedule-filter"></div>
 
     <div class="table-scroll">
       <table class="fixtures">
@@ -1365,10 +1390,10 @@
     const apps = p.stats && p.stats.appearances != null ? p.stats.appearances : "미확인";
     card.innerHTML = `
       <div class="card-top">
-        <div class="card-num">${p.number ?? "-"}</div>
+        <div class="card-num${p.captain ? " captain" : ""}">${p.number ?? "-"}</div>
         <div class="pos-pill">${p.position ?? "미확인"}</div>
       </div>
-      <div class="card-name">${p.name}</div>
+      <div class="card-name">${p.name}${p.captain ? ' <span class="captain-tag" title="주장">C</span>' : ""}${hasConflict(p) ? ` <span class="conflict-dot" title="${escapeAttr(p.bio || p.verification)}">●</span>` : ""}</div>
       <div class="card-sub">
         <span>U리그 출전</span>
         <b>${apps}</b>
@@ -1578,7 +1603,8 @@
 
   // ---- 경기일정 ----
   function competitionGroup(m) {
-    return m.competition && m.competition.includes("리그") ? "리그" : "컵대회";
+    // "조별리그"(컵대회 진행 방식) 오분류를 피하려고 "U리그"로 좁혀서 판별합니다.
+    return m.competition && m.competition.includes("U리그") ? "리그" : "컵대회";
   }
 
   function nextMatchHTML(sorted) {
@@ -1604,39 +1630,41 @@
     el.innerHTML = nextMatchHTML(sorted);
   }
 
-  function renderSchedule() {
-    const nextMatchEl = document.getElementById("next-match");
-    const body = document.getElementById("fixtures-body");
+  let scheduleSorted = [];
+  let scheduleFilterVal = "전체";
+  const SCHEDULE_FILTERS = ["전체", "리그", "컵대회", "예정"];
 
-    if (DATA.matches.length === 0) {
-      document.getElementById("record-summary").textContent = "정보 준비 중";
-      nextMatchEl.innerHTML = emptyStateHTML("경기 일정 준비 중입니다", "시즌 일정이 등록되면 다음 경기와 전체 결과가 이곳에 표시됩니다.");
-      body.innerHTML = `<tr><td class="empty-cell" colspan="7">등록된 경기가 없습니다</td></tr>`;
+  function matchesScheduleFilter(m) {
+    if (scheduleFilterVal === "전체") return true;
+    if (scheduleFilterVal === "예정") return m.status === "예정";
+    return competitionGroup(m) === scheduleFilterVal;
+  }
+
+  function renderScheduleFilter() {
+    const el = document.getElementById("schedule-filter");
+    el.innerHTML = "";
+    SCHEDULE_FILTERS.forEach((opt) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "filter-pill" + (opt === scheduleFilterVal ? " active" : "");
+      btn.textContent = opt;
+      btn.addEventListener("click", () => {
+        scheduleFilterVal = opt;
+        renderScheduleFilter();
+        renderFixturesBody();
+      });
+      el.appendChild(btn);
+    });
+  }
+
+  function renderFixturesBody() {
+    const body = document.getElementById("fixtures-body");
+    const rows = scheduleSorted.filter(matchesScheduleFilter);
+    if (rows.length === 0) {
+      body.innerHTML = `<tr><td class="empty-cell" colspan="7">해당하는 경기가 없습니다</td></tr>`;
       return;
     }
-
-    const sorted = [...DATA.matches].sort((a, b) => (a.date > b.date ? 1 : -1));
-
-    const groups = {};
-    sorted.forEach((m) => {
-      const g = competitionGroup(m);
-      groups[g] = groups[g] || { total: 0, played: 0, w: 0, d: 0, l: 0 };
-      groups[g].total++;
-      if (m.score && m.score.kyunghee !== null && m.score.opponent !== null) {
-        groups[g].played++;
-        const cls = resultClass(m);
-        if (cls === "win") groups[g].w++;
-        else if (cls === "draw") groups[g].d++;
-        else if (cls === "lose") groups[g].l++;
-      }
-    });
-    document.getElementById("record-summary").textContent = Object.entries(groups)
-      .map(([name, g]) => `${name} ${g.w}승 ${g.d}무 ${g.l}패 (${g.played}/${g.total}경기)`)
-      .join(" · ");
-
-    nextMatchEl.innerHTML = nextMatchHTML(sorted) || `<div class="next-match"><div class="next-match-teams">시즌 일정이 모두 종료되었습니다.</div></div>`;
-
-    body.innerHTML = sorted
+    body.innerHTML = rows
       .map((m) => {
         const cls = resultClass(m);
         const label = resultLabel(m);
@@ -1655,6 +1683,42 @@
         </tr>`;
       })
       .join("");
+  }
+
+  function renderSchedule() {
+    const nextMatchEl = document.getElementById("next-match");
+
+    renderScheduleFilter();
+
+    if (DATA.matches.length === 0) {
+      document.getElementById("record-summary").textContent = "정보 준비 중";
+      nextMatchEl.innerHTML = emptyStateHTML("경기 일정 준비 중입니다", "시즌 일정이 등록되면 다음 경기와 전체 결과가 이곳에 표시됩니다.");
+      document.getElementById("fixtures-body").innerHTML = `<tr><td class="empty-cell" colspan="7">등록된 경기가 없습니다</td></tr>`;
+      return;
+    }
+
+    scheduleSorted = [...DATA.matches].sort((a, b) => (a.date > b.date ? 1 : -1));
+
+    const groups = {};
+    scheduleSorted.forEach((m) => {
+      const g = competitionGroup(m);
+      groups[g] = groups[g] || { total: 0, played: 0, w: 0, d: 0, l: 0 };
+      groups[g].total++;
+      if (m.score && m.score.kyunghee !== null && m.score.opponent !== null) {
+        groups[g].played++;
+        const cls = resultClass(m);
+        if (cls === "win") groups[g].w++;
+        else if (cls === "draw") groups[g].d++;
+        else if (cls === "lose") groups[g].l++;
+      }
+    });
+    document.getElementById("record-summary").textContent = Object.entries(groups)
+      .map(([name, g]) => `${name} ${g.w}승 ${g.d}무 ${g.l}패 (${g.played}/${g.total}경기)`)
+      .join(" · ");
+
+    nextMatchEl.innerHTML = nextMatchHTML(scheduleSorted) || `<div class="next-match"><div class="next-match-teams">시즌 일정이 모두 종료되었습니다.</div></div>`;
+
+    renderFixturesBody();
   }
 
   // ---- 소식 ----
