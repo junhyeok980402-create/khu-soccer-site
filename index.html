@@ -377,6 +377,14 @@
     font-size: 14px;
     color: var(--accent);
     box-shadow: 0 4px 10px -4px rgba(0,0,0,.4);
+    overflow: hidden;
+  }
+  .match-crest img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+    box-sizing: border-box;
   }
   .match-team-name {
     font-size: 12.5px;
@@ -1380,8 +1388,23 @@
    * 확인되지 않은 값은 null로 두고, 화면에는 "미확인"으로 표시합니다.
    * (0, "", 등 임의의 placeholder를 채워 넣지 않습니다.)
    */
-  const CLUB_NAME = "경희대학교 축구부";
+  const CLUB_NAME = "경희대";
   const CLUB_SHORT = "경희";
+
+  // 위키백과에서 확인한 공식 로고만 사용 — 못 찾은 학교는 이니셜 배지로 대체
+  const OPPONENT_CRESTS = {
+    "한양대": "assets/crests/hanyang.png",
+    "연세대": "assets/crests/yonsei.png",
+    "명지대": "assets/crests/myongji.gif",
+    "수원대": "assets/crests/suwon.png",
+    "인천대": "assets/crests/incheon.svg",
+  };
+  function crestHTML(teamName, isUs) {
+    if (isUs) return `<img src="assets/khu-univ-logo.png" alt="${CLUB_NAME} 엠블럼">`;
+    const src = teamName && OPPONENT_CRESTS[teamName];
+    if (src) return `<img src="${src}" alt="${escapeAttr(teamName)} 로고">`;
+    return (teamName || "?").slice(0, 2);
+  }
 
   const DATA = {
     players: [
@@ -1533,6 +1556,8 @@
       { id: "match-2026-cup-003", date: "2026-02-13", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (조별리그, 조 1위 확정)", opponent: "국제사이버대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 3, opponent: 0 }, result: "승" },
       { id: "match-2026-cup-004", date: "2026-02-18", time: "10:30", competition: "제62회 한산대첩기 춘계대학축구연맹전 (16강)", opponent: null, venue: null, homeAway: null, status: "결과 미확인(기사 작성 시점엔 예정 경기)", score: { kyunghee: null, opponent: null }, result: null },
       { id: "match-2026-cup-005", date: "2026-02-24", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (라운드 미확인 — 대회 최종전으로 추정)", opponent: "연세대", venue: "통영공설운동장", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 3 }, result: "패 (대회 전체 준우승으로 마감)" },
+      { id: "match-2026-cup-006", date: "2026-07-09", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (16강)", opponent: "대구대", venue: "태백 고원스타디움 3구장", homeAway: null, status: "종료", score: { kyunghee: 6, opponent: 0 }, result: "승" },
+      { id: "match-2026-cup-007", date: "2026-07-14", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (8강)", opponent: "연세대", venue: "태백스포츠파크", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 3 }, result: "패 (대회 8강 탈락)" },
       { id: "match-2026-league-001", date: "2026-04-17", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "장안대", venue: "비봉습지공원축구장", homeAway: "원정", status: "종료", score: { kyunghee: 1, opponent: 0 }, result: "승" },
       { id: "match-2026-league-002", date: "2026-04-24", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "명지대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "무" },
       { id: "match-2026-league-003", date: "2026-05-01", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "국제사이버대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 4, opponent: 2 }, result: "승" },
@@ -1919,12 +1944,12 @@
         <span class="match-tag">${label}</span>
         <div class="match-teams-row">
           <div class="match-team">
-            <div class="match-crest">${CLUB_SHORT}</div>
+            <div class="match-crest">${crestHTML(CLUB_NAME, true)}</div>
             <div class="match-team-name">${CLUB_NAME}</div>
           </div>
           <div class="match-score">${m.score.kyunghee} : ${m.score.opponent}</div>
           <div class="match-team">
-            <div class="match-crest">${(m.opponent || "?").slice(0, 2)}</div>
+            <div class="match-crest">${crestHTML(m.opponent)}</div>
             <div class="match-team-name">${fmt(m.opponent)}</div>
           </div>
         </div>
@@ -1998,12 +2023,12 @@
         <span class="match-tag">다음 경기 · <span class="match-dday">D-${dday}</span></span>
         <div class="match-teams-row">
           <div class="match-team">
-            <div class="match-crest">${CLUB_SHORT}</div>
+            <div class="match-crest">${crestHTML(CLUB_NAME, true)}</div>
             <div class="match-team-name">${CLUB_NAME}</div>
           </div>
           <div class="match-vs">VS</div>
           <div class="match-team">
-            <div class="match-crest">${(next.opponent || "?").slice(0, 2)}</div>
+            <div class="match-crest">${crestHTML(next.opponent)}</div>
             <div class="match-team-name">${fmt(next.opponent)}</div>
           </div>
         </div>
@@ -2039,9 +2064,9 @@
       <div class="match-card">
         <span class="match-tag">${fmt(m.competition)}</span>
         <div class="match-teams-row">
-          <div class="match-team"><div class="match-crest">${CLUB_SHORT}</div><div class="match-team-name">${CLUB_NAME}</div></div>
+          <div class="match-team"><div class="match-crest">${crestHTML(CLUB_NAME, true)}</div><div class="match-team-name">${CLUB_NAME}</div></div>
           ${hasScore ? `<div class="match-score">${m.score.kyunghee} : ${m.score.opponent}</div>` : `<div class="match-vs">VS</div>`}
-          <div class="match-team"><div class="match-crest">${(m.opponent || "?").slice(0, 2)}</div><div class="match-team-name">${fmt(m.opponent)}</div></div>
+          <div class="match-team"><div class="match-crest">${crestHTML(m.opponent)}</div><div class="match-team-name">${fmt(m.opponent)}</div></div>
         </div>
         <div class="match-meta"><span class="status-pill ${cls}" style="margin-right:6px">${label}</span>${dotDate(m.date)}${m.time ? ` ${m.time}` : ""}</div>
       </div>
