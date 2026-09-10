@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>경희대학교 축구부</title>
+<meta name="description" content="경희대학교 축구부 비공식 소개 페이지 — 선수단, 경기일정, 리그 순위, 팀 통산기록을 KUFC·KUSF 공식 자료로 소개합니다.">
+<meta property="og:title" content="경희대학교 축구부">
+<meta property="og:description" content="선수단·경기일정·리그 순위·팀 통산기록을 KUFC·KUSF 공식 자료로 소개하는 비공식 페이지입니다.">
+<meta property="og:image" content="assets/khu-univ-logo.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/khu-univ-logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap">
 <style>
@@ -30,8 +36,8 @@
       --text: #f0e8e5;
       --text-muted: #b6a29d;
       --line: #3a2e2b;
-      --accent: #bc6b64;
-      --accent-soft: #382222;
+      --accent: #c8453d;
+      --accent-soft: #3d211d;
       --gold: #d3a94f;
       --gold-soft: #2b2413;
       --lose: #7fa7cf;
@@ -899,6 +905,8 @@
 <div class="wrap">
   <!-- ===== 홈 ===== -->
   <main class="page" id="page-home">
+    <div id="home-next-match"></div>
+
     <div class="widgets-row">
       <div class="widget">
         <div class="widget-head"><h3>최근 경기 결과</h3><span id="scoreboard-date"></span></div>
@@ -917,6 +925,14 @@
 
     <h2 class="section-heading">주요 선수</h2>
     <div class="preview-grid" id="home-preview"></div>
+
+    <h2 class="section-heading">2026시즌 득점 순위 TOP 5</h2>
+    <div class="widget">
+      <table class="standings">
+        <thead><tr><th>순위</th><th>선수</th><th>포지션</th><th>득점</th><th>출전</th></tr></thead>
+        <tbody id="top-scorers-body"></tbody>
+      </table>
+    </div>
   </main>
 
   <!-- ===== 선수단 ===== -->
@@ -1565,6 +1581,29 @@
     return m.competition && m.competition.includes("리그") ? "리그" : "컵대회";
   }
 
+  function nextMatchHTML(sorted) {
+    const next = sorted.find((m) => m.status === "예정");
+    if (!next) return "";
+    const dday = Math.max(0, Math.round((new Date(next.date) - new Date()) / 86400000));
+    return `
+      <div class="next-match">
+        <div>
+          <div class="next-match-label">다음 경기</div>
+          <div class="next-match-teams">${CLUB_NAME} ${next.homeAway === "홈" ? "vs" : "@"} ${fmt(next.opponent)}</div>
+          <div class="next-match-meta">${dotDate(next.date)}${next.time ? ` ${next.time}` : ""} · ${fmt(next.venue)}</div>
+        </div>
+        <div class="next-match-dday">D-${dday}</div>
+      </div>
+    `;
+  }
+
+  function renderHomeNextMatch() {
+    const el = document.getElementById("home-next-match");
+    if (DATA.matches.length === 0) { el.innerHTML = ""; return; }
+    const sorted = [...DATA.matches].sort((a, b) => (a.date > b.date ? 1 : -1));
+    el.innerHTML = nextMatchHTML(sorted);
+  }
+
   function renderSchedule() {
     const nextMatchEl = document.getElementById("next-match");
     const body = document.getElementById("fixtures-body");
@@ -1595,22 +1634,7 @@
       .map(([name, g]) => `${name} ${g.w}승 ${g.d}무 ${g.l}패 (${g.played}/${g.total}경기)`)
       .join(" · ");
 
-    const next = sorted.find((m) => m.status === "예정");
-    if (next) {
-      const dday = Math.max(0, Math.round((new Date(next.date) - new Date()) / 86400000));
-      nextMatchEl.innerHTML = `
-        <div class="next-match">
-          <div>
-            <div class="next-match-label">다음 경기</div>
-            <div class="next-match-teams">${CLUB_NAME} ${next.homeAway === "홈" ? "vs" : "@"} ${fmt(next.opponent)}</div>
-            <div class="next-match-meta">${dotDate(next.date)}${next.time ? ` ${next.time}` : ""} · ${fmt(next.venue)}</div>
-          </div>
-          <div class="next-match-dday">D-${dday}</div>
-        </div>
-      `;
-    } else {
-      nextMatchEl.innerHTML = "";
-    }
+    nextMatchEl.innerHTML = nextMatchHTML(sorted) || `<div class="next-match"><div class="next-match-teams">시즌 일정이 모두 종료되었습니다.</div></div>`;
 
     body.innerHTML = sorted
       .map((m) => {
@@ -1674,13 +1698,40 @@
       .join("");
   }
 
+  // ---- 홈: 득점 순위 TOP 5 ----
+  function renderTopScorers() {
+    const body = document.getElementById("top-scorers-body");
+    const scorers = activePlayers()
+      .filter((p) => p.stats && typeof p.stats.goals === "number" && p.stats.goals > 0)
+      .sort((a, b) => b.stats.goals - a.stats.goals)
+      .slice(0, 5);
+    if (scorers.length === 0) {
+      body.innerHTML = `<tr><td class="empty-cell" colspan="5">득점 기록 준비 중입니다</td></tr>`;
+      return;
+    }
+    body.innerHTML = scorers
+      .map(
+        (p, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${p.name}</td>
+        <td>${p.position ?? "미확인"}</td>
+        <td>${p.stats.goals}</td>
+        <td>${fmt(p.stats.appearances)}</td>
+      </tr>`
+      )
+      .join("");
+  }
+
   renderPositionFilter();
   renderHeroDerived();
   renderGrid();
   renderInactiveNote();
   renderHomePreview();
+  renderHomeNextMatch();
   renderScoreboard();
   renderStandings();
+  renderTopScorers();
   renderHistory("history-league-body", DATA.teamRecord.historyLeague);
   renderHistory("history-cup-body", DATA.teamRecord.historyTournament);
   renderSchedule();
