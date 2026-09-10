@@ -1329,6 +1329,9 @@
     if (v === null || v === undefined || v === "") return '<span class="unverified" title="확인된 자료 없음">–</span>';
     return `${v}${unit || ""}`;
   }
+  function statNum(v) {
+    return v === null || v === undefined ? 0 : v;
+  }
   function escapeAttr(str) {
     return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
@@ -1447,7 +1450,7 @@
     card.type = "button";
     card.className = "player-card";
     card.setAttribute("aria-label", `${p.name} 상세 정보 보기`);
-    const apps = p.stats && p.stats.appearances != null ? p.stats.appearances : '<span class="unverified" title="확인된 자료 없음">–</span>';
+    const apps = statNum(p.stats && p.stats.appearances);
     card.innerHTML = `
       <div class="card-top">
         <div class="card-num${p.captain ? " captain" : ""}">${p.number ?? "-"}</div>
@@ -1534,10 +1537,10 @@
       <div class="apps-block">
         <div class="label">시즌 기록${s.season ? ` · ${s.season}` : ""}${s.competition ? ` · ${s.competition}` : ""}</div>
         <div class="stat-grid">
-          <div class="stat"><div class="label">출전</div><div class="value">${fmt(s.appearances)}</div></div>
-          <div class="stat"><div class="label">득점</div><div class="value">${fmt(s.goals)}</div></div>
-          <div class="stat"><div class="label">도움</div><div class="value">${fmt(s.assists)}</div></div>
-          <div class="stat"><div class="label">경고 / 퇴장</div><div class="value">${fmt(s.yellowCards)} / ${fmt(s.redCards)}</div></div>
+          <div class="stat"><div class="label">출전</div><div class="value">${statNum(s.appearances)}</div></div>
+          <div class="stat"><div class="label">득점</div><div class="value">${statNum(s.goals)}</div></div>
+          <div class="stat"><div class="label">도움</div><div class="value">${statNum(s.assists)}</div></div>
+          <div class="stat"><div class="label">경고 / 퇴장</div><div class="value">${statNum(s.yellowCards)} / ${statNum(s.redCards)}</div></div>
         </div>
         ${s.note ? `<p class="note">${s.note}</p>` : ""}
       </div>
