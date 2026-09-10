@@ -132,8 +132,9 @@
     background: none;
     border: none;
     font: inherit;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 700;
+    letter-spacing: .03em;
     color: rgba(245, 236, 214, .78);
     padding: 8px 12px;
     border-radius: 100px;
@@ -148,6 +149,7 @@
   /* ---- home hero band (full-bleed) ---- */
   .hero-band {
     background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0px, rgba(255,255,255,.05) 2px, transparent 2px, transparent 16px),
       radial-gradient(120% 160% at 100% 0%, rgba(255,255,255,.08), transparent 55%),
       linear-gradient(155deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 78%, #140d0c) 100%);
   }
@@ -267,59 +269,86 @@
     color: var(--text-muted);
   }
 
-  .scoreboard {
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  /* ---- match-card: 다음 경기 / 최근 경기 결과 공용 카드 ---- */
+  .scoreboard { padding: 18px; }
+  .match-card {
+    position: relative;
+    border-radius: 12px;
+    padding: 20px clamp(16px, 4vw, 28px) 22px;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0px, rgba(255,255,255,.07) 2px, transparent 2px, transparent 14px),
+      linear-gradient(160deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 68%, #140d0c) 100%);
+    overflow: hidden;
   }
-  .scoreboard-row {
+  .match-tag {
+    display: inline-block;
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-bottom: 16px;
+  }
+  .match-teams-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: clamp(14px, 4vw, 30px);
   }
-  .scoreboard-team {
+  .match-team {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    width: 96px;
+    gap: 8px;
+    width: 92px;
+    flex: none;
   }
-  .scoreboard-badge {
-    width: 40px; height: 40px; border-radius: 50%;
+  .match-crest {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: #fff;
     display: flex; align-items: center; justify-content: center;
     font-family: "Oswald", sans-serif;
-    font-weight: 600;
-    font-size: 13px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    box-shadow: 0 4px 10px -4px rgba(0,0,0,.4);
   }
-  .scoreboard-badge.us { background: var(--accent-soft); color: var(--accent); }
-  .scoreboard-badge.them { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--line); }
-  .scoreboard-team span:last-child {
+  .match-team-name {
     font-size: 12.5px;
     font-weight: 700;
     text-align: center;
+    color: #fff;
   }
-  .scoreboard-score {
+  .match-vs {
     font-family: "Oswald", sans-serif;
     font-weight: 700;
-    font-size: 30px;
-    font-variant-numeric: tabular-nums;
-    color: var(--text);
-  }
-  .scoreboard-result {
-    font-family: "Oswald", sans-serif;
-    font-size: 11px;
-    letter-spacing: .06em;
-    padding: 3px 9px;
-    border-radius: 100px;
-    background: var(--gold-soft);
+    font-size: clamp(20px, 5vw, 26px);
     color: var(--gold);
+    flex: none;
   }
-  .scoreboard-meta {
+  .match-score {
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    font-size: clamp(26px, 6vw, 36px);
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+  .match-meta {
     text-align: center;
-    font-size: 12px;
-    color: var(--text-muted);
+    margin-top: 16px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,.82);
+  }
+  .match-dday {
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    color: var(--gold);
   }
 
   .standings {
@@ -469,42 +498,9 @@
   }
 
   /* ---- 경기일정 ---- */
-  .next-match {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 20px clamp(18px, 4vw, 28px);
+  #home-next-match .match-card,
+  #next-match .match-card {
     margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .next-match-label {
-    font-family: "Oswald", sans-serif;
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 6px;
-  }
-  .next-match-teams {
-    font-size: 17px;
-    font-weight: 700;
-  }
-  .next-match-meta {
-    font-size: 12.5px;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-  .next-match-dday {
-    font-family: "Oswald", sans-serif;
-    font-weight: 700;
-    font-size: 26px;
-    color: var(--accent);
-    flex: none;
-    font-variant-numeric: tabular-nums;
   }
 
   .table-scroll { overflow-x: auto; }
@@ -1607,20 +1603,20 @@
     const label = resultLabel(m);
     document.getElementById("scoreboard-date").textContent = dotDate(m.date);
     document.getElementById("scoreboard").innerHTML = `
-      <div class="scoreboard-row">
-        <div class="scoreboard-team">
-          <div class="scoreboard-badge us">${CLUB_SHORT}</div>
-          <span>${CLUB_NAME}</span>
+      <div class="match-card">
+        <span class="match-tag">${label}</span>
+        <div class="match-teams-row">
+          <div class="match-team">
+            <div class="match-crest">${CLUB_SHORT}</div>
+            <div class="match-team-name">${CLUB_NAME}</div>
+          </div>
+          <div class="match-score">${m.score.kyunghee} : ${m.score.opponent}</div>
+          <div class="match-team">
+            <div class="match-crest">${(m.opponent || "?").slice(0, 2)}</div>
+            <div class="match-team-name">${fmt(m.opponent)}</div>
+          </div>
         </div>
-        <div class="scoreboard-score">${m.score.kyunghee} : ${m.score.opponent}</div>
-        <div class="scoreboard-team">
-          <div class="scoreboard-badge them">${(m.opponent || "?").slice(0, 2)}</div>
-          <span>${fmt(m.opponent)}</span>
-        </div>
-      </div>
-      <div class="scoreboard-meta">
-        <span class="scoreboard-result">${label}</span>
-        &nbsp; ${fmt(m.venue)}
+        <div class="match-meta">${fmt(m.venue)}</div>
       </div>
     `;
   }
@@ -1686,13 +1682,20 @@
     if (!next) return "";
     const dday = Math.max(0, Math.round((new Date(next.date) - new Date()) / 86400000));
     return `
-      <div class="next-match">
-        <div>
-          <div class="next-match-label">다음 경기</div>
-          <div class="next-match-teams">${CLUB_NAME} vs ${fmt(next.opponent)}</div>
-          <div class="next-match-meta">${dotDate(next.date)}${next.time ? ` ${next.time}` : ""} · ${fmt(next.venue)}</div>
+      <div class="match-card">
+        <span class="match-tag">다음 경기 · <span class="match-dday">D-${dday}</span></span>
+        <div class="match-teams-row">
+          <div class="match-team">
+            <div class="match-crest">${CLUB_SHORT}</div>
+            <div class="match-team-name">${CLUB_NAME}</div>
+          </div>
+          <div class="match-vs">VS</div>
+          <div class="match-team">
+            <div class="match-crest">${(next.opponent || "?").slice(0, 2)}</div>
+            <div class="match-team-name">${fmt(next.opponent)}</div>
+          </div>
         </div>
-        <div class="next-match-dday">D-${dday}</div>
+        <div class="match-meta">${dotDate(next.date)}${next.time ? ` ${next.time}` : ""} · ${fmt(next.venue)}</div>
       </div>
     `;
   }
