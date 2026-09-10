@@ -165,7 +165,7 @@
     color: #fff;
   }
   .hero-band p {
-    max-width: 48ch;
+    max-width: 50ch;
     color: rgba(250, 245, 244, .82);
     font-size: 15px;
     line-height: 1.7;
@@ -331,13 +331,27 @@
     font-weight: 700;
     margin: 0 0 14px;
   }
+  .subheading {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin: 20px 0 10px;
+  }
+  .caption {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 10px 0 0;
+  }
   .preview-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 12px;
   }
 
-  /* ---- empty / pending-data state ---- */
+  /* ---- empty / pending-data state, unverified & conflict badges ---- */
   .empty-state {
     border: 1px dashed var(--line);
     border-radius: 14px;
@@ -362,6 +376,78 @@
   }
   .empty-state p { margin: 0; font-size: 13px; line-height: 1.6; }
   .empty-cell { padding: 22px 8px !important; color: var(--text-muted); font-size: 13px; }
+  .unverified {
+    display: inline-block;
+    font-size: .85em;
+    padding: 1px 9px;
+    border-radius: 100px;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    font-weight: 500;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  .conflict-badge {
+    display: inline-block;
+    font-size: .78em;
+    padding: 2px 9px;
+    border-radius: 100px;
+    background: var(--gold-soft);
+    color: var(--gold);
+    font-weight: 700;
+    margin-left: 6px;
+    cursor: help;
+  }
+
+  /* ---- 선수단: 필터 / 검색 ---- */
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .filter-pill {
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 7px 15px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .filter-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filter-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .search-input {
+    font: inherit;
+    font-size: 13.5px;
+    padding: 9px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    width: 100%;
+    max-width: 260px;
+    margin-bottom: 16px;
+  }
+  .search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .inactive-note {
+    margin-top: 22px;
+    border: 1px dashed var(--line);
+    border-radius: 14px;
+    padding: 16px 20px;
+  }
+  .inactive-note h3 {
+    font-size: 13px;
+    margin: 0 0 8px;
+  }
+  .inactive-note p {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
 
   /* ---- 경기일정 ---- */
   .next-match {
@@ -405,7 +491,7 @@
   .table-scroll { overflow-x: auto; }
   .fixtures {
     width: 100%;
-    min-width: 520px;
+    min-width: 640px;
     border-collapse: collapse;
     font-size: 13.5px;
   }
@@ -425,9 +511,9 @@
     background: var(--bg);
   }
   .fixtures td { font-variant-numeric: tabular-nums; }
-  .fixtures td:nth-child(4) { text-align: left; font-weight: 600; }
+  .fixtures td:nth-child(3) { text-align: left; font-weight: 600; }
   .fixtures tr.upcoming td { color: var(--text-muted); }
-  .fixtures tr.upcoming td:nth-child(4) { color: var(--text); }
+  .fixtures tr.upcoming td:nth-child(3) { color: var(--text); }
 
   .status-pill {
     display: inline-block;
@@ -436,11 +522,13 @@
     font-weight: 600;
     padding: 3px 10px;
     border-radius: 100px;
+    white-space: normal;
   }
   .status-pill.win { background: var(--accent-soft); color: var(--accent); }
   .status-pill.draw { background: var(--surface-2); color: var(--text-muted); }
   .status-pill.lose { background: var(--lose-soft); color: var(--lose); }
   .status-pill.upcoming { background: var(--gold-soft); color: var(--gold); }
+  .status-pill.unknown { background: var(--surface-2); color: var(--text-muted); }
 
   /* ---- roster grid ---- */
   .roster-meta {
@@ -591,6 +679,7 @@
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
+    align-items: center;
   }
   .tag {
     font-family: "Oswald", sans-serif;
@@ -642,25 +731,18 @@
     letter-spacing: .03em;
     margin-bottom: 10px;
   }
-  .apps-bar-track {
-    height: 10px;
-    border-radius: 100px;
-    background: var(--surface-2);
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-  .apps-bar-fill {
-    height: 100%;
-    border-radius: 100px;
-    background: var(--accent);
-  }
-  .apps-caption {
-    display: flex;
-    justify-content: space-between;
+  .apps-block .stat-grid { margin-bottom: 0; }
+  .apps-block .note {
+    margin: 10px 0 0;
     font-size: 12.5px;
     color: var(--text-muted);
-    font-family: "Oswald", sans-serif;
-    font-variant-numeric: tabular-nums;
+    line-height: 1.6;
+  }
+  .bio-text {
+    margin-top: 16px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
   }
 
   /* ---- 구단소개 ---- */
@@ -695,51 +777,77 @@
     max-width: 52ch;
   }
 
-  .timeline {
-    border-left: 2px solid var(--line);
-    margin-left: 6px;
-    padding-left: 26px;
+  .staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: clamp(28px, 5vw, 40px);
   }
-  .timeline-item {
-    position: relative;
-    padding-bottom: 26px;
+  .staff-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
-  .timeline-item:last-child { padding-bottom: 0; }
-  .timeline-item::before {
-    content: "";
-    position: absolute;
-    left: -33px;
-    top: 3px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 3px solid var(--bg);
-  }
-  .timeline-date {
+  .staff-role {
     font-family: "Oswald", sans-serif;
-    font-weight: 600;
-    font-size: 12.5px;
-    letter-spacing: .04em;
+    font-size: 11px;
+    letter-spacing: .07em;
+    text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 4px;
   }
-  .timeline-title {
-    font-weight: 700;
-    font-size: 15px;
-    margin-bottom: 3px;
-  }
-  .timeline-desc {
-    font-size: 13px;
+  .staff-name { font-weight: 700; font-size: 15.5px; }
+  .staff-bio {
+    font-size: 12.5px;
     color: var(--text-muted);
-    line-height: 1.6;
+    line-height: 1.55;
   }
+
+  /* ---- 소식 ---- */
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .news-eyebrow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    letter-spacing: .05em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .news-eyebrow .cat {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .news-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .news-summary { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 8px; }
+  .news-link {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .news-link:hover { text-decoration: underline; }
 
   footer {
     padding: 18px 0 40px;
     border-top: 1px solid var(--line);
     color: var(--text-muted);
     font-size: 12px;
+    line-height: 1.7;
   }
 </style>
 </head>
@@ -755,6 +863,7 @@
       <button class="nav-link" data-nav="home">홈</button>
       <button class="nav-link" data-nav="roster">선수단</button>
       <button class="nav-link" data-nav="schedule">경기일정</button>
+      <button class="nav-link" data-nav="news">소식</button>
       <button class="nav-link" data-nav="about">구단소개</button>
     </div>
   </div>
@@ -762,15 +871,15 @@
 
 <section class="hero-band" id="hero-band">
   <div class="hero-inner">
-    <div class="hero-eyebrow">2026 시즌</div>
+    <div class="hero-eyebrow" id="hero-eyebrow">2026 시즌</div>
     <h1>그라운드 위의 경희</h1>
-    <p>경희대학교 축구부를 소개하는 페이지입니다. 선수단 명단과 시즌 기록은 정보가 준비되는 대로 이곳에 채워질 예정입니다.</p>
+    <p id="hero-summary">경희대학교 축구부를 소개하는 페이지입니다.</p>
     <button class="cta" data-nav="roster">선수단 보기 →</button>
     <div class="hero-chips">
-      <div class="hero-chip"><span class="k">창단</span><span class="v">정보 입력 예정</span></div>
-      <div class="hero-chip"><span class="k">홈구장</span><span class="v">정보 입력 예정</span></div>
-      <div class="hero-chip"><span class="k">소속리그</span><span class="v">정보 입력 예정</span></div>
-      <div class="hero-chip"><span class="k">등록 선수</span><span class="v">정보 입력 예정</span></div>
+      <div class="hero-chip"><span class="k">창단</span><span class="v">미확인</span></div>
+      <div class="hero-chip"><span class="k">홈구장</span><span class="v" id="chip-venue">정보 입력 예정</span></div>
+      <div class="hero-chip"><span class="k">소속리그</span><span class="v" id="chip-league">정보 입력 예정</span></div>
+      <div class="hero-chip"><span class="k">등록 선수</span><span class="v" id="chip-players">정보 입력 예정</span></div>
     </div>
   </div>
 </section>
@@ -784,10 +893,10 @@
         <div class="scoreboard" id="scoreboard"></div>
       </div>
       <div class="widget">
-        <div class="widget-head"><h3>리그 순위</h3><span>2026 시즌</span></div>
+        <div class="widget-head"><h3>리그 순위</h3><span id="standings-asof">2026 시즌</span></div>
         <table class="standings">
           <thead>
-            <tr><th>순위</th><th>클럽</th><th>승점</th><th>승</th><th>무</th><th>패</th></tr>
+            <tr><th>순위</th><th>클럽</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득실차</th></tr>
           </thead>
           <tbody id="standings-body"></tbody>
         </table>
@@ -802,10 +911,13 @@
   <main class="page" id="page-roster" hidden>
     <div id="roster-list">
       <div class="roster-meta">
-        <h2>1군 명단</h2>
+        <h2>선수단 명단</h2>
         <span id="roster-count"></span>
       </div>
+      <div class="filter-row" id="position-filter"></div>
+      <input type="search" id="player-search" class="search-input" placeholder="선수 이름 검색">
       <div class="grid" id="grid"></div>
+      <div id="inactive-note"></div>
     </div>
 
     <div id="roster-detail" hidden>
@@ -826,67 +938,297 @@
     <div class="table-scroll">
       <table class="fixtures">
         <thead>
-          <tr><th>R</th><th>날짜</th><th>구분</th><th>상대</th><th>결과</th><th>경기장</th></tr>
+          <tr><th>날짜</th><th>대회</th><th>상대</th><th>구분</th><th>스코어</th><th>결과</th><th>경기장</th></tr>
         </thead>
         <tbody id="fixtures-body"></tbody>
       </table>
     </div>
   </main>
 
+  <!-- ===== 소식 ===== -->
+  <main class="page" id="page-news" hidden>
+    <div class="roster-meta">
+      <h2>소식</h2>
+      <span id="news-count"></span>
+    </div>
+    <div class="news-list" id="news-list"></div>
+  </main>
+
   <!-- ===== 구단소개 ===== -->
   <main class="page" id="page-about" hidden>
     <div class="roster-meta">
       <h2>구단소개</h2>
-      <span>정보 준비 중</span>
+      <span>KUFC·KUSF 공식 자료 기준</span>
     </div>
 
-    <p class="about-lede">경희대학교 축구부를 소개하는 페이지입니다. 아래 정보는 실제 데이터가 준비되는 대로 채워질 예정입니다.</p>
+    <p class="about-lede">경희대학교 축구부는 한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 바탕으로 소개됩니다. 확인되지 않은 항목은 "미확인"으로 표시하며, 임의로 채워 넣지 않습니다.</p>
 
     <div class="stat-grid">
       <div class="stat"><div class="label">구단명</div><div class="value" style="font-size:16px">경희대학교 축구부</div></div>
-      <div class="stat"><div class="label">연고지</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
-      <div class="stat"><div class="label">창단</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
-      <div class="stat"><div class="label">홈구장</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
-      <div class="stat"><div class="label">소속리그</div><div class="value" style="font-size:15px">정보 입력 예정</div></div>
+      <div class="stat"><div class="label">연락처</div><div class="value" style="font-size:14px">경기도 용인시 기흥구 덕영대로 1732<br>031-201-3261</div></div>
+      <div class="stat"><div class="label">창단</div><div class="value" style="font-size:15px">미확인</div></div>
+      <div class="stat"><div class="label">홈구장</div><div class="value" style="font-size:15px" id="about-venue">정보 입력 예정</div></div>
+      <div class="stat"><div class="label">소속리그</div><div class="value" style="font-size:15px" id="about-league">정보 입력 예정</div></div>
       <div class="stat"><div class="label">구단 컬러</div><div class="value" style="font-size:15px">레드 · 골드</div></div>
     </div>
 
     <h3 class="section-heading">엠블럼</h3>
     <div class="crest-showcase">
       <div class="crest crest-lg"><span>경</span></div>
-      <p>지금 보이는 엠블럼은 색상 톤(레드·골드)을 미리 맞춰본 임시 표시입니다. 실제 엠블럼과 그 의미는 정보가 도착하는 대로 교체될 예정입니다.</p>
+      <p>지금 보이는 엠블럼은 색상 톤(레드·골드)을 미리 맞춰본 임시 표시입니다. 실제 엠블럼·유니폼 이미지는 KUFC 페이지에 이미지 슬롯은 있으나 이번 조사에서 실제 파일 URL을 확인하지 못해 아직 반영하지 못했습니다.</p>
     </div>
 
-    <h3 class="section-heading">연혁</h3>
-    <div class="empty-state">
-      <div class="icon">Coming Soon</div>
-      <h3>구단 연혁 준비 중입니다</h3>
-      <p>창단부터 현재까지의 주요 기록이 정리되는 대로 이곳에 표시됩니다.</p>
+    <h3 class="section-heading">코칭스태프</h3>
+    <div class="staff-grid" id="staff-grid"></div>
+
+    <h3 class="section-heading">팀 통산 기록 (KUSF 공식, 2018~2026)</h3>
+    <p class="caption">나무위키에는 1955년 창단 이후의 전국대회·연맹전 우승 이력(1960~2025)이 별도로 전해지나, 이 표는 그것과 다른 자료입니다 — KUSF 시스템에 남아있는 리그·토너먼트 경기만의 집계이므로 두 자료를 합산하지 마세요.</p>
+    <div class="subheading">리그</div>
+    <div class="table-scroll">
+      <table class="standings" id="history-league-table">
+        <thead><tr><th>연도</th><th>경기</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실차</th></tr></thead>
+        <tbody id="history-league-body"></tbody>
+      </table>
+    </div>
+    <div class="subheading">토너먼트(컵대회)</div>
+    <div class="table-scroll">
+      <table class="standings" id="history-cup-table">
+        <thead><tr><th>연도</th><th>경기</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실차</th></tr></thead>
+        <tbody id="history-cup-body"></tbody>
+      </table>
     </div>
   </main>
 
-  <footer>선수단·경기 기록 정보는 준비되는 대로 업데이트됩니다. · 본 페이지는 비공식 소개 페이지입니다.</footer>
+  <footer>
+    선수단·경기 기록은 한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 근거로 합니다. 본 페이지는 비공식 소개 페이지입니다.<br>
+    "미확인"으로 표시된 항목은 출처에서도 확인되지 않아 임의로 채우지 않은 값입니다. 포지션이 공식 자료마다 다르게 등록된 선수는 상세 페이지에 "출처 상이" 표시가 함께 붙습니다.
+  </footer>
 </div>
 
 <script>
-  const CLUB_NAME = "경희대 축구부";
+  /**
+   * 데이터 계약(schema)은 조사 보고서에서 제공된 타입 정의를 그대로 따릅니다.
+   * 확인되지 않은 값은 null로 두고, 화면에는 "미확인"으로 표시합니다.
+   * (0, "", 등 임의의 placeholder를 채워 넣지 않습니다.)
+   */
+  const CLUB_NAME = "경희대학교 축구부";
   const CLUB_SHORT = "경희";
-  const SEASON_MATCHES = 0;
 
-  // 아래 데이터는 정보가 도착하면 채워 넣을 자리입니다.
-  const players = [];
-  const recentMatch = null;
-  const standings = [];
-  const opponentVenue = {};
-  const HOME_VENUE = "정보 입력 예정";
-  // side: "홈" | "원정" / us, them: 스코어(played) / null이면 예정 경기
-  const fixtures = [];
+  const DATA = {
+    players: [
+      { id: "player-001", number: 1, name: "이준희", nameEn: null, position: "GK", year: "3학년", department: "스포츠지도학과", birthDate: "2005-04", height: 181, weight: 77, preferredFoot: null, school: "경북자연과학고등학교", photo: null, captain: false,
+        bio: "2025-06-10 경희대 공식미디어 기사에서도 골키퍼로 언급됨(당시 스포츠지도학 2024학번) — 2026시즌 재적이 KUFC·KUSF 양쪽에서 재확인됨.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 5, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC 공식 팀페이지 + KUSF 공식 선수단·개인기록 + 경희대 공식미디어 일치", confirmedActiveIn2026: true },
+      { id: "player-002", number: 2, name: "이경원", nameEn: null, position: "DF", year: "3학년", department: null, birthDate: "2005-11", height: 176, weight: 70, preferredFoot: null, school: "영등포공업고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 6, starts: null, goals: 1, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC 공식 팀페이지 + KUSF 공식 선수단·개인기록 일치", confirmedActiveIn2026: true },
+      { id: "player-003", number: 3, name: "서강원", nameEn: null, position: "DF", year: "2학년", department: null, birthDate: "2006-04", height: 181, weight: 75, preferredFoot: null, school: "통진고등학교", photo: null, captain: false,
+        bio: "KUSF 개인기록(출전기록)에는 나타나지 않아 2026시즌 U리그 출전 여부는 미확인.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null },
+        verification: "[복수 자료 확인] KUFC + KUSF 명단 일치(개인기록 없음)", confirmedActiveIn2026: true },
+      { id: "player-004", number: 4, name: "송시우", nameEn: null, position: "DF", year: "1학년", department: null, birthDate: "2007-04", height: null, weight: null, preferredFoot: null, school: null, photo: null, captain: false,
+        bio: "KUFC 페이지에도 키/몸무게/출신교가 '-'로 비어 있어 원 출처 자체에 정보가 없는 것으로 확인됨. KUSF 개인기록에도 출전기록 없음.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null },
+        verification: "[복수 자료 확인] KUFC + KUSF 명단 일치(개인기록 없음)", confirmedActiveIn2026: true },
+      { id: "player-005", number: 5, name: "장하윤", nameEn: null, position: "DF", year: "3학년", department: "스포츠지도학과", birthDate: "2005-06", height: 191, weight: 86, preferredFoot: null, school: "평택진위고등학교", photo: null, captain: true,
+        bio: "2026시즌(2026-03 기준) 축구부 주장. 2026-03-17 U-21 올림픽대표팀(2028 LA 올림픽 대비) 발탁 — 24명 중 대학선수 신분으로는 이례적 발탁. 춘계대학축구연맹전 우수선수상, 한일 정기전 '덴소컵' 우수선수상(당시 한국대학선발대표팀 주장) 수상 이력. 포지션(중앙수비수/DF)은 경희대 공식미디어, KUFC, KUSF 3개 출처 모두 일치.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 1, assists: null, yellowCards: 2, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF + 경희대 공식미디어 일치", confirmedActiveIn2026: true },
+      { id: "player-006", number: 6, name: "김유성", nameEn: null, position: "MF", year: "2학년", department: null, birthDate: "2005-03", height: 174, weight: 67, preferredFoot: null, school: "서해고등학교", photo: null, captain: false,
+        bio: "포지션 정보 충돌: KUFC(한국대학축구연맹) 공식 팀페이지는 미드필더(MF)로 등록. KUSF(한국대학스포츠협의회) 선수단 정보 페이지는 공격수(FW)로 등록. 두 연맹의 등록 정보가 상이함 — 검증 필요.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 6, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0, note: "포지션: KUFC=MF, KUSF=FW로 상이(정보 충돌)." },
+        verification: "[정보 충돌] 포지션 필드는 KUFC 값(MF)을 기본값으로 채택 — 판단 근거는 조사 보고서 참고", confirmedActiveIn2026: true },
+      { id: "player-007", number: 7, name: "정주형", nameEn: null, position: "FW", year: "3학년", department: null, birthDate: "2005-09", height: 163, weight: 63, preferredFoot: null, school: "안산그리너스U18", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-008", number: 8, name: "오주안", nameEn: null, position: "MF", year: "2학년", department: null, birthDate: "2006-09", height: 172, weight: null, preferredFoot: null, school: null, photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 6, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-009", number: 9, name: "이건곤", nameEn: null, position: "FW", year: "2학년", department: null, birthDate: "2006-01", height: 177, weight: 70, preferredFoot: null, school: "학성고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 3, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-010", number: 10, name: "이호연", nameEn: null, position: "MF", year: "4학년", department: "스포츠지도학과", birthDate: "2005-02", height: 173, weight: 70, preferredFoot: null, school: "부평고등학교", photo: null, captain: false,
+        bio: "스포츠지도학과 2023학번(경희대 공식미디어). 2025시즌 주장 역임(추계대학축구연맹전 48년 만의 우승 당시 주장). 2026-02-13 경기(한산대첩기 춘계연맹전, vs 국제사이버대) 어시스트 기록. 포지션 정보 충돌: KUFC는 미드필더(MF)로 등록, KUSF는 공격수(FW)로 등록 — 경희대 공식미디어의 서술 맥락도 미드필더 쪽에 가까워 이 자료에서는 MF를 기본값으로 채택. KUSF U리그 3권역 개인기록에는 출전 이력이 없어 2026 U리그 출전 여부는 미확인.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null, note: "포지션: KUFC=MF, KUSF=FW로 상이(정보 충돌)." },
+        verification: "[정보 충돌] 포지션 필드는 KUFC 값(MF)을 기본값으로 채택 — 판단 근거는 조사 보고서 참고", confirmedActiveIn2026: true },
+      { id: "player-011", number: 11, name: "이재모", nameEn: null, position: "FW", year: "2학년", department: null, birthDate: "2006-05", height: 173, weight: 68, preferredFoot: null, school: "제주제일부설방송통신고등학교", photo: null, captain: false,
+        bio: "U리그 3권역 개인기록 3위(7경기 2골).",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 2, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-012", number: 12, name: "임승주", nameEn: null, position: "MF", year: "1학년", department: null, birthDate: "2007-01", height: 175, weight: 70, preferredFoot: null, school: "개성고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 6, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-013", number: 13, name: "차승재", nameEn: null, position: "DF", year: "4학년", department: null, birthDate: "2004-02", height: 174, weight: 68, preferredFoot: null, school: "의왕FC", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-014", number: 14, name: "장시원", nameEn: null, position: "FW", year: "2학년", department: null, birthDate: "2006-06", height: 182, weight: 76, preferredFoot: null, school: "호원방송통신고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 3, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-015", number: 15, name: "이영진", nameEn: null, position: "MF", year: "1학년", department: null, birthDate: "2007-11", height: 178, weight: 76, preferredFoot: null, school: "영등포공업고등학교", photo: null, captain: false,
+        bio: "2026-03-01 언론보도(한산대첩기 춘계연맹전, vs 연세대)에서 후반 9분 퇴장 기록.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 0, assists: null, yellowCards: 1, redCards: 0, note: "춘계연맹전(별도 대회) 퇴장 1회는 이 필드에 포함되지 않음" },
+        verification: "[복수 자료 확인] KUFC + KUSF + 언론보도", confirmedActiveIn2026: true },
+      { id: "player-016", number: 16, name: "한준희", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-01", height: 174, weight: 68, preferredFoot: null, school: "오산고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null },
+        verification: "[복수 자료 확인] KUFC + KUSF 명단 일치(개인기록 없음)", confirmedActiveIn2026: true },
+      { id: "player-017", number: 17, name: "박성겸", nameEn: null, position: "FW", year: "2학년", department: null, birthDate: "2005-07", height: 181, weight: 73, preferredFoot: null, school: "덕영고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 2, starts: null, goals: 1, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-018", number: 18, name: "박근오", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-01", height: 180, weight: 74, preferredFoot: null, school: "장훈고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 3, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-019", number: 19, name: "박재형", nameEn: null, position: "DF", year: "1학년", department: null, birthDate: "2007-04", height: 170, weight: 72, preferredFoot: null, school: "현풍고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 1, assists: null, yellowCards: 1, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-020", number: 20, name: "김용민", nameEn: null, position: "FW", year: "4학년", department: null, birthDate: "2004-08", height: 180, weight: 74, preferredFoot: null, school: "세경대학교", photo: null, captain: false,
+        bio: "포지션 정보 충돌: KUFC는 공격수(FW)로 등록, KUSF는 수비수(DF)로 등록 — 검증 필요.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 2, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0, note: "포지션: KUFC=FW, KUSF=DF로 상이(정보 충돌)." },
+        verification: "[정보 충돌] 포지션 필드는 KUFC 값(FW)을 기본값으로 채택 — 판단 근거는 조사 보고서 참고", confirmedActiveIn2026: true },
+      { id: "player-021", number: null, name: "김희준", nameEn: null, position: "MF", year: "2학년", department: null, birthDate: null, height: null, weight: null, preferredFoot: null, school: null, photo: null, captain: false,
+        bio: "KUSF 공식 선수단 명단(28명)에는 2학년 미드필더로 등록되어 있으나, KUFC 공식 팀페이지의 상세 선수단(27명, 등번호·신체정보 포함)에는 이름이 없음. KUFC 명단의 등번호가 21번만 비어 있어 김희준이 21번일 가능성을 추정할 수는 있으나, 이는 추정일 뿐 어느 자료에도 명시적으로 확인되지 않아 등번호는 null로 유지함.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null },
+        verification: "[정보 충돌/불일치] KUSF 명단에는 존재하나 KUFC 명단에는 부재 — 검증 필요", confirmedActiveIn2026: true },
+      { id: "player-022", number: 22, name: "박민서", nameEn: null, position: "MF", year: "2학년", department: "스포츠지도학과", birthDate: "2006-08", height: 176, weight: 73, preferredFoot: null, school: "영덕고등학교", photo: null, captain: false,
+        bio: "스포츠지도학과 2025학번(경희대 공식미디어). 한산대첩기 춘계연맹전에서 2026-02-13(vs 국제사이버대) 추가시간 관련 기록, 2026-03-01(vs 연세대) 전반 40분 부상 교체. KUSF U리그 3권역에서는 7경기 4골로 소속팀 개인기록 공동 1위.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 4, assists: null, yellowCards: 1, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF + 경희대 공식미디어 + 언론보도", confirmedActiveIn2026: true },
+      { id: "player-023", number: 23, name: "장영웅", nameEn: null, position: "GK", year: "2학년", department: null, birthDate: "2006-01", height: 181, weight: 76, preferredFoot: null, school: "진주고등학교", photo: null, captain: false,
+        bio: "개인기록표는 득점/경고/퇴장만 집계하는 구조라 실점·선방 등 GK 고유 기록은 확인 불가.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 3, starts: null, goals: 0, assists: null, yellowCards: 1, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-024", number: 24, name: "박태양", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-03", height: 187, weight: null, preferredFoot: null, school: "서울영등포공고", photo: null, captain: false,
+        bio: "2026학번 신입생. 한산대첩기 춘계대학축구연맹전(2월)에서 조별리그 포함 5골로 멀티골 활약(2026-02-13, 2026-03-01 보도). KUSF 대학축구 U리그 3권역(4~6월)에서는 7경기 4골로 소속팀 내 개인기록 공동 1위.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 4, assists: null, yellowCards: 0, redCards: 0, note: "한산대첩기 춘계연맹전(별도 대회) 5골은 이 필드에 포함되지 않음 — 대회별로 구분 집계" },
+        verification: "[복수 자료 확인] KUFC + KUSF + 경희대 공식미디어 + 언론보도", confirmedActiveIn2026: true },
+      { id: "player-025", number: 25, name: "김세인", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-05", height: 185, weight: 88, preferredFoot: null, school: "충남아산FC U18", photo: null, captain: false,
+        bio: "2026-03-01 언론 보도(한산대첩기 춘계연맹전, vs 연세대)에서 박태양과 함께 '5골 기록' 선수로 언급됨(춘계연맹전 누적 추정, U리그와 별도 집계).",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 5, starts: null, goals: 0, assists: null, yellowCards: 3, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF + 언론보도", confirmedActiveIn2026: true },
+      { id: "player-026", number: 26, name: "오동석", nameEn: null, position: "DF", year: "1학년", department: null, birthDate: "2007-02", height: 169, weight: 65, preferredFoot: null, school: "덕영고등학교", photo: null, captain: false,
+        bio: "포지션 정보 충돌: KUFC는 수비수(DF)로 등록, KUSF는 미드필더(MF)로 등록 — 검증 필요.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null, note: "포지션: KUFC=DF, KUSF=MF로 상이(정보 충돌)." },
+        verification: "[정보 충돌] 포지션 필드는 KUFC 값(DF)을 기본값으로 채택 — 판단 근거는 조사 보고서 참고", confirmedActiveIn2026: true },
+      { id: "player-027", number: 27, name: "김태인", nameEn: null, position: "DF", year: "3학년", department: null, birthDate: "2005-08", height: 185, weight: 82, preferredFoot: null, school: "광문고", photo: null, captain: false,
+        bio: "U리그 3권역에서 경고 2회·퇴장 1회로 소속팀 내 최다 징계 기록.",
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 6, starts: null, goals: 1, assists: null, yellowCards: 2, redCards: 1 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-028", number: 28, name: "이유석", nameEn: null, position: "FW", year: "3학년", department: null, birthDate: "2005-08", height: 177, weight: 73, preferredFoot: null, school: "장훈고등학교", photo: null, captain: false,
+        bio: null,
+        stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 1, assists: null, yellowCards: 0, redCards: 0 },
+        verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
+      { id: "player-029", number: null, name: "강산", nameEn: null, position: "FW", year: null, department: "스포츠지도학과(2022학번, 2025년 자료 기준)", birthDate: null, height: null, weight: null, preferredFoot: null, school: null, photo: null, captain: false,
+        bio: "2025-06-10 경희대 공식미디어 기사에서 공격수로 인터뷰 게재(당시 스포츠지도학 2022학번). 2026시즌 KUFC·KUSF 공식 선수단 명단 어디에도 이름이 없어 2026시즌 비활동 또는 졸업 가능성이 있으나 확정된 사실은 아님.",
+        stats: { season: "2025", competition: "KUSF 대학축구 U리그(2025)", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null },
+        verification: "[단일 외부자료 - 2025년 기준] 2026 KUFC·KUSF 공식 명단에는 모두 부재 확인", confirmedActiveIn2026: false },
+    ],
+
+    staff: [
+      { id: "staff-001", name: "김광진", role: "감독", photo: null,
+        bio: "2026-03-01자 '제62회 한산대첩기 춘계대학축구연맹전' 경희대 1-3 연세대(준우승) 경기 관련 기사에서 감독으로 인용됨. 한국대학축구연맹(KUFC) 공식 팀페이지에서도 감독으로 등재." },
+      { id: "staff-002", name: "공태현", role: "코치 / 피지컬코치", photo: null,
+        bio: "KUFC 공식 팀페이지의 '임직원' 목록에 '피지컬코치'와 '코치' 두 직함으로 각각 등재되어 있음 — 두 역할을 겸직하는 것으로 추정." },
+      { id: "staff-003", name: "박우정", role: "코치", photo: null, bio: null },
+      { id: "staff-004", name: "박상진", role: "코치", photo: null, bio: null },
+      { id: "staff-005", name: "강석", role: "재활트레이너", photo: null,
+        bio: "KUFC 페이지 원문이 '강석재활트레이너'로 붙어 있어 이름/직함 경계를 DOM 구조로 재확인함. 이름 표기 재검증 권장." },
+    ],
+
+    matches: [
+      { id: "match-2026-cup-001", date: "2026-02-09", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (조별리그)", opponent: "인천대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 2 }, result: "승" },
+      { id: "match-2026-cup-002", date: "2026-02-11", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (조별리그)", opponent: "장안대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 2, opponent: 0 }, result: "승" },
+      { id: "match-2026-cup-003", date: "2026-02-13", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (조별리그, 조 1위 확정)", opponent: "국제사이버대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 3, opponent: 0 }, result: "승" },
+      { id: "match-2026-cup-004", date: "2026-02-18", time: "10:30", competition: "제62회 한산대첩기 춘계대학축구연맹전 (16강)", opponent: null, venue: null, homeAway: null, status: "결과 미확인(기사 작성 시점엔 예정 경기)", score: { kyunghee: null, opponent: null }, result: null },
+      { id: "match-2026-cup-005", date: "2026-02-24", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (라운드 미확인 — 대회 최종전으로 추정)", opponent: "연세대", venue: "통영공설운동장", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 3 }, result: "패 (대회 전체 준우승으로 마감)" },
+      { id: "match-2026-league-001", date: "2026-04-17", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "장안대", venue: "비봉습지공원축구장", homeAway: "원정", status: "종료", score: { kyunghee: 1, opponent: 0 }, result: "승" },
+      { id: "match-2026-league-002", date: "2026-04-24", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "명지대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "무" },
+      { id: "match-2026-league-003", date: "2026-05-01", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "국제사이버대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 4, opponent: 2 }, result: "승" },
+      { id: "match-2026-league-004", date: "2026-05-08", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "수원대", venue: "반송체육공원축구장", homeAway: "원정", status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "무" },
+      { id: "match-2026-league-005", date: "2026-05-15", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "아주대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 2, opponent: 3 }, result: "패" },
+      { id: "match-2026-league-006", date: "2026-06-05", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "한양대", venue: "한양대 에리카캠퍼스 대운동장", homeAway: "원정", status: "종료", score: { kyunghee: 3, opponent: 2 }, result: "승" },
+      { id: "match-2026-league-007", date: "2026-06-12", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "연성대", venue: "석수체육공원 축구장", homeAway: "원정", status: "종료", score: { kyunghee: 5, opponent: 0 }, result: "승" },
+      { id: "match-2026-league-008", date: "2026-09-18", time: "15:00", competition: "KUSF 대학축구 U리그 3권역", opponent: "아주대", venue: "아주대인조구장", homeAway: "원정", status: "예정", score: { kyunghee: null, opponent: null }, result: null },
+      { id: "match-2026-league-009", date: "2026-10-02", time: "15:00", competition: "KUSF 대학축구 U리그 3권역", opponent: "명지대", venue: "용인기흥레스피아축구장A", homeAway: "홈", status: "예정", score: { kyunghee: null, opponent: null }, result: null },
+      { id: "match-2026-league-010", date: "2026-10-30", time: "15:00", competition: "KUSF 대학축구 U리그 3권역", opponent: "한양대", venue: "용인기흥레스피아축구장A", homeAway: "홈", status: "예정", score: { kyunghee: null, opponent: null }, result: null },
+    ],
+
+    news: [],
+
+    teamRecord: {
+      current2026Standing: {
+        competition: "KUSF 대학축구 U리그 3권역",
+        asOfDate: "2026-09-10",
+        table: [
+          { rank: 1, team: "아주대", games: 7, points: 17, wins: 5, draws: 2, losses: 0, goalsFor: 17, goalsAgainst: 7, goalDiff: 10 },
+          { rank: 2, team: "경희대", games: 7, points: 14, wins: 4, draws: 2, losses: 1, goalsFor: 17, goalsAgainst: 9, goalDiff: 8 },
+          { rank: 3, team: "명지대", games: 7, points: 11, wins: 3, draws: 2, losses: 2, goalsFor: 15, goalsAgainst: 10, goalDiff: 5 },
+          { rank: 4, team: "한양대", games: 7, points: 11, wins: 3, draws: 2, losses: 2, goalsFor: 11, goalsAgainst: 8, goalDiff: 3 },
+          { rank: 5, team: "수원대", games: 7, points: 10, wins: 2, draws: 4, losses: 1, goalsFor: 8, goalsAgainst: 7, goalDiff: 1 },
+          { rank: 6, team: "연성대", games: 7, points: 6, wins: 2, draws: 0, losses: 5, goalsFor: 6, goalsAgainst: 16, goalDiff: -10 },
+          { rank: 7, team: "국제사이버대", games: 7, points: 5, wins: 1, draws: 2, losses: 4, goalsFor: 12, goalsAgainst: 19, goalDiff: -7 },
+          { rank: 8, team: "장안대", games: 7, points: 2, wins: 0, draws: 2, losses: 5, goalsFor: 8, goalsAgainst: 18, goalDiff: -10 },
+        ],
+      },
+      historyLeague: [
+        { year: "2026", games: 7,  points: 14, wins: 4,  draws: 2, losses: 1, goalsFor: 17, goalsAgainst: 9,  goalDiff: 8 },
+        { year: "2025", games: 10, points: 12, wins: 3,  draws: 3, losses: 4, goalsFor: 11, goalsAgainst: 19, goalDiff: -8 },
+        { year: "2024", games: 16, points: 21, wins: 6,  draws: 3, losses: 7, goalsFor: 28, goalsAgainst: 25, goalDiff: 3 },
+        { year: "2023", games: 16, points: 18, wins: 5,  draws: 3, losses: 8, goalsFor: 19, goalsAgainst: 22, goalDiff: -3 },
+        { year: "2022", games: 16, points: 21, wins: 6,  draws: 3, losses: 7, goalsFor: 24, goalsAgainst: 23, goalDiff: 1 },
+        { year: "2021", games: 14, points: 24, wins: 7,  draws: 3, losses: 4, goalsFor: 27, goalsAgainst: 17, goalDiff: 10 },
+        { year: "2020", games: 8,  points: 13, wins: 4,  draws: 1, losses: 3, goalsFor: 19, goalsAgainst: 12, goalDiff: 7 },
+        { year: "2019", games: 16, points: 34, wins: 11, draws: 1, losses: 4, goalsFor: 35, goalsAgainst: 20, goalDiff: 15 },
+        { year: "2018", games: 12, points: 29, wins: 9,  draws: 2, losses: 1, goalsFor: 23, goalsAgainst: 6,  goalDiff: 17 },
+      ],
+      historyTournament: [
+        { year: "2020", games: 4, points: 9, wins: 3, draws: 0, losses: 1, goalsFor: 6, goalsAgainst: 3, goalDiff: 3 },
+        { year: "2019", games: 1, points: 0, wins: 0, draws: 0, losses: 1, goalsFor: 1, goalsAgainst: 3, goalDiff: -2 },
+        { year: "2018", games: 2, points: 3, wins: 1, draws: 0, losses: 1, goalsFor: 3, goalsAgainst: 2, goalDiff: 1 },
+      ],
+    },
+  };
+
+  function fmt(v, unit) {
+    if (v === null || v === undefined || v === "") return '<span class="unverified">미확인</span>';
+    return `${v}${unit || ""}`;
+  }
+  function escapeAttr(str) {
+    return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function dotDate(iso) {
+    return iso ? iso.replaceAll("-", ".") : iso;
+  }
+  function emptyStateHTML(title, desc) {
+    return `<div class="empty-state"><div class="icon">Coming Soon</div><h3>${title}</h3><p>${desc}</p></div>`;
+  }
+  function hasConflict(p) {
+    return !!(p.verification && p.verification.includes("정보 충돌"));
+  }
+  function conflictBadge(p) {
+    if (!hasConflict(p)) return "";
+    const tip = escapeAttr(p.bio || p.verification);
+    return `<span class="conflict-badge" title="${tip}">출처 상이 ⓘ</span>`;
+  }
+  const activePlayers = () => DATA.players.filter((p) => p.confirmedActiveIn2026 !== false);
+  const inactivePlayers = () => DATA.players.filter((p) => p.confirmedActiveIn2026 === false);
 
   // ---- 페이지(사이트 프레임) 전환 ----
   const pages = {
     home: document.getElementById("page-home"),
     roster: document.getElementById("page-roster"),
     schedule: document.getElementById("page-schedule"),
+    news: document.getElementById("page-news"),
     about: document.getElementById("page-about"),
   };
   const heroBand = document.getElementById("hero-band");
@@ -896,7 +1238,6 @@
     Object.entries(pages).forEach(([key, el]) => { el.hidden = key !== name; });
     heroBand.hidden = name !== "home";
     document.querySelectorAll(".nav-link").forEach((btn) => {
-      btn.toggleAttribute("aria-current", btn.dataset.nav === name);
       if (btn.dataset.nav === name) btn.setAttribute("aria-current", "page");
       else btn.removeAttribute("aria-current");
     });
@@ -906,7 +1247,39 @@
 
   navButtons.forEach((btn) => btn.addEventListener("click", () => goTo(btn.dataset.nav)));
 
-  // ---- 선수단: 목록 / 상세 ----
+  // ---- 홈 히어로: 파생 가능한 값 자동 계산 ----
+  function renderHeroDerived() {
+    const active = activePlayers();
+    document.getElementById("chip-players").textContent = active.length ? `${active.length}명` : "정보 입력 예정";
+
+    const comps = DATA.matches.map((m) => m.competition).filter(Boolean);
+    const compCounts = {};
+    comps.forEach((c) => { compCounts[c] = (compCounts[c] || 0) + 1; });
+    const topComp = Object.entries(compCounts).sort((a, b) => b[1] - a[1])[0];
+    if (topComp) {
+      document.getElementById("chip-league").textContent = topComp[0];
+      document.getElementById("about-league").textContent = topComp[0];
+    }
+
+    const homeVenues = DATA.matches.filter((m) => m.homeAway === "홈" && m.venue).map((m) => m.venue);
+    const venueCounts = {};
+    homeVenues.forEach((v) => { venueCounts[v] = (venueCounts[v] || 0) + 1; });
+    const topVenue = Object.entries(venueCounts).sort((a, b) => b[1] - a[1])[0];
+    if (topVenue) {
+      document.getElementById("chip-venue").textContent = topVenue[0];
+      document.getElementById("about-venue").textContent = topVenue[0];
+    }
+
+    const st = DATA.teamRecord.current2026Standing;
+    const us = st && st.table.find((r) => r.team === "경희대");
+    const summaryEl = document.getElementById("hero-summary");
+    if (us) {
+      document.getElementById("hero-eyebrow").textContent = `2026 시즌 · ${st.competition}`;
+      summaryEl.textContent = `한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 바탕으로 만든 경희대학교 축구부 소개 페이지입니다. ${st.competition}에서 ${us.rank}위(${us.wins}승 ${us.draws}무 ${us.losses}패, ${dotDate(st.asOfDate)} 기준)를 달리고 있습니다.`;
+    }
+  }
+
+  // ---- 선수단: 목록 / 상세 / 필터 / 검색 ----
   const grid = document.getElementById("grid");
   const rosterCount = document.getElementById("roster-count");
   const homePreview = document.getElementById("home-preview");
@@ -914,9 +1287,35 @@
   const rosterDetail = document.getElementById("roster-detail");
   const detailContent = document.getElementById("detail-content");
   const backBtn = document.getElementById("back-btn");
+  const positionFilterEl = document.getElementById("position-filter");
+  const searchInput = document.getElementById("player-search");
 
-  function emptyStateHTML(title, desc) {
-    return `<div class="empty-state"><div class="icon">Coming Soon</div><h3>${title}</h3><p>${desc}</p></div>`;
+  const POSITIONS = ["전체", "GK", "DF", "MF", "FW", "미확인"];
+  let activeFilter = "전체";
+  let searchQuery = "";
+
+  function renderPositionFilter() {
+    positionFilterEl.innerHTML = "";
+    POSITIONS.forEach((pos) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "filter-pill" + (pos === activeFilter ? " active" : "");
+      btn.textContent = pos;
+      btn.addEventListener("click", () => {
+        activeFilter = pos;
+        renderPositionFilter();
+        renderGrid();
+      });
+      positionFilterEl.appendChild(btn);
+    });
+  }
+
+  function filteredPlayers() {
+    let list = activePlayers();
+    if (activeFilter === "미확인") list = list.filter((p) => !p.position);
+    else if (activeFilter !== "전체") list = list.filter((p) => p.position === activeFilter);
+    if (searchQuery) list = list.filter((p) => p.name.includes(searchQuery));
+    return list;
   }
 
   function playerCard(p) {
@@ -924,15 +1323,16 @@
     card.type = "button";
     card.className = "player-card";
     card.setAttribute("aria-label", `${p.name} 상세 정보 보기`);
+    const apps = p.stats && p.stats.appearances != null ? p.stats.appearances : "미확인";
     card.innerHTML = `
       <div class="card-top">
-        <div class="card-num">${p.num}</div>
-        <div class="pos-pill">${p.pos}</div>
+        <div class="card-num">${p.number ?? "-"}</div>
+        <div class="pos-pill">${p.position ?? "미확인"}</div>
       </div>
       <div class="card-name">${p.name}</div>
       <div class="card-sub">
-        <span>출전</span>
-        <b>${p.apps}/${SEASON_MATCHES}</b>
+        <span>U리그 출전</span>
+        <b>${apps}</b>
       </div>
     `;
     card.addEventListener("click", () => {
@@ -943,22 +1343,40 @@
   }
 
   function renderGrid() {
-    rosterCount.textContent = players.length ? `${players.length} PLAYERS` : "선수단 정보 입력 예정";
-    if (players.length === 0) {
-      grid.innerHTML = emptyStateHTML("선수단 명단 준비 중입니다", "선수 정보가 도착하면 이곳에 카드로 표시됩니다.");
+    const active = activePlayers();
+    rosterCount.textContent = active.length ? `${active.length} PLAYERS` : "선수단 정보 입력 예정";
+    const list = filteredPlayers();
+    if (list.length === 0) {
+      grid.innerHTML = active.length === 0
+        ? emptyStateHTML("선수단 명단 준비 중입니다", "선수 정보가 도착하면 이곳에 카드로 표시됩니다.")
+        : emptyStateHTML("검색 결과가 없습니다", "다른 이름이나 포지션으로 다시 찾아보세요.");
       return;
     }
     grid.innerHTML = "";
-    players.forEach((p) => grid.appendChild(playerCard(p)));
+    list.forEach((p) => grid.appendChild(playerCard(p)));
+  }
+
+  function renderInactiveNote() {
+    const el = document.getElementById("inactive-note");
+    const list = inactivePlayers();
+    if (list.length === 0) { el.innerHTML = ""; return; }
+    el.className = "inactive-note";
+    el.innerHTML = `
+      <h3>졸업 · 재적 미확인 (${list.length}명)</h3>
+      ${list.map((p) => `<p><b>${p.name}</b> — ${p.bio || "2026시즌 재적 여부가 확인되지 않습니다."}</p>`).join("")}
+    `;
   }
 
   function renderHomePreview() {
-    if (players.length === 0) {
+    const active = activePlayers();
+    if (active.length === 0) {
       homePreview.innerHTML = emptyStateHTML("주요 선수 준비 중입니다", "선수단 정보가 등록되면 이곳에 대표 선수가 소개됩니다.");
       return;
     }
     homePreview.innerHTML = "";
-    const featured = [...players].sort((a, b) => (b.captain === a.captain ? b.apps - a.apps : b.captain - a.captain)).slice(0, 3);
+    const featured = [...active]
+      .sort((a, b) => (Number(!!b.captain) - Number(!!a.captain)) || ((b.stats?.goals ?? -1) - (a.stats?.goals ?? -1)))
+      .slice(0, 3);
     featured.forEach((p) => homePreview.appendChild(playerCard(p)));
   }
 
@@ -967,81 +1385,39 @@
     rosterList.hidden = false;
   }
 
-  // ---- 홈 위젯: 최근 경기 결과 / 리그 순위 ----
-  function renderScoreboard() {
-    if (!recentMatch) {
-      document.getElementById("scoreboard-date").textContent = "";
-      document.getElementById("scoreboard").innerHTML = emptyStateHTML("최근 경기 정보 준비 중", "경기 결과가 등록되면 스코어보드가 표시됩니다.");
-      return;
-    }
-    const m = recentMatch;
-    const result = m.usScore > m.themScore ? "승" : m.usScore < m.themScore ? "패" : "무";
-    document.getElementById("scoreboard-date").textContent = m.date;
-    document.getElementById("scoreboard").innerHTML = `
-      <div class="scoreboard-row">
-        <div class="scoreboard-team">
-          <div class="scoreboard-badge us">${CLUB_SHORT}</div>
-          <span>${CLUB_NAME}</span>
-        </div>
-        <div class="scoreboard-score">${m.usScore} : ${m.themScore}</div>
-        <div class="scoreboard-team">
-          <div class="scoreboard-badge them">${m.opponent.slice(0, 2)}</div>
-          <span>${m.opponent}</span>
-        </div>
-      </div>
-      <div class="scoreboard-meta">
-        <span class="scoreboard-result">${result}</span>
-        &nbsp; ${m.venue}
-      </div>
-    `;
-  }
-
-  function renderStandings() {
-    const body = document.getElementById("standings-body");
-    if (standings.length === 0) {
-      body.innerHTML = `<tr><td class="empty-cell" colspan="6">리그 순위 정보 준비 중입니다</td></tr>`;
-      return;
-    }
-    body.innerHTML = standings
-      .map(
-        (s) => `
-      <tr class="${s.isUs ? "us" : ""}">
-        <td>${s.rank}</td>
-        <td>${s.team}</td>
-        <td>${s.pts}</td>
-        <td>${s.w}</td>
-        <td>${s.d}</td>
-        <td>${s.l}</td>
-      </tr>`
-      )
-      .join("");
-  }
-
   function showDetail(p) {
-    const pct = SEASON_MATCHES ? Math.round((p.apps / SEASON_MATCHES) * 100) : 0;
+    const s = p.stats || {};
     detailContent.innerHTML = `
       <div class="detail-head">
-        <div class="detail-num">${p.num}</div>
+        <div class="detail-num">${p.number ?? "-"}</div>
         <div class="detail-id">
           <h2>${p.name}</h2>
           <div class="detail-tags">
-            <span class="tag pos">${p.posLabel}</span>
+            <span class="tag pos">${p.position ?? "미확인"}</span>
             ${p.captain ? '<span class="tag cap">주장</span>' : ""}
+            ${conflictBadge(p)}
           </div>
         </div>
       </div>
       <div class="stat-grid">
-        <div class="stat"><div class="label">나이</div><div class="value">${p.age}세</div></div>
-        <div class="stat"><div class="label">등번호</div><div class="value">${p.num}</div></div>
-        <div class="stat"><div class="label">출신학교</div><div class="value" style="font-size:15px">${p.school}</div></div>
-        <div class="stat"><div class="label">신장 / 체중</div><div class="value">${p.height}cm / ${p.weight}kg</div></div>
-        <div class="stat"><div class="label">입단연도</div><div class="value">${p.joined}</div></div>
+        <div class="stat"><div class="label">학년</div><div class="value" style="font-size:16px">${fmt(p.year)}</div></div>
+        <div class="stat"><div class="label">학과</div><div class="value" style="font-size:15px">${fmt(p.department)}</div></div>
+        <div class="stat"><div class="label">출신학교</div><div class="value" style="font-size:15px">${fmt(p.school)}</div></div>
+        <div class="stat"><div class="label">신장 / 체중</div><div class="value" style="font-size:16px">${fmt(p.height, "cm")} / ${fmt(p.weight, "kg")}</div></div>
+        <div class="stat"><div class="label">주발</div><div class="value" style="font-size:16px">${fmt(p.preferredFoot)}</div></div>
+        <div class="stat"><div class="label">출생년월</div><div class="value" style="font-size:15px">${fmt(p.birthDate)}</div></div>
       </div>
       <div class="apps-block">
-        <div class="label">경기 출전 수 (시즌 ${SEASON_MATCHES}경기 기준)</div>
-        <div class="apps-bar-track"><div class="apps-bar-fill" style="width:${pct}%"></div></div>
-        <div class="apps-caption"><span>${p.apps}경기 출전</span><span>${pct}%</span></div>
+        <div class="label">시즌 기록${s.season ? ` · ${s.season}` : ""}${s.competition ? ` · ${s.competition}` : ""}</div>
+        <div class="stat-grid">
+          <div class="stat"><div class="label">출전</div><div class="value">${fmt(s.appearances)}</div></div>
+          <div class="stat"><div class="label">득점</div><div class="value">${fmt(s.goals)}</div></div>
+          <div class="stat"><div class="label">도움</div><div class="value">${fmt(s.assists)}</div></div>
+          <div class="stat"><div class="label">경고 / 퇴장</div><div class="value">${fmt(s.yellowCards)} / ${fmt(s.redCards)}</div></div>
+        </div>
+        ${s.note ? `<p class="note">${s.note}</p>` : ""}
       </div>
+      ${p.bio ? `<p class="bio-text">${p.bio}</p>` : ""}
     `;
     rosterList.hidden = true;
     rosterDetail.hidden = false;
@@ -1049,74 +1425,244 @@
   }
 
   backBtn.addEventListener("click", resetRosterView);
+  searchInput.addEventListener("input", () => {
+    searchQuery = searchInput.value.trim();
+    renderGrid();
+  });
+
+  // ---- 홈 위젯: 최근 경기 결과 ----
+  function matchResultLabel(m) {
+    if (typeof m.result === "string" && m.result) return m.result;
+    if (m.score && m.score.kyunghee !== null && m.score.opponent !== null) {
+      if (m.score.kyunghee > m.score.opponent) return "승";
+      if (m.score.kyunghee < m.score.opponent) return "패";
+      return "무";
+    }
+    return null;
+  }
+
+  function resultClass(m) {
+    if (m.status === "예정") return "upcoming";
+    const label = matchResultLabel(m);
+    if (label === null) return "unknown";
+    if (label.startsWith("승")) return "win";
+    if (label.startsWith("패")) return "lose";
+    if (label.startsWith("무")) return "draw";
+    return "unknown";
+  }
+
+  function resultLabel(m) {
+    if (m.status === "예정") return "예정";
+    const label = matchResultLabel(m);
+    if (label !== null) return label;
+    return m.status || "미확인";
+  }
+
+  function renderScoreboard() {
+    const played = DATA.matches.filter((m) => m.score && m.score.kyunghee !== null && m.score.opponent !== null);
+    if (played.length === 0) {
+      document.getElementById("scoreboard-date").textContent = "";
+      document.getElementById("scoreboard").innerHTML = emptyStateHTML("최근 경기 정보 준비 중", "경기 결과가 등록되면 스코어보드가 표시됩니다.");
+      return;
+    }
+    const m = played.slice().sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+    const label = resultLabel(m);
+    document.getElementById("scoreboard-date").textContent = dotDate(m.date);
+    document.getElementById("scoreboard").innerHTML = `
+      <div class="scoreboard-row">
+        <div class="scoreboard-team">
+          <div class="scoreboard-badge us">${CLUB_SHORT}</div>
+          <span>${CLUB_NAME}</span>
+        </div>
+        <div class="scoreboard-score">${m.score.kyunghee} : ${m.score.opponent}</div>
+        <div class="scoreboard-team">
+          <div class="scoreboard-badge them">${(m.opponent || "?").slice(0, 2)}</div>
+          <span>${fmt(m.opponent)}</span>
+        </div>
+      </div>
+      <div class="scoreboard-meta">
+        <span class="scoreboard-result">${label}</span>
+        &nbsp; ${fmt(m.venue)}
+      </div>
+    `;
+  }
+
+  // ---- 홈 위젯: 리그 순위 ----
+  function renderStandings() {
+    const body = document.getElementById("standings-body");
+    const st = DATA.teamRecord.current2026Standing;
+    if (!st || !st.table.length) {
+      body.innerHTML = `<tr><td class="empty-cell" colspan="7">리그 순위 정보 준비 중입니다</td></tr>`;
+      return;
+    }
+    document.getElementById("standings-asof").textContent = `${dotDate(st.asOfDate)} 기준`;
+    body.innerHTML = st.table
+      .map(
+        (r) => `
+      <tr class="${r.team === "경희대" ? "us" : ""}">
+        <td>${r.rank}</td>
+        <td>${r.team}</td>
+        <td>${fmt(r.points)}</td>
+        <td>${fmt(r.wins)}</td>
+        <td>${fmt(r.draws)}</td>
+        <td>${fmt(r.losses)}</td>
+        <td>${fmt(r.goalDiff)}</td>
+      </tr>`
+      )
+      .join("");
+  }
+
+  // ---- 구단소개: 팀 통산 기록 ----
+  function renderHistory(bodyId, rows) {
+    const body = document.getElementById(bodyId);
+    if (!rows || rows.length === 0) {
+      body.innerHTML = `<tr><td class="empty-cell" colspan="9">기록 준비 중입니다</td></tr>`;
+      return;
+    }
+    body.innerHTML = rows
+      .map(
+        (r) => `
+      <tr>
+        <td>${fmt(r.year)}</td>
+        <td>${fmt(r.games)}</td>
+        <td>${fmt(r.points)}</td>
+        <td>${fmt(r.wins)}</td>
+        <td>${fmt(r.draws)}</td>
+        <td>${fmt(r.losses)}</td>
+        <td>${fmt(r.goalsFor)}</td>
+        <td>${fmt(r.goalsAgainst)}</td>
+        <td>${fmt(r.goalDiff)}</td>
+      </tr>`
+      )
+      .join("");
+  }
 
   // ---- 경기일정 ----
-  function fixtureResult(f) {
-    if (f.us === null) return "upcoming";
-    if (f.us > f.them) return "win";
-    if (f.us < f.them) return "lose";
-    return "draw";
+  function competitionGroup(m) {
+    return m.competition && m.competition.includes("리그") ? "리그" : "컵대회";
   }
-  const RESULT_LABEL = { win: "승", lose: "패", draw: "무", upcoming: "예정" };
 
   function renderSchedule() {
     const nextMatchEl = document.getElementById("next-match");
     const body = document.getElementById("fixtures-body");
 
-    if (fixtures.length === 0) {
+    if (DATA.matches.length === 0) {
       document.getElementById("record-summary").textContent = "정보 준비 중";
       nextMatchEl.innerHTML = emptyStateHTML("경기 일정 준비 중입니다", "시즌 일정이 등록되면 다음 경기와 전체 결과가 이곳에 표시됩니다.");
-      body.innerHTML = `<tr><td class="empty-cell" colspan="6">등록된 경기가 없습니다</td></tr>`;
+      body.innerHTML = `<tr><td class="empty-cell" colspan="7">등록된 경기가 없습니다</td></tr>`;
       return;
     }
 
-    const played = fixtures.filter((f) => f.us !== null);
-    const w = played.filter((f) => fixtureResult(f) === "win").length;
-    const d = played.filter((f) => fixtureResult(f) === "draw").length;
-    const l = played.filter((f) => fixtureResult(f) === "lose").length;
-    document.getElementById("record-summary").textContent = `${w}승 ${d}무 ${l}패 · ${played.length}/${fixtures.length}경기`;
+    const sorted = [...DATA.matches].sort((a, b) => (a.date > b.date ? 1 : -1));
 
-    const next = fixtures.find((f) => f.us === null);
+    const groups = {};
+    sorted.forEach((m) => {
+      const g = competitionGroup(m);
+      groups[g] = groups[g] || { total: 0, played: 0, w: 0, d: 0, l: 0 };
+      groups[g].total++;
+      if (m.score && m.score.kyunghee !== null && m.score.opponent !== null) {
+        groups[g].played++;
+        const cls = resultClass(m);
+        if (cls === "win") groups[g].w++;
+        else if (cls === "draw") groups[g].d++;
+        else if (cls === "lose") groups[g].l++;
+      }
+    });
+    document.getElementById("record-summary").textContent = Object.entries(groups)
+      .map(([name, g]) => `${name} ${g.w}승 ${g.d}무 ${g.l}패 (${g.played}/${g.total}경기)`)
+      .join(" · ");
+
+    const next = sorted.find((m) => m.status === "예정");
     if (next) {
-      const venue = next.side === "홈" ? HOME_VENUE : opponentVenue[next.opp];
-      const dday = Math.max(0, Math.round((new Date(next.date.replaceAll(".", "-")) - new Date()) / 86400000));
+      const dday = Math.max(0, Math.round((new Date(next.date) - new Date()) / 86400000));
       nextMatchEl.innerHTML = `
         <div class="next-match">
           <div>
-            <div class="next-match-label">다음 경기 · ${next.round}R</div>
-            <div class="next-match-teams">${CLUB_NAME} ${next.side === "홈" ? "vs" : "@"} ${next.opp}</div>
-            <div class="next-match-meta">${next.date} · ${venue}</div>
+            <div class="next-match-label">다음 경기</div>
+            <div class="next-match-teams">${CLUB_NAME} ${next.homeAway === "홈" ? "vs" : "@"} ${fmt(next.opponent)}</div>
+            <div class="next-match-meta">${dotDate(next.date)}${next.time ? ` ${next.time}` : ""} · ${fmt(next.venue)}</div>
           </div>
           <div class="next-match-dday">D-${dday}</div>
         </div>
       `;
     } else {
-      nextMatchEl.innerHTML = `<div class="next-match"><div class="next-match-teams">시즌 일정이 모두 종료되었습니다.</div></div>`;
+      nextMatchEl.innerHTML = "";
     }
 
-    body.innerHTML = fixtures
-      .map((f) => {
-        const status = fixtureResult(f);
-        const venue = f.side === "홈" ? HOME_VENUE : opponentVenue[f.opp];
-        const scoreText = f.us === null ? "-" : `${f.us} : ${f.them}`;
+    body.innerHTML = sorted
+      .map((m) => {
+        const cls = resultClass(m);
+        const label = resultLabel(m);
+        const scoreText = m.score && m.score.kyunghee !== null && m.score.opponent !== null
+          ? `${m.score.kyunghee} : ${m.score.opponent}`
+          : "-";
         return `
-        <tr class="${status === "upcoming" ? "upcoming" : ""}">
-          <td>${f.round}</td>
-          <td>${f.date}</td>
-          <td>${f.side}</td>
-          <td>${f.opp}</td>
-          <td><span class="status-pill ${status}">${RESULT_LABEL[status]}</span> ${scoreText}</td>
-          <td>${venue}</td>
+        <tr class="${cls === "upcoming" ? "upcoming" : ""}">
+          <td>${dotDate(m.date)}${m.time ? `<br>${m.time}` : ""}</td>
+          <td>${fmt(m.competition)}</td>
+          <td>${fmt(m.opponent)}</td>
+          <td>${fmt(m.homeAway)}</td>
+          <td>${scoreText}</td>
+          <td><span class="status-pill ${cls}">${label}</span></td>
+          <td>${fmt(m.venue)}</td>
         </tr>`;
       })
       .join("");
   }
 
+  // ---- 소식 ----
+  function renderNews() {
+    const list = document.getElementById("news-list");
+    document.getElementById("news-count").textContent = DATA.news.length ? `${DATA.news.length}건` : "";
+    if (DATA.news.length === 0) {
+      list.innerHTML = emptyStateHTML("소식 준비 중입니다", "보도자료·공지 등이 확인되면 이곳에 목록으로 표시됩니다. (이번 조사 범위 밖)");
+      return;
+    }
+    list.innerHTML = [...DATA.news]
+      .sort((a, b) => (a.date < b.date ? 1 : -1))
+      .map(
+        (n) => `
+      <div class="news-card">
+        <div class="news-eyebrow"><span class="cat">${fmt(n.category)}</span><span>${dotDate(n.date)}</span></div>
+        <div class="news-title">${n.title}</div>
+        <div class="news-summary">${n.summary || ""}</div>
+        ${n.url ? `<a class="news-link" href="${n.url}" target="_blank" rel="noopener">자세히 보기 →</a>` : ""}
+      </div>`
+      )
+      .join("");
+  }
+
+  // ---- 구단소개: 코칭스태프 ----
+  function renderStaff() {
+    const el = document.getElementById("staff-grid");
+    if (DATA.staff.length === 0) {
+      el.innerHTML = emptyStateHTML("코칭스태프 정보 준비 중입니다", "감독·코치진 정보가 확인되면 이곳에 표시됩니다.");
+      return;
+    }
+    el.innerHTML = DATA.staff
+      .map(
+        (s) => `
+      <div class="staff-card">
+        <div class="staff-role">${fmt(s.role)}</div>
+        <div class="staff-name">${s.name}</div>
+        ${s.bio ? `<div class="staff-bio">${s.bio}</div>` : ""}
+      </div>`
+      )
+      .join("");
+  }
+
+  renderPositionFilter();
+  renderHeroDerived();
   renderGrid();
+  renderInactiveNote();
   renderHomePreview();
   renderScoreboard();
   renderStandings();
+  renderHistory("history-league-body", DATA.teamRecord.historyLeague);
+  renderHistory("history-cup-body", DATA.teamRecord.historyTournament);
   renderSchedule();
+  renderNews();
+  renderStaff();
   goTo("home");
 </script>
 </body>
