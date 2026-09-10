@@ -36,8 +36,8 @@
       --text: #f0e8e5;
       --text-muted: #b6a29d;
       --line: #3a2e2b;
-      --accent: #c8453d;
-      --accent-soft: #3d211d;
+      --accent: #ad4740;
+      --accent-soft: #3a2220;
       --gold: #d3a94f;
       --gold-soft: #2b2413;
       --lose: #7fa7cf;
@@ -508,7 +508,7 @@
   .table-scroll { overflow-x: auto; }
   .fixtures {
     width: 100%;
-    min-width: 640px;
+    min-width: 520px;
     border-collapse: collapse;
     font-size: 13.5px;
   }
@@ -528,9 +528,37 @@
     background: var(--bg);
   }
   .fixtures td { font-variant-numeric: tabular-nums; }
-  .fixtures td:nth-child(3) { text-align: left; font-weight: 600; }
+  .fixtures td:nth-child(2) { text-align: left; font-weight: 600; }
   .fixtures tr.upcoming td { color: var(--text-muted); }
-  .fixtures tr.upcoming td:nth-child(3) { color: var(--text); }
+  .fixtures tr.upcoming td:nth-child(2) { color: var(--text); }
+  .stage-note {
+    display: block;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  .comp-group { margin-bottom: 28px; }
+  .comp-group-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .comp-group-head h3 { margin: 0; font-size: 14.5px; font-weight: 700; }
+  .comp-tag {
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 3px 11px;
+    border-radius: 100px;
+    font-weight: 700;
+  }
+  .comp-tag.league { background: var(--accent-soft); color: var(--accent); }
+  .comp-tag.cup { background: var(--gold-soft); color: var(--gold); }
 
   .status-pill {
     display: inline-block;
@@ -846,6 +874,33 @@
     line-height: 1.55;
   }
 
+  .trophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: clamp(28px, 5vw, 40px);
+  }
+  .trophy {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .trophy-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .trophy-count {
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .trophy-years {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
   /* ---- 소식 ---- */
   .news-list {
     display: flex;
@@ -917,7 +972,7 @@
     <p id="hero-summary">경희대학교 축구부를 소개하는 페이지입니다.</p>
     <button class="cta" data-nav="roster">선수단 보기 →</button>
     <div class="hero-chips">
-      <div class="hero-chip"><span class="k">창단</span><span class="v">미확인</span></div>
+      <div class="hero-chip"><span class="k">창단</span><span class="v">1955년</span></div>
       <div class="hero-chip"><span class="k">홈구장</span><span class="v" id="chip-venue">정보 입력 예정</span></div>
       <div class="hero-chip"><span class="k">소속리그</span><span class="v" id="chip-league">정보 입력 예정</span></div>
       <div class="hero-chip"><span class="k">등록 선수</span><span class="v" id="chip-players">정보 입력 예정</span></div>
@@ -988,14 +1043,7 @@
 
     <div class="filter-row" id="schedule-filter"></div>
 
-    <div class="table-scroll">
-      <table class="fixtures">
-        <thead>
-          <tr><th>날짜</th><th>대회</th><th>상대</th><th>구분</th><th>스코어</th><th>결과</th><th>경기장</th></tr>
-        </thead>
-        <tbody id="fixtures-body"></tbody>
-      </table>
-    </div>
+    <div id="fixtures-groups"></div>
   </main>
 
   <!-- ===== 소식 ===== -->
@@ -1014,18 +1062,19 @@
       <span>KUFC·KUSF 공식 자료 기준</span>
     </div>
 
-    <p class="about-lede">경희대학교 축구부는 한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 바탕으로 소개됩니다. 확인되지 않은 항목은 "미확인"으로 표시하며, 임의로 채워 넣지 않습니다.</p>
+    <p class="about-lede">경희대학교 축구부는 한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 바탕으로 소개됩니다. 확인되지 않은 항목은 "–"로 남기며, 임의로 채워 넣지 않습니다.</p>
 
     <div class="stat-grid">
-      <div class="stat"><div class="label">구단명</div><div class="value" style="font-size:16px">경희대학교 축구부</div></div>
+      <div class="stat"><div class="label">정식 명칭</div><div class="value" style="font-size:15px">경희대학교 축구부<br><span style="font-size:12px;color:var(--text-muted)">慶熙大學校 蹴球部</span></div></div>
+      <div class="stat"><div class="label">창단</div><div class="value" style="font-size:16px">1955년</div></div>
       <div class="stat"><div class="label">소속 캠퍼스</div><div class="value" style="font-size:15px">국제캠퍼스 (경기도 용인시)</div></div>
+      <div class="stat"><div class="label">홈구장</div><div class="value" style="font-size:15px">경희대학교 대운동장</div></div>
+      <div class="stat"><div class="label">소속리그</div><div class="value" style="font-size:15px" id="about-league">정보 입력 예정</div></div>
       <div class="stat"><div class="label">연락처</div><div class="value" style="font-size:14px">경기도 용인시 기흥구 덕영대로 1732<br>031-201-3261</div></div>
       <div class="stat"><div class="label">학교 홈페이지</div><div class="value" style="font-size:15px"><a href="https://www.khu.ac.kr" target="_blank" rel="noopener" style="color:var(--accent)">khu.ac.kr</a></div></div>
-      <div class="stat"><div class="label">홈구장</div><div class="value" style="font-size:15px" id="about-venue">정보 입력 예정</div></div>
-      <div class="stat"><div class="label">소속리그</div><div class="value" style="font-size:15px" id="about-league">정보 입력 예정</div></div>
       <div class="stat"><div class="label">구단 컬러</div><div class="value" style="font-size:15px">레드 · 골드</div></div>
-      <div class="stat"><div class="label">창단</div><div class="value" style="font-size:15px">미확인</div></div>
     </div>
+    <p class="caption">창단연도·정식명칭·홈구장은 나무위키 기준입니다. 2026시즌 리그 경기는 기흥레스피아 축구장에서 열리고 있습니다.</p>
 
     <h3 class="section-heading">엠블럼</h3>
     <div class="crest-showcase">
@@ -1036,8 +1085,19 @@
     <h3 class="section-heading">코칭스태프</h3>
     <div class="staff-grid" id="staff-grid"></div>
 
+    <h3 class="section-heading">우승 기록</h3>
+    <p class="caption">나무위키 기준. KUFC·KUSF 공식 기록이 아닌 외부자료입니다.</p>
+    <div class="trophy-grid">
+      <div class="trophy"><div class="trophy-name">U리그1 (1부)</div><div class="trophy-count">1회</div><div class="trophy-years">2008</div></div>
+      <div class="trophy"><div class="trophy-name">춘계대학축구연맹전</div><div class="trophy-count">8회</div><div class="trophy-years">1966, 1972, 1973, 1976, 1990, 2000, 2003, 2015</div></div>
+      <div class="trophy"><div class="trophy-name">추계대학축구연맹전</div><div class="trophy-count">7회</div><div class="trophy-years">1969, 1973, 1974, 1975, 1976, 1977, 2025</div></div>
+      <div class="trophy"><div class="trophy-name">전국대학축구연맹전</div><div class="trophy-count">5회</div><div class="trophy-years">1962, 1968, 1977, 1987, 1994</div></div>
+      <div class="trophy"><div class="trophy-name">전국축구선수권대회</div><div class="trophy-count">2회</div><div class="trophy-years">1960, 1961</div></div>
+      <div class="trophy"><div class="trophy-name">대통령배 전국축구대회</div><div class="trophy-count">2회</div><div class="trophy-years">1978, 2001</div></div>
+    </div>
+
     <h3 class="section-heading">팀 통산 기록 (KUSF 공식, 2018~2026)</h3>
-    <p class="caption">나무위키에는 1955년 창단 이후의 전국대회·연맹전 우승 이력(1960~2025)이 별도로 전해지나, 이 표는 그것과 다른 자료입니다 — KUSF 시스템에 남아있는 리그·토너먼트 경기만의 집계이므로 두 자료를 합산하지 마세요.</p>
+    <p class="caption">위 우승 기록과 달리 이 표는 KUSF 시스템에 남아있는 2018~2026 리그·토너먼트 경기만의 집계입니다 — 두 자료를 합산하지 마세요.</p>
     <div class="subheading">리그</div>
     <div class="table-scroll">
       <table class="standings" id="history-league-table">
@@ -1056,7 +1116,7 @@
 
   <footer>
     선수단·경기 기록은 한국대학축구연맹(KUFC)·한국대학스포츠협의회(KUSF) 공식 자료를 근거로 합니다. 본 페이지는 비공식 소개 페이지입니다.<br>
-    "미확인"으로 표시된 항목은 출처에서도 확인되지 않아 임의로 채우지 않은 값입니다. 포지션이 공식 자료마다 다르게 등록된 선수는 상세 페이지에 "출처 상이" 표시가 함께 붙습니다.
+"–"로 표시된 항목은 출처에서도 확인되지 않아 임의로 채우지 않은 값입니다. 포지션이 공식 자료마다 다르게 등록된 선수는 상세 페이지에 "출처 상이" 표시가 함께 붙습니다.
   </footer>
 </div>
 
@@ -1264,7 +1324,7 @@
   };
 
   function fmt(v, unit) {
-    if (v === null || v === undefined || v === "") return '<span class="unverified">미확인</span>';
+    if (v === null || v === undefined || v === "") return '<span class="unverified" title="확인된 자료 없음">–</span>';
     return `${v}${unit || ""}`;
   }
   function escapeAttr(str) {
@@ -1331,7 +1391,6 @@
     const topVenue = Object.entries(venueCounts).sort((a, b) => b[1] - a[1])[0];
     if (topVenue) {
       document.getElementById("chip-venue").textContent = topVenue[0];
-      document.getElementById("about-venue").textContent = topVenue[0];
     }
 
     const st = DATA.teamRecord.current2026Standing;
@@ -1354,7 +1413,7 @@
   const positionFilterEl = document.getElementById("position-filter");
   const searchInput = document.getElementById("player-search");
 
-  const POSITIONS = ["전체", "GK", "DF", "MF", "FW", "미확인"];
+  const POSITIONS = ["전체", "GK", "DF", "MF", "FW"];
   let activeFilter = "전체";
   let searchQuery = "";
 
@@ -1376,8 +1435,7 @@
 
   function filteredPlayers() {
     let list = activePlayers();
-    if (activeFilter === "미확인") list = list.filter((p) => !p.position);
-    else if (activeFilter !== "전체") list = list.filter((p) => p.position === activeFilter);
+    if (activeFilter !== "전체") list = list.filter((p) => p.position === activeFilter);
     if (searchQuery) list = list.filter((p) => p.name.includes(searchQuery));
     return list;
   }
@@ -1387,11 +1445,11 @@
     card.type = "button";
     card.className = "player-card";
     card.setAttribute("aria-label", `${p.name} 상세 정보 보기`);
-    const apps = p.stats && p.stats.appearances != null ? p.stats.appearances : "미확인";
+    const apps = p.stats && p.stats.appearances != null ? p.stats.appearances : '<span class="unverified" title="확인된 자료 없음">–</span>';
     card.innerHTML = `
       <div class="card-top">
         <div class="card-num${p.captain ? " captain" : ""}">${p.number ?? "-"}</div>
-        <div class="pos-pill">${p.position ?? "미확인"}</div>
+        <div class="pos-pill">${p.position ?? "–"}</div>
       </div>
       <div class="card-name">${p.name}${p.captain ? ' <span class="captain-tag" title="주장">C</span>' : ""}${hasConflict(p) ? ` <span class="conflict-dot" title="${escapeAttr(p.bio || p.verification)}">●</span>` : ""}</div>
       <div class="card-sub">
@@ -1457,7 +1515,7 @@
         <div class="detail-id">
           <h2>${p.name}</h2>
           <div class="detail-tags">
-            <span class="tag pos">${p.position ?? "미확인"}</span>
+            <span class="tag pos">${p.position ?? "–"}</span>
             ${p.captain ? '<span class="tag cap">주장</span>' : ""}
             ${conflictBadge(p)}
           </div>
@@ -1519,7 +1577,18 @@
     if (m.status === "예정") return "예정";
     const label = matchResultLabel(m);
     if (label !== null) return label;
-    return m.status || "미확인";
+    return "결과 미확인";
+  }
+
+  function baseCompetitionName(comp) {
+    return (comp || "").replace(/\s*\([^)]*\)\s*$/, "").trim();
+  }
+
+  function competitionStage(comp) {
+    const m = (comp || "").match(/\(([^)]*)\)\s*$/);
+    if (!m) return null;
+    const stage = m[1].trim();
+    return /미확인|추정/.test(stage) ? null : stage;
   }
 
   function renderScoreboard() {
@@ -1615,7 +1684,7 @@
       <div class="next-match">
         <div>
           <div class="next-match-label">다음 경기</div>
-          <div class="next-match-teams">${CLUB_NAME} ${next.homeAway === "홈" ? "vs" : "@"} ${fmt(next.opponent)}</div>
+          <div class="next-match-teams">${CLUB_NAME} vs ${fmt(next.opponent)}</div>
           <div class="next-match-meta">${dotDate(next.date)}${next.time ? ` ${next.time}` : ""} · ${fmt(next.venue)}</div>
         </div>
         <div class="next-match-dday">D-${dday}</div>
@@ -1657,30 +1726,59 @@
     });
   }
 
+  function fixtureRow(m) {
+    const cls = resultClass(m);
+    const label = resultLabel(m);
+    const stage = competitionStage(m.competition);
+    const scoreText = m.score && m.score.kyunghee !== null && m.score.opponent !== null
+      ? `${m.score.kyunghee} : ${m.score.opponent}`
+      : "-";
+    return `
+    <tr class="${cls === "upcoming" ? "upcoming" : ""}">
+      <td>${dotDate(m.date)}${m.time ? `<br>${m.time}` : ""}</td>
+      <td>${fmt(m.opponent)}${stage ? `<span class="stage-note">${stage}</span>` : ""}</td>
+      <td>${fmt(m.homeAway)}</td>
+      <td>${scoreText}</td>
+      <td><span class="status-pill ${cls}">${label}</span></td>
+      <td>${fmt(m.venue)}</td>
+    </tr>`;
+  }
+
   function renderFixturesBody() {
-    const body = document.getElementById("fixtures-body");
+    const container = document.getElementById("fixtures-groups");
     const rows = scheduleSorted.filter(matchesScheduleFilter);
     if (rows.length === 0) {
-      body.innerHTML = `<tr><td class="empty-cell" colspan="7">해당하는 경기가 없습니다</td></tr>`;
+      container.innerHTML = emptyStateHTML("해당하는 경기가 없습니다", "다른 필터를 선택해보세요.");
       return;
     }
-    body.innerHTML = rows
-      .map((m) => {
-        const cls = resultClass(m);
-        const label = resultLabel(m);
-        const scoreText = m.score && m.score.kyunghee !== null && m.score.opponent !== null
-          ? `${m.score.kyunghee} : ${m.score.opponent}`
-          : "-";
+
+    const order = [];
+    const byComp = {};
+    rows.forEach((m) => {
+      const name = baseCompetitionName(m.competition);
+      if (!byComp[name]) { byComp[name] = []; order.push(name); }
+      byComp[name].push(m);
+    });
+
+    container.innerHTML = order
+      .map((name) => {
+        const matches = byComp[name];
+        const tagClass = competitionGroup(matches[0]) === "리그" ? "league" : "cup";
+        const tagLabel = competitionGroup(matches[0]);
         return `
-        <tr class="${cls === "upcoming" ? "upcoming" : ""}">
-          <td>${dotDate(m.date)}${m.time ? `<br>${m.time}` : ""}</td>
-          <td>${fmt(m.competition)}</td>
-          <td>${fmt(m.opponent)}</td>
-          <td>${fmt(m.homeAway)}</td>
-          <td>${scoreText}</td>
-          <td><span class="status-pill ${cls}">${label}</span></td>
-          <td>${fmt(m.venue)}</td>
-        </tr>`;
+        <div class="comp-group">
+          <div class="comp-group-head">
+            <span class="comp-tag ${tagClass}">${tagLabel}</span>
+            <h3>${name}</h3>
+            <span style="font-size:12px;color:var(--text-muted)">${matches.length}경기</span>
+          </div>
+          <div class="table-scroll">
+            <table class="fixtures">
+              <thead><tr><th>날짜</th><th>상대</th><th>구분</th><th>스코어</th><th>결과</th><th>경기장</th></tr></thead>
+              <tbody>${matches.map(fixtureRow).join("")}</tbody>
+            </table>
+          </div>
+        </div>`;
       })
       .join("");
   }
@@ -1693,7 +1791,7 @@
     if (DATA.matches.length === 0) {
       document.getElementById("record-summary").textContent = "정보 준비 중";
       nextMatchEl.innerHTML = emptyStateHTML("경기 일정 준비 중입니다", "시즌 일정이 등록되면 다음 경기와 전체 결과가 이곳에 표시됩니다.");
-      document.getElementById("fixtures-body").innerHTML = `<tr><td class="empty-cell" colspan="7">등록된 경기가 없습니다</td></tr>`;
+      document.getElementById("fixtures-groups").innerHTML = "";
       return;
     }
 
@@ -1779,7 +1877,7 @@
       <tr>
         <td>${i + 1}</td>
         <td>${p.name}</td>
-        <td>${p.position ?? "미확인"}</td>
+        <td>${p.position ?? "–"}</td>
         <td>${p.stats.goals}</td>
         <td>${fmt(p.stats.appearances)}</td>
       </tr>`
