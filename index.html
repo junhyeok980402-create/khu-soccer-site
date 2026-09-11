@@ -1299,13 +1299,13 @@
   }
   .lightbox-photo {
     width: 100%;
-    height: 260px;
+    height: 320px;
     background: linear-gradient(150deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 65%, #140d0c) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .lightbox-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .lightbox-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; display: block; }
   .lightbox-photo .fallback { width: 76px; height: 76px; object-fit: contain; opacity: .8; }
   .lightbox-body { padding: 18px 20px 22px; }
   .alumni-avatar {
@@ -1338,7 +1338,15 @@
   }
   .alumni-badge.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
   .alumni-role { font-size: 12.5px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
-  .alumni-note { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+  .alumni-note {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
   /* ---- 구단소개: 연혁 타임라인 ---- */
   .timeline {
@@ -1545,7 +1553,7 @@
       <h3 class="section-heading">엠블럼</h3>
       <div class="crest-showcase reveal">
         <div class="crest crest-lg"><img src="assets/khu-univ-logo.png" alt="경희대학교 엠블럼"></div>
-        <p>경희대학교 공식 홈페이지(khu.ac.kr)의 상징 마크입니다. 축구부 자체의 별도 엠블럼(유니폼 배지, KUFC 팀페이지의 방패형 로고 등)은 소속 대학 상징과 별개로 존재하나, 어느 쪽이 축구부의 "공식" 엠블럼인지는 확인되지 않아 우선 대학교 상징을 사용했습니다.</p>
+        <p>경희대학교 공식 상징 마크입니다. 국제캠퍼스를 거점으로 활동하는 축구부의 정체성을 대표합니다.</p>
       </div>
 
       <h3 class="section-heading">상징 동물 — 웃는 사자</h3>
