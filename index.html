@@ -208,6 +208,36 @@
     max-width: 980px;
     margin: 0 auto;
     padding: clamp(40px, 8vw, 76px) 20px clamp(32px, 6vw, 52px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .hero-text { flex: 1; min-width: 0; }
+  .hero-visual {
+    flex: none;
+    display: none;
+  }
+  @media (min-width: 860px) {
+    .hero-visual { display: block; }
+  }
+  .hero-visual-ring {
+    width: clamp(180px, 20vw, 260px);
+    height: clamp(180px, 20vw, 260px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.14), transparent 60%), rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 0 0 14px rgba(255,255,255,.04), 0 20px 60px -20px rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(24px, 3vw, 36px);
+  }
+  .hero-visual-ring img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,.35));
   }
   .hero-top {
     display: flex;
@@ -507,8 +537,11 @@
   }
   .preview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+  }
+  @media (max-width: 640px) {
+    .preview-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
   }
 
   /* ---- empty / pending-data state, unverified & conflict badges ---- */
@@ -1254,21 +1287,28 @@
 
 <section class="hero-band" id="hero-band">
   <div class="hero-inner">
-    <div class="hero-top">
-      <div class="hero-crest"><img src="assets/khu-univ-logo.png" alt="경희대학교 엠블럼"></div>
-      <div>
-        <div class="hero-eyebrow" id="hero-eyebrow">2026 시즌</div>
-        <div class="hero-slogan">"Roar All Time" — 2026 시즌 슬로건</div>
+    <div class="hero-text">
+      <div class="hero-top">
+        <div class="hero-crest"><img src="assets/khu-univ-logo.png" alt="경희대학교 엠블럼"></div>
+        <div>
+          <div class="hero-eyebrow" id="hero-eyebrow">2026 시즌</div>
+          <div class="hero-slogan">"Roar All Time" — 2026 시즌 슬로건</div>
+        </div>
+      </div>
+      <h1>그라운드 위의 경희</h1>
+      <p id="hero-summary">1955년 창단 이래 그라운드를 지켜온 경희대학교 축구부.<br>"U리그&nbsp;3권역 우승"을 목표로, 오늘도 정상을 향해 달립니다.</p>
+      <button class="cta" data-nav="roster">선수단 보기 →</button>
+      <div class="hero-chips">
+        <div class="hero-chip"><span class="k">창단</span><span class="v">1955년</span></div>
+        <div class="hero-chip"><span class="k">홈구장</span><span class="v" id="chip-venue">정보 입력 예정</span></div>
+        <div class="hero-chip"><span class="k">소속리그</span><span class="v" id="chip-league">정보 입력 예정</span></div>
+        <div class="hero-chip"><span class="k">현재 순위</span><span class="v" id="chip-rank">정보 입력 예정</span></div>
       </div>
     </div>
-    <h1>그라운드 위의 경희</h1>
-    <p id="hero-summary">1955년 창단 이래 그라운드를 지켜온 경희대학교 축구부.<br>"U리그&nbsp;3권역 우승"을 목표로, 오늘도 정상을 향해 달립니다.</p>
-    <button class="cta" data-nav="roster">선수단 보기 →</button>
-    <div class="hero-chips">
-      <div class="hero-chip"><span class="k">창단</span><span class="v">1955년</span></div>
-      <div class="hero-chip"><span class="k">홈구장</span><span class="v" id="chip-venue">정보 입력 예정</span></div>
-      <div class="hero-chip"><span class="k">소속리그</span><span class="v" id="chip-league">정보 입력 예정</span></div>
-      <div class="hero-chip"><span class="k">현재 순위</span><span class="v" id="chip-rank">정보 입력 예정</span></div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-visual-ring">
+        <img src="assets/khu-univ-logo.png" alt="">
+      </div>
     </div>
   </div>
 </section>
