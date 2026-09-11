@@ -599,25 +599,31 @@
 
   /* ---- 선수단: 필터 / 검색 ---- */
   .filter-row {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 3px;
+    padding: 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 100px;
     margin-bottom: 14px;
+    max-width: 100%;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.06);
   }
   .filter-pill {
     font: inherit;
     font-size: 12.5px;
     font-weight: 700;
-    padding: 7px 15px;
+    padding: 7px 16px;
     border-radius: 100px;
-    border: 1px solid var(--line);
-    background: var(--surface);
+    border: none;
+    background: transparent;
     color: var(--text-muted);
     cursor: pointer;
-    transition: border-color .18s var(--ease), color .18s var(--ease), background .18s var(--ease), transform .18s var(--ease);
+    transition: color .18s var(--ease), background .18s var(--ease), transform .18s var(--ease), box-shadow .18s var(--ease);
   }
-  .filter-pill:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
-  .filter-pill.active { background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000)); border-color: var(--accent); color: #fff; box-shadow: 0 6px 16px -8px var(--accent); }
+  .filter-pill:hover { color: var(--accent); }
+  .filter-pill.active { background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000)); color: #fff; box-shadow: 0 4px 12px -4px var(--accent), 0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent); transform: translateY(-1px); }
   .filter-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .search-input {
     font: inherit;
@@ -1849,8 +1855,8 @@
         note: "성남FC 유스(풍생고) 출신으로 특기생 입학, 경희대를 거쳐 2025시즌 성남FC(K리그2)에서 프로 데뷔. 빠른 스피드와 저돌적인 드리블이 강점이며, 2026시즌 극적인 데뷔골과 'MOM'급 활약을 이어가고 있다." },
       { id: "alumni-kimminjun", name: "김민준", role: "수비형 미드필더", status: "현역", photo: "assets/alumni-kimminjun.png",
         note: "과천고를 거쳐 경희대에서 뛴 뒤 K4리그 서산 파이오니아FC에서 경력을 쌓다가, 2026년 8월 K리그1 선두 FC서울로 전격 이적했다. 폭넓은 활동량으로 중원 균형을 잡는 스타일." },
-      { id: "alumni-janghayoon", name: "장하윤", role: "센터백 · 스포츠지도학과", status: "현역", photo: null,
-        note: "경희대 축구부 주장(2026시즌). U-21 올림픽대표팀 발탁, 덴소컵 한국대학선발 주장. 2026년 8월 K리그2 파주 프런티어FC 입단으로 프로 무대에 데뷔했다. (K리그 공식 사이트의 선수 사진 URL이 실제로는 동명이인/오류로 다른 선수 사진을 가리켜 반영하지 않음 — 사진 미확인 유지)" },
+      { id: "alumni-janghayoon", name: "장하윤", role: "센터백 · 스포츠지도학과", status: "현역", photo: "assets/alumni-janghayoon.jpg",
+        note: "경희대 축구부 주장(2026시즌). U-21 올림픽대표팀 발탁, 덴소컵 한국대학선발 주장. 2026년 8월 K리그2 파주 프런티어FC 입단으로 프로 무대에 데뷔했다." },
     ],
 
     matches: [
