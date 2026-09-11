@@ -1429,7 +1429,9 @@
     flex: none;
   }
   .alumni-badge.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
-  .alumni-role { font-size: 12.5px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+  .alumni-role-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .alumni-role-row .pos-pill { margin-top: 0; }
+  .alumni-extra { font-size: 12.5px; color: var(--text-muted); }
   .alumni-club {
     display: inline-flex;
     align-items: center;
@@ -1788,7 +1790,7 @@
         </span>
         <span class="alumni-badge" id="lightbox-badge"></span>
       </div>
-      <div class="alumni-role" id="lightbox-role"></div>
+      <div class="alumni-role-row" id="lightbox-role"></div>
       <p class="alumni-note" id="lightbox-note"></p>
     </div>
   </div>
@@ -1963,19 +1965,19 @@
     // AI 생성 자료에서 정인환(연세대)·이진호(울산과학대)·윤빛가람(중앙대) 등 오귀속 사례가 발견되어
     // 검증되지 않은 동문은 의도적으로 제외함(2026-09-10 확인).
     alumni: [
-      { id: "alumni-leeunjae", name: "이운재", role: "골키퍼 · 체육학과 92학번", status: "은퇴", photo: "assets/alumni-leeunjae.jpg",
+      { id: "alumni-leeunjae", name: "이운재", position: "GK", extra: "체육학과 92학번", status: "은퇴", photo: "assets/alumni-leeunjae.jpg",
         note: "2002 한일 월드컵 4강 국가대표 골키퍼. 대한민국 역대 최고의 골키퍼 중 한 명으로 꼽힌다." },
-      { id: "alumni-parkgeonha", name: "박건하", role: "공격수 · 졸업", status: "은퇴", photo: "assets/alumni-parkgeonha.jpg",
+      { id: "alumni-parkgeonha", name: "박건하", position: "FW", extra: "졸업", status: "은퇴", photo: "assets/alumni-parkgeonha.jpg",
         note: "수원 삼성 블루윙즈 레전드 공격수 출신. 이후 수원 삼성 감독(2020~2023)을 역임했다." },
-      { id: "alumni-gosengbeom", name: "고승범", role: "미드필더 · 스포츠지도학과 13학번", status: "현역", club: "수원 삼성 블루윙즈", photo: "assets/alumni-gosengbeom.jpg",
+      { id: "alumni-gosengbeom", name: "고승범", position: "MF", extra: "스포츠지도학과 13학번", status: "현역", club: "수원 삼성 블루윙즈", photo: "assets/alumni-gosengbeom.jpg",
         note: "경희대 시절 김광진 감독 체제에서 주전으로 활약, 덴소컵 한일대학축구정기전 대표 선발 경력. 울산 HD(2024~2025)를 거쳐 2026시즌 수원 삼성 소속(2026-02-20 트레이드 이적)." },
-      { id: "alumni-kimjinsu", name: "김진수", role: "왼쪽 풀백", status: "현역", club: "FC서울", photo: "assets/alumni-kimjinsu.jpg",
+      { id: "alumni-kimjinsu", name: "김진수", position: "LB", extra: null, status: "현역", club: "FC서울", photo: "assets/alumni-kimjinsu.jpg",
         note: "2014 인천 아시안게임 금메달·국가대표 출신 왼쪽 풀백. 2026시즌 FC서울 주장." },
-      { id: "alumni-parkbyeonggyu", name: "박병규", role: "윙어", status: "현역", club: "성남FC", photo: "assets/alumni-parkbyeonggyu.png",
+      { id: "alumni-parkbyeonggyu", name: "박병규", position: "WF", extra: null, status: "현역", club: "성남FC", photo: "assets/alumni-parkbyeonggyu.png",
         note: "성남FC 유스(풍생고) 출신으로 특기생 입학, 경희대를 거쳐 2025시즌 성남FC(K리그2)에서 프로 데뷔. 빠른 스피드와 저돌적인 드리블이 강점이며, 2026시즌 극적인 데뷔골과 'MOM'급 활약을 이어가고 있다." },
-      { id: "alumni-kimminjun", name: "김민준", role: "수비형 미드필더", status: "현역", club: "FC서울", photo: "assets/alumni-kimminjun.png",
+      { id: "alumni-kimminjun", name: "김민준", position: "DM", extra: null, status: "현역", club: "FC서울", photo: "assets/alumni-kimminjun.png",
         note: "과천고를 거쳐 경희대에서 뛴 뒤 K4리그 서산 파이오니아FC에서 경력을 쌓다가, 2026년 8월 K리그1 선두 FC서울로 전격 이적했다. 폭넓은 활동량으로 중원 균형을 잡는 스타일." },
-      { id: "alumni-janghayoon", name: "장하윤", role: "센터백 · 스포츠지도학과", status: "현역", club: "파주 프런티어FC", photo: "assets/alumni-janghayoon.jpg",
+      { id: "alumni-janghayoon", name: "장하윤", position: "CB", extra: "스포츠지도학과", status: "현역", club: "파주 프런티어FC", photo: "assets/alumni-janghayoon.jpg",
         note: "경희대 축구부 주장(2026시즌). U-21 올림픽대표팀 발탁, 덴소컵 한국대학선발 주장. 2026년 8월 K리그2 파주 프런티어FC 입단으로 프로 무대에 데뷔했다." },
     ],
 
@@ -2879,7 +2881,7 @@
             </div>
           </div>
         </div>
-        <div class="alumni-role">${a.role}</div>
+        <div class="alumni-role-row"><span class="pos-pill">${a.position}</span>${a.extra ? `<span class="alumni-extra">${a.extra}</span>` : ""}</div>
         <p class="alumni-note">${a.note}</p>
       </button>`
       )
@@ -2898,7 +2900,7 @@
     const badge = document.getElementById("lightbox-badge");
     badge.textContent = a.status;
     badge.className = "alumni-badge" + (a.status === "현역" ? " active" : "");
-    document.getElementById("lightbox-role").textContent = a.role;
+    document.getElementById("lightbox-role").innerHTML = `<span class="pos-pill">${a.position}</span>${a.extra ? `<span class="alumni-extra">${escapeAttr(a.extra)}</span>` : ""}`;
     const clubEl = document.getElementById("lightbox-club");
     clubEl.hidden = !a.club;
     clubEl.innerHTML = a.club ? `<span class="alumni-club-logo">${alumniClubLogoHTML(a.club)}</span>${a.club}` : "";
