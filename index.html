@@ -106,7 +106,7 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    background: color-mix(in srgb, var(--accent) 92%, transparent);
+    background: color-mix(in srgb, #002855 92%, transparent); /* khu-navy — DESIGN.md 2장 */
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     transition: box-shadow .25s var(--ease);
@@ -346,6 +346,17 @@
   .cta:hover { filter: brightness(1.06); transform: translateY(-2px); box-shadow: 0 14px 30px -10px rgba(0,0,0,.55); }
   .cta:active { transform: translateY(0); }
   .cta:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+
+  /* ---- 홈 히어로 검색(DESIGN.md 1장: 첫 화면의 주인공은 검색창) ---- */
+  .hero-search {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: clamp(28px, 5vw, 36px);
+  }
+  .hero-search .search-input { max-width: none; }
+  .hero-search-row { display: flex; gap: 8px; }
+  .hero-search-row .search-input { flex: 1; }
 
   .hero-chips {
     display: flex;
@@ -811,11 +822,8 @@
     color: var(--text-muted);
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-  }
+  /* 레이아웃(컬럼 수·간격)은 DESIGN.md 4장 기준으로 HTML의 Tailwind 유틸리티(grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4)가 담당 */
+  .roster-grid { display: grid; }
 
   .player-card {
     text-align: left;
@@ -1536,7 +1544,13 @@
       </div>
       <h1>그라운드 위의 경희</h1>
       <p id="hero-summary">1955년 창단 이래 그라운드를 지켜온 경희대학교 축구부.<br>"U리그&nbsp;3권역 우승"을 목표로, 오늘도 정상을 향해 달립니다.</p>
-      <button class="cta" data-nav="roster">선수단 보기 →</button>
+      <form class="hero-search" id="hero-search-form" role="search" aria-label="선수 검색">
+        <div class="filter-row" id="position-filter"></div>
+        <div class="hero-search-row">
+          <input type="search" id="player-search" class="search-input" placeholder="선수 이름으로 검색">
+          <button type="submit" class="hero-search-btn min-h-11 px-5 rounded-full bg-khu-red text-white font-bold text-sm whitespace-nowrap hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khu-red/50">검색</button>
+        </div>
+      </form>
       <div class="hero-chips">
         <div class="hero-chip"><span class="k">창단</span><span class="v">1955년</span></div>
         <div class="hero-chip"><span class="k">홈구장</span><span class="v" id="chip-venue">정보 입력 예정</span></div>
@@ -1595,9 +1609,7 @@
         </div>
         <span id="roster-count"></span>
       </div>
-      <div class="filter-row" id="position-filter"></div>
-      <input type="search" id="player-search" class="search-input" placeholder="선수 이름 검색">
-      <div class="grid reveal" id="grid"></div>
+      <div class="roster-grid reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="grid"></div>
       <div id="inactive-note"></div>
     </div>
 
@@ -2247,6 +2259,7 @@
         activeFilter = pos;
         renderPositionFilter();
         renderGrid();
+        goTo("roster"); // 검색·필터가 홈 히어로로 이동했으므로, 선택 즉시 결과(선수단) 페이지로 이동
       });
       positionFilterEl.appendChild(btn);
     });
@@ -2288,9 +2301,26 @@
     rosterCount.textContent = active.length ? `${active.length} PLAYERS` : "선수단 정보 입력 예정";
     const list = filteredPlayers();
     if (list.length === 0) {
-      grid.innerHTML = active.length === 0
-        ? emptyStateHTML("선수단 명단 준비 중입니다", "선수 정보가 도착하면 이곳에 카드로 표시됩니다.")
-        : emptyStateHTML("검색 결과가 없습니다", "다른 이름이나 포지션으로 다시 찾아보세요.");
+      if (active.length === 0) {
+        grid.innerHTML = emptyStateHTML("선수단 명단 준비 중입니다", "선수 정보가 도착하면 이곳에 카드로 표시됩니다.");
+      } else {
+        const heading = searchQuery
+          ? `'${escapeAttr(searchQuery)}'와 일치하는 선수가 없습니다`
+          : `${escapeAttr(activeFilter)} 포지션에 해당하는 선수가 없습니다`;
+        grid.innerHTML = `
+          <div class="empty-state">
+            <h3>${heading}</h3>
+            <p>다른 이름이나 포지션으로 다시 찾아보세요.</p>
+            <button type="button" class="empty-state-action min-h-11 mt-2 px-4 rounded-full border border-khu-red text-khu-red font-bold text-sm hover:bg-khu-red hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khu-red/50" id="empty-reset-btn">필터 초기화</button>
+          </div>`;
+        document.getElementById("empty-reset-btn").addEventListener("click", () => {
+          activeFilter = "전체";
+          searchQuery = "";
+          searchInput.value = "";
+          renderPositionFilter();
+          renderGrid();
+        });
+      }
       return;
     }
     grid.innerHTML = "";
@@ -2371,6 +2401,10 @@
   searchInput.addEventListener("input", () => {
     searchQuery = searchInput.value.trim();
     renderGrid();
+  });
+  document.getElementById("hero-search-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    goTo("roster"); // 검색·필터가 홈 히어로로 이동했으므로, 제출 시 결과(선수단) 페이지로 이동
   });
 
   // ---- 홈 위젯: 최근 경기 결과 ----
