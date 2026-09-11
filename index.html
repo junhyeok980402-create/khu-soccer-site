@@ -1036,31 +1036,62 @@
     flex-direction: column;
     gap: 10px;
   }
+  .news-featured {
+    position: relative;
+    display: block;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-lift);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+  }
+  .news-featured-img {
+    width: 100%;
+    height: clamp(180px, 34vw, 320px);
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000));
+  }
+  .news-featured-noimg .news-featured-img { display: none; }
+  .news-featured-body { padding: clamp(18px, 3vw, 28px); }
+  .news-featured .news-eyebrow { color: var(--gold); }
+  .news-featured-title {
+    font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
+    font-weight: 400;
+    font-size: clamp(19px, 3vw, 26px);
+    line-height: 1.3;
+    margin: 4px 0 10px;
+    text-wrap: balance;
+  }
+  .news-featured-summary { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; max-width: 62ch; margin-bottom: 10px; }
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
   .news-card {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
     border-radius: 16px;
-    padding: 16px 18px;
-    display: flex;
-    gap: 16px;
     overflow: hidden;
     box-shadow: var(--shadow-card);
     transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+    display: flex;
+    flex-direction: column;
   }
   .news-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
-  .news-card.has-thumb { padding: 0; border-left: none; }
   .news-thumb {
-    width: 180px;
-    flex: none;
+    width: 100%;
+    height: 140px;
     object-fit: cover;
     display: block;
+    flex: none;
   }
-  .news-body { padding: 16px 18px; min-width: 0; flex: 1; }
-  @media (max-width: 520px) {
-    .news-card.has-thumb { flex-direction: column; }
-    .news-thumb { width: 100%; height: 160px; }
-  }
+  .news-card:not(.has-thumb) { border-left: 3px solid var(--accent); }
+  .news-body { padding: 16px 18px; min-width: 0; flex: 1; display: flex; flex-direction: column; }
   .news-eyebrow {
     display: flex;
     gap: 8px;
@@ -1072,11 +1103,18 @@
     margin-bottom: 6px;
   }
   .news-eyebrow .cat {
-    color: var(--accent);
-    font-weight: 600;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 100px;
+    font-size: 11.5px;
+    letter-spacing: .04em;
   }
+  .news-eyebrow .cat.cat-result { background: var(--accent-soft); color: var(--accent); }
+  .news-eyebrow .cat.cat-transfer { background: var(--gold-soft); color: var(--gold); }
+  .news-eyebrow .cat.cat-interview { background: var(--lose-soft); color: var(--lose); }
+  .news-eyebrow .cat.cat-etc { background: var(--surface-2); color: var(--text-muted); }
   .news-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
-  .news-summary { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 8px; }
+  .news-summary { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; flex: 1; }
   .news-link {
     font-size: 12.5px;
     font-weight: 700;
@@ -2304,6 +2342,26 @@
   }
 
   // ---- 소식 ----
+  function catClass(cat) {
+    if (cat === "경기결과") return "cat-result";
+    if (cat === "이적") return "cat-transfer";
+    if (cat === "인터뷰") return "cat-interview";
+    return "cat-etc";
+  }
+
+  function newsCardHTML(n) {
+    return `
+      <div class="news-card${n.thumbnail ? " has-thumb" : ""}">
+        ${n.thumbnail ? `<img class="news-thumb" src="${n.thumbnail}" alt="${escapeAttr(n.title)}">` : ""}
+        <div class="news-body">
+          <div class="news-eyebrow"><span class="cat ${catClass(n.category)}">${fmt(n.category)}</span><span>${dotDate(n.date)}</span></div>
+          <div class="news-title">${n.title}</div>
+          <div class="news-summary">${n.summary || ""}</div>
+          ${n.url ? `<a class="news-link" href="${n.url}" target="_blank" rel="noopener">자세히 보기 →</a>` : ""}
+        </div>
+      </div>`;
+  }
+
   function renderNews() {
     const list = document.getElementById("news-list");
     document.getElementById("news-count").textContent = DATA.news.length ? `${DATA.news.length}건` : "";
@@ -2311,21 +2369,22 @@
       list.innerHTML = emptyStateHTML("소식 준비 중입니다", "보도자료·공지 등이 확인되면 이곳에 목록으로 표시됩니다. (이번 조사 범위 밖)");
       return;
     }
-    list.innerHTML = [...DATA.news]
-      .sort((a, b) => (a.date < b.date ? 1 : -1))
-      .map(
-        (n) => `
-      <div class="news-card${n.thumbnail ? " has-thumb" : ""}">
-        ${n.thumbnail ? `<img class="news-thumb" src="${n.thumbnail}" alt="${escapeAttr(n.title)}">` : ""}
-        <div class="news-body">
-          <div class="news-eyebrow"><span class="cat">${fmt(n.category)}</span><span>${dotDate(n.date)}</span></div>
-          <div class="news-title">${n.title}</div>
-          <div class="news-summary">${n.summary || ""}</div>
-          ${n.url ? `<a class="news-link" href="${n.url}" target="_blank" rel="noopener">자세히 보기 →</a>` : ""}
+    const sorted = [...DATA.news].sort((a, b) => (a.date < b.date ? 1 : -1));
+    const [top, ...rest] = sorted;
+    const featured = `
+      <a class="news-featured${top.thumbnail ? "" : " news-featured-noimg"}" href="${top.url || "#"}" target="${top.url ? "_blank" : "_self"}" rel="noopener">
+        ${top.thumbnail ? `<img class="news-featured-img" src="${top.thumbnail}" alt="${escapeAttr(top.title)}">` : ""}
+        <div class="news-featured-body">
+          <div class="news-eyebrow"><span class="cat ${catClass(top.category)}">${fmt(top.category)}</span><span>${dotDate(top.date)}</span></div>
+          <div class="news-featured-title">${top.title}</div>
+          <div class="news-featured-summary">${top.summary || ""}</div>
+          ${top.url ? `<span class="news-link">자세히 보기 →</span>` : ""}
         </div>
-      </div>`
-      )
-      .join("");
+      </a>`;
+    const grid = rest.length
+      ? `<div class="news-grid">${rest.map(newsCardHTML).join("")}</div>`
+      : "";
+    list.innerHTML = featured + grid;
   }
 
   // ---- 구단소개: 하위 탭(개요/동문/기록) ----
@@ -2383,22 +2442,8 @@
     if (items.length === 0) return "";
     return `
       <div class="related-news-heading">관련 소식 (자동 매칭)</div>
-      <div class="news-list">
-        ${[...items]
-          .sort((a, b) => (a.date < b.date ? 1 : -1))
-          .map(
-            (n) => `
-        <div class="news-card${n.thumbnail ? " has-thumb" : ""}">
-          ${n.thumbnail ? `<img class="news-thumb" src="${n.thumbnail}" alt="${escapeAttr(n.title)}">` : ""}
-          <div class="news-body">
-            <div class="news-eyebrow"><span class="cat">${fmt(n.category)}</span><span>${dotDate(n.date)}</span></div>
-            <div class="news-title">${n.title}</div>
-            <div class="news-summary">${n.summary || ""}</div>
-            ${n.url ? `<a class="news-link" href="${n.url}" target="_blank" rel="noopener">자세히 보기 →</a>` : ""}
-          </div>
-        </div>`
-          )
-          .join("")}
+      <div class="news-grid">
+        ${[...items].sort((a, b) => (a.date < b.date ? 1 : -1)).map(newsCardHTML).join("")}
       </div>
     `;
   }
