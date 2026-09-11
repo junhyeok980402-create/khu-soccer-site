@@ -106,7 +106,7 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    background: color-mix(in srgb, #002855 92%, transparent); /* khu-navy — DESIGN.md 2장 */
+    background: color-mix(in srgb, var(--accent) 92%, transparent);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     transition: box-shadow .25s var(--ease);
@@ -1529,7 +1529,10 @@
       <button class="nav-link" data-nav="schedule">경기일정</button>
       <button class="nav-link" data-nav="news">소식</button>
       <button class="nav-link" data-nav="about">구단소개</button>
-      <a class="nav-link nav-external" href="https://www.khu.ac.kr" target="_blank" rel="noopener" title="경희대학교 공식 홈페이지로 이동">학교 홈페이지 ↗</a>
+      <a class="nav-link nav-external gap-1" href="https://www.khu.ac.kr" target="_blank" rel="noopener" title="경희대학교 공식 홈페이지로 이동">
+        <span>학교 홈페이지</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+      </a>
     </div>
   </div>
 </nav>
@@ -1548,7 +1551,10 @@
         <div class="filter-row" id="position-filter"></div>
         <div class="hero-search-row">
           <input type="search" id="player-search" class="search-input" placeholder="선수 이름으로 검색">
-          <button type="submit" class="hero-search-btn min-h-11 px-5 rounded-full bg-khu-red text-white font-bold text-sm whitespace-nowrap hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khu-red/50">검색</button>
+          <button type="submit" class="hero-search-btn min-h-11 px-5 rounded-full bg-khu-red text-white font-bold text-sm whitespace-nowrap inline-flex items-center justify-center gap-1.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khu-red/50">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            검색
+          </button>
         </div>
       </form>
       <div class="hero-chips">
@@ -1614,7 +1620,10 @@
     </div>
 
     <div id="roster-detail" hidden>
-      <button class="back-btn" id="back-btn" type="button">← 명단으로</button>
+      <button class="back-btn" id="back-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        <span>명단으로</span>
+      </button>
       <div id="detail-content"></div>
     </div>
   </main>
@@ -1635,7 +1644,10 @@
     </div>
 
     <div id="match-detail" hidden>
-      <button class="back-btn" id="match-back-btn" type="button">← 일정으로</button>
+      <button class="back-btn" id="match-back-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        <span>일정으로</span>
+      </button>
       <div id="match-detail-content"></div>
     </div>
   </main>
