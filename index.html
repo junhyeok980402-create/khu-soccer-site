@@ -1605,6 +1605,7 @@
     <div id="about-tab-alumni" hidden>
       <h3 class="section-heading">주요 동문</h3>
       <p class="caption">위키백과·나무위키 등에서 재학 사실이 확인된 동문만 소개합니다.</p>
+      <div class="filter-row" id="alumni-status-filter"></div>
       <div class="alumni-grid reveal" id="alumni-grid"></div>
     </div>
 
@@ -1904,7 +1905,7 @@
       { id: "match-2026-cup-006", date: "2026-07-09", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (22강)", opponent: "대구대", venue: "태백 고원스타디움 3구장", homeAway: null, status: "종료", score: { kyunghee: 6, opponent: 0 }, result: "승",
         scorers: { kyunghee: [{ name: "대구대 자책골", minute: "전반37'" }, { name: "이유석", minute: "후반11'" }, { name: "김세인", minute: null }, { name: "정주형", minute: null }, { name: "박근오", minute: null, note: "멀티골(2골)" }], opponent: [] },
         source: "[단일 소스] 일간스포츠" },
-      { id: "match-2026-cup-007", date: "2026-07-14", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (16강)", opponent: "연세대", venue: "태백스포츠파크", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 3 }, result: "패 (대회 16강 탈락)" },
+      { id: "match-2026-cup-007", date: "2026-07-11", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (16강)", opponent: "연세대", venue: "태백스포츠파크", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 3 }, result: "패 (대회 16강 탈락)" },
       { id: "match-2026-cup-008", date: "2026-08-14", time: null, competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (조별예선)", opponent: "경기대", venue: "경남 합천군민체육공원 1구장", homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 3 }, result: "승",
         scorers: { kyunghee: [{ name: "김세인", minute: "전반13'" }, { name: "한준희", minute: "전반18'" }, { name: "김세인", minute: "후반 추가 3'", note: "동점골" }, { name: "박민서", minute: "종료 직전", note: "역전골" }], opponent: [{ name: "김기완", minute: null }, { name: "권기원", minute: null, note: "멀티골(2골)" }] },
         source: "[단일 소스] 일간스포츠" },
@@ -2686,10 +2687,36 @@
       : `<img class="fallback" src="assets/lion-mark-white.png" alt="">`;
   }
 
+  const ALUMNI_STATUS_FILTERS = ["전체", "현역", "은퇴"];
+  let alumniStatusFilter = "전체";
+
+  function renderAlumniStatusFilter() {
+    const el = document.getElementById("alumni-status-filter");
+    if (!el) return;
+    el.innerHTML = "";
+    ALUMNI_STATUS_FILTERS.forEach((status) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "filter-pill" + (status === alumniStatusFilter ? " active" : "");
+      btn.textContent = status;
+      btn.addEventListener("click", () => {
+        alumniStatusFilter = status;
+        renderAlumniStatusFilter();
+        renderAlumni();
+      });
+      el.appendChild(btn);
+    });
+  }
+
   function renderAlumni() {
     const el = document.getElementById("alumni-grid");
     if (!DATA.alumni || DATA.alumni.length === 0) { el.innerHTML = ""; return; }
-    el.innerHTML = DATA.alumni
+    const list = alumniStatusFilter === "전체" ? DATA.alumni : DATA.alumni.filter((a) => a.status === alumniStatusFilter);
+    if (list.length === 0) {
+      el.innerHTML = emptyStateHTML("해당하는 동문이 없습니다", "다른 필터를 선택해보세요.");
+      return;
+    }
+    el.innerHTML = list
       .map(
         (a) => `
       <button type="button" class="alumni-card" data-alumni-id="${a.id}">
@@ -2806,6 +2833,7 @@
   renderSchedule();
   renderNews();
   renderStaff();
+  renderAlumniStatusFilter();
   renderAlumni();
   renderAboutTabFilter();
   goTo(location.hash.slice(1) || "home", { fromHash: true });
