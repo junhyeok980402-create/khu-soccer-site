@@ -1365,6 +1365,38 @@
   }
   .alumni-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .alumni-avatar img.fallback { width: 60%; height: 60%; object-fit: contain; opacity: .85; }
+  .alumni-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 2px; }
+  .alumni-top .alumni-avatar { margin-bottom: 0; }
+  .alumni-top-info { flex: 1; min-width: 0; padding-top: 2px; }
+  .alumni-name-group { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
+  .alumni-club-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--gold);
+    background: var(--gold-soft);
+    border-radius: 100px;
+    padding: 3px 9px 3px 3px;
+    flex: none;
+  }
+  .alumni-club-logo {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 1px var(--line);
+    flex: none;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .alumni-club-logo img { width: 100%; height: 100%; object-fit: contain; padding: 2px; box-sizing: border-box; display: block; }
+  .alumni-club-logo-initial { font-size: 7px; font-weight: 700; color: var(--accent); font-family: "Oswald", sans-serif; }
   .alumni-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
   .alumni-name { font-weight: 700; font-size: 17px; }
   .alumni-badge {
@@ -1384,6 +1416,7 @@
   .alumni-club {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
     font-family: "Oswald", sans-serif;
     font-size: 11.5px;
     font-weight: 600;
@@ -1391,7 +1424,7 @@
     color: var(--gold);
     background: var(--gold-soft);
     border-radius: 100px;
-    padding: 3px 10px;
+    padding: 3px 10px 3px 4px;
     margin: -2px 0 8px;
   }
   .alumni-note {
@@ -1723,11 +1756,13 @@
     <div class="lightbox-photo" id="lightbox-photo"></div>
     <div class="lightbox-body">
       <div class="alumni-head">
-        <span class="alumni-name" id="lightbox-name"></span>
+        <span class="alumni-name-group">
+          <span class="alumni-name" id="lightbox-name"></span>
+          <span class="alumni-club-inline" id="lightbox-club" hidden></span>
+        </span>
         <span class="alumni-badge" id="lightbox-badge"></span>
       </div>
       <div class="alumni-role" id="lightbox-role"></div>
-      <div class="alumni-club" id="lightbox-club" hidden></div>
       <p class="alumni-note" id="lightbox-note"></p>
     </div>
   </div>
@@ -1756,6 +1791,18 @@
     const src = teamName && OPPONENT_CRESTS[teamName];
     if (src) return `<img src="${src}" alt="${escapeAttr(teamName)} 로고">`;
     return (teamName || "?").slice(0, 2);
+  }
+
+  // 동문 현재 소속(프로팀) 로고 — 위키백과에서 확인한 공식 로고만 사용, 못 찾은 구단은 이니셜로 대체
+  const ALUMNI_CLUB_CRESTS = {
+    "FC서울": "assets/crests/fcseoul.png",
+    "수원 삼성 블루윙즈": "assets/crests/suwonsamsung.png",
+    "성남FC": "assets/crests/seongnamfc.png",
+  };
+  function alumniClubLogoHTML(club) {
+    const src = club && ALUMNI_CLUB_CRESTS[club];
+    if (src) return `<img src="${src}" alt="${escapeAttr(club)} 로고">`;
+    return `<span class="alumni-club-logo-initial">${(club || "?").slice(0, 2)}</span>`;
   }
 
   const DATA = {
@@ -1932,16 +1979,39 @@
       { id: "match-2026-cup-005", date: "2026-02-24", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (결승)", opponent: "연세대", venue: "통영공설운동장", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 3 }, result: "패 (준우승)",
         scorers: { kyunghee: [{ name: "한준희", minute: "후반8'", note: "오른발 아웃프런트" }], opponent: [{ name: "장현빈", minute: "전반41'" }, { name: "장현빈", minute: "후반33'", note: "헤더" }, { name: "강성주", minute: "후반41'" }] },
         source: "[복수 자료 확인] 마이데일리" },
-      { id: "match-2026-cup-006", date: "2026-07-09", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (22강)", opponent: "대구대", venue: "태백 고원스타디움 3구장", homeAway: null, status: "종료", score: { kyunghee: 6, opponent: 0 }, result: "승",
-        scorers: { kyunghee: [{ name: "대구대 자책골", minute: "전반37'" }, { name: "이유석", minute: "후반11'" }, { name: "김세인", minute: null }, { name: "정주형", minute: null }, { name: "박근오", minute: null, note: "멀티골(2골)" }], opponent: [] },
-        source: "[단일 소스] 일간스포츠" },
-      { id: "match-2026-cup-007", date: "2026-07-11", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (16강)", opponent: "연세대", venue: "태백스포츠파크", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 3 }, result: "패 (대회 16강 탈락)" },
-      { id: "match-2026-cup-008", date: "2026-08-14", time: null, competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (조별예선)", opponent: "경기대", venue: "경남 합천군민체육공원 1구장", homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 3 }, result: "승",
-        scorers: { kyunghee: [{ name: "김세인", minute: "전반13'" }, { name: "한준희", minute: "전반18'" }, { name: "김세인", minute: "후반 추가 3'", note: "동점골" }, { name: "박민서", minute: "종료 직전", note: "역전골" }], opponent: [{ name: "김기완", minute: null }, { name: "권기원", minute: null, note: "멀티골(2골)" }] },
-        source: "[단일 소스] 일간스포츠" },
-      { id: "match-2026-cup-009", date: "2026-08-20", time: null, competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (16강)", opponent: "송호대학교", venue: null, homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 3 }, result: "패 (대회 16강 탈락)",
-        note: "이전에는 8/26 김천대전 4:3 승리·4강 진출로 기재되어 있었으나, 단일 출처(다음카페) 정보였고 사용자 확인 결과와 달라 8/20 송호대학교전 결과로 정정함.",
-        source: "[사용자 확인]" },
+      { id: "match-2026-cup-006-g1", date: "2026-07-02", time: "15:30", competition: "제62회 추계대학축구연맹전 백두대간기 (조별리그, 10조)", opponent: "명지대", venue: "태백 강원관광대", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 2 }, result: "패",
+        scorers: { kyunghee: [], opponent: [{ name: "오동욱", minute: "후반34'", note: "도움 이권욱" }, { name: "강기찬", minute: "후반38'", note: "도움 강명준" }] },
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-006-g2", date: "2026-07-04", time: "15:30", competition: "제62회 추계대학축구연맹전 백두대간기 (조별리그, 10조)", opponent: "동아대", venue: "태백 강원관광대", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "무",
+        scorers: { kyunghee: [{ name: "김세인", minute: "후반15'" }], opponent: [{ name: "김태현", minute: "후반26'", note: "도움 김준희" }] },
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-006-g3", date: "2026-07-06", time: "15:30", competition: "제62회 추계대학축구연맹전 백두대간기 (조별리그, 10조)", opponent: "수성대", venue: "태백 강원관광대", homeAway: null, status: "종료", score: { kyunghee: 6, opponent: 0 }, result: "승",
+        scorers: { kyunghee: [{ name: "이유석", minute: "전반23'", note: "도움 이경원" }, { name: "김세인", minute: "전반36'", note: "도움 박재형" }, { name: "김세인", minute: "전반45+1'", note: "도움 정주형" }, { name: "김세인", minute: "후반16'", note: "도움 박근오 · 해트트릭" }, { name: "박근오", minute: "후반17'" }, { name: "박근오", minute: "후반35'" }], opponent: [] },
+        note: "조별리그 2위(1승1무1패)로 명지대에 이어 본선 토너먼트 진출. MOM 이경원.",
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-006", date: "2026-07-09", time: "10:30", competition: "제62회 추계대학축구연맹전 백두대간기 (22강)", opponent: "대구대", venue: "태백 고원3구장", homeAway: null, status: "종료", score: { kyunghee: 6, opponent: 0 }, result: "승",
+        scorers: { kyunghee: [{ name: "대구대 자책골", minute: "전반37'" }, { name: "이유석", minute: "후반11'", note: "도움 이경원" }, { name: "김세인", minute: "후반22'", note: "도움 한준희" }, { name: "박근오", minute: "후반27'" }, { name: "박근오", minute: "후반37'", note: "도움 정주형" }, { name: "정주형", minute: "후반40'", note: "도움 박재형" }], opponent: [] },
+        note: "MOM 김세인.",
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-007", date: "2026-07-11", time: "10:30", competition: "제62회 추계대학축구연맹전 백두대간기 (16강)", opponent: "연세대", venue: "태백 스포츠파크구장", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 3 }, result: "패 (대회 16강 탈락)",
+        scorers: { kyunghee: [], opponent: [{ name: "김정인", minute: "전반1'" }, { name: "정성빈", minute: "후반41'", note: "도움 박한선" }, { name: "정성빈", minute: "후반45'" }] },
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-008", date: "2026-08-14", time: "22:00", competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (조별리그, 11조)", opponent: "경기대", venue: "경남 합천군민체육공원 1구장", homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 3 }, result: "승",
+        scorers: { kyunghee: [{ name: "김세인", minute: "전반13'", note: "도움 한준희" }, { name: "한준희", minute: "전반18'", note: "도움 이재모" }, { name: "김세인", minute: "후반45+3'", note: "도움 임승주 · 동점골" }, { name: "박민서", minute: "후반45+5'", note: "도움 이건곤 · 역전골" }], opponent: [{ name: "김기완", minute: "후반2'", note: "도움 박준원" }, { name: "권기원", minute: "후반8'", note: "도움 권오성" }, { name: "권기원", minute: "후반30'", note: "도움 김기완" }] },
+        note: "MOM 한준희.",
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-008-g2", date: "2026-08-16", time: "22:00", competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (조별리그, 11조)", opponent: "가야대", venue: "경남 합천군민체육공원 1구장", homeAway: null, status: "종료", score: { kyunghee: 2, opponent: 1 }, result: "승",
+        scorers: { kyunghee: [{ name: "오동석", minute: "후반44'", note: "도움 박재형" }, { name: "한준희", minute: "후반45+3'" }], opponent: [{ name: "코요", minute: "후반13'" }] },
+        note: "MOM 이영진.",
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-008-g3", date: "2026-08-18", time: "22:00", competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (조별리그, 11조)", opponent: "동의대", venue: "경남 합천군민체육공원 1구장", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 2 }, result: "패",
+        scorers: { kyunghee: [], opponent: [{ name: "조성빈", minute: "전반9'", note: "도움 김지용" }, { name: "임강호", minute: "전반33'", note: "도움 김다하" }] },
+        note: "조별리그 2위(2승1패)로 동의대에 이어 본선 토너먼트 진출.",
+        source: "[공식] KUFC 한국대학축구연맹" },
+      { id: "match-2026-cup-009", date: "2026-08-20", time: "21:00", competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (16강)", opponent: "송호대", venue: "경남 합천군민체육공원 5구장", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 3 }, result: "패 (대회 16강 탈락)",
+        scorers: { kyunghee: [{ name: "박민서", minute: "후반42'", note: "PK · 도움 박근오" }], opponent: [{ name: "송한록", minute: "후반9'", note: "PK · 도움 서준영" }, { name: "서준영", minute: "후반29'", note: "도움 송한록" }, { name: "장웅권", minute: "후반40'" }] },
+        note: "이전에는 8/26 김천대전 4:3 승리·4강 진출로 기재되어 있었으나, 단일 출처(다음카페) 정보였고 KUFC 공식 기록 확인 결과와 달라 8/20 송호대전 결과로 정정함.",
+        source: "[공식] KUFC 한국대학축구연맹" },
       { id: "match-2026-league-001", date: "2026-04-17", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "장안대", venue: "비봉습지공원축구장", homeAway: "원정", status: "종료", score: { kyunghee: 1, opponent: 0 }, result: "승" },
       { id: "match-2026-league-002", date: "2026-04-24", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "명지대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "무" },
       { id: "match-2026-league-003", date: "2026-05-01", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "국제사이버대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 4, opponent: 2 }, result: "승" },
@@ -2754,13 +2824,19 @@
       .map(
         (a) => `
       <button type="button" class="alumni-card" data-alumni-id="${a.id}">
-        <div class="alumni-avatar">${alumniAvatarHTML(a)}</div>
-        <div class="alumni-head">
-          <span class="alumni-name">${a.name}</span>
-          <span class="alumni-badge${a.status === "현역" ? " active" : ""}">${a.status}</span>
+        <div class="alumni-top">
+          <div class="alumni-avatar">${alumniAvatarHTML(a)}</div>
+          <div class="alumni-top-info">
+            <div class="alumni-head">
+              <span class="alumni-name-group">
+                <span class="alumni-name">${a.name}</span>
+                ${a.club ? `<span class="alumni-club-inline"><span class="alumni-club-logo">${alumniClubLogoHTML(a.club)}</span>${a.club}</span>` : ""}
+              </span>
+              <span class="alumni-badge${a.status === "현역" ? " active" : ""}">${a.status}</span>
+            </div>
+          </div>
         </div>
         <div class="alumni-role">${a.role}</div>
-        ${a.club ? `<div class="alumni-club">현재 소속 · ${a.club}</div>` : ""}
         <p class="alumni-note">${a.note}</p>
       </button>`
       )
@@ -2782,7 +2858,7 @@
     document.getElementById("lightbox-role").textContent = a.role;
     const clubEl = document.getElementById("lightbox-club");
     clubEl.hidden = !a.club;
-    clubEl.textContent = a.club ? `현재 소속 · ${a.club}` : "";
+    clubEl.innerHTML = a.club ? `<span class="alumni-club-logo">${alumniClubLogoHTML(a.club)}</span>${a.club}` : "";
     document.getElementById("lightbox-note").textContent = a.note;
     document.getElementById("lightbox-photo").innerHTML = a.photo
       ? `<img src="${a.photo}" alt="${escapeAttr(a.name)}">`
