@@ -666,14 +666,23 @@
     width: 100%;
     min-width: 520px;
     border-collapse: collapse;
+    table-layout: fixed;
     font-size: 13.5px;
   }
+  .fixtures th:nth-child(1), .fixtures td:nth-child(1) { width: 13%; }
+  .fixtures th:nth-child(2), .fixtures td:nth-child(2) { width: 25%; }
+  .fixtures th:nth-child(3), .fixtures td:nth-child(3) { width: 11%; }
+  .fixtures th:nth-child(4), .fixtures td:nth-child(4) { width: 15%; }
+  .fixtures th:nth-child(5), .fixtures td:nth-child(5) { width: 19%; }
+  .fixtures th:nth-child(6), .fixtures td:nth-child(6) { width: 17%; }
   .fixtures th, .fixtures td {
     padding: 11px 10px;
     text-align: center;
     border-bottom: 1px solid var(--line);
     border-right: 1px solid var(--line);
-    white-space: nowrap;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   .fixtures th:last-child, .fixtures td:last-child { border-right: none; }
   .fixtures th {
@@ -1880,13 +1889,13 @@
       { id: "match-2026-cup-003", date: "2026-02-13", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (조별리그, 조 1위 확정)", opponent: "국제사이버대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 3, opponent: 0 }, result: "승",
         scorers: { kyunghee: [{ name: "장하윤", minute: null, note: "헤더" }, { name: "박태양", minute: null, note: "1대1 상황 마무리" }, { name: "박민서", minute: null, note: "감아차기 슈팅" }], opponent: [] },
         source: "[단일 소스] 경희대 공식미디어" },
-      { id: "match-2026-cup-004", date: "2026-02-18", time: "10:30", competition: "제62회 한산대첩기 춘계대학축구연맹전 (16강)", opponent: "수원대", venue: "통영 산양스포츠파크(구장 번호 미확인)", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "승",
+      { id: "match-2026-cup-004", date: "2026-02-18", time: "10:30", competition: "제62회 한산대첩기 춘계대학축구연맹전 (16강)", opponent: "수원대", venue: "통영 산양스포츠파크(구장 번호 미확인)", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "승", pk: { kyunghee: 5, opponent: 3 },
         note: "정규시간 1:1 무승부 후 승부차기 5:3 승리. GK 이준희 선방.",
         source: "[단일 소스] 인터풋볼·국제뉴스 보도 일치" },
       { id: "match-2026-cup-004b", date: "2026-02-20", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (8강)", opponent: "호남대", venue: "통영 산양스포츠파크(구장 번호 미확인)", homeAway: null, status: "종료", score: { kyunghee: null, opponent: null }, result: "승",
         note: "기존 사이트 데이터에 없었던 경기 — 국제뉴스 대회 결산 기사에서 새로 확인됨. 날짜는 16강(2/18)과 4강(2/22) 사이로 추정한 값이며 기사에 명시되어 있지 않음.",
         source: "[단일 소스] 국제뉴스" },
-      { id: "match-2026-cup-004c", date: "2026-02-22", time: "12:30", competition: "제62회 한산대첩기 춘계대학축구연맹전 (4강)", opponent: "아주대", venue: "산양스포츠파크 인조5구장", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 0 }, result: "승",
+      { id: "match-2026-cup-004c", date: "2026-02-22", time: "12:30", competition: "제62회 한산대첩기 춘계대학축구연맹전 (4강)", opponent: "아주대", venue: "산양스포츠파크 인조5구장", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 0 }, result: "승", pk: { kyunghee: 9, opponent: 8 },
         note: "기존 사이트 데이터에 없었던 경기 — 국제뉴스 대회 결산 기사에서 새로 확인됨. 정규시간 0:0, 승부차기 9:8로 결승 진출. GK 이준희 선방.",
         source: "[단일 소스] 국제뉴스" },
       { id: "match-2026-cup-005", date: "2026-02-24", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (결승)", opponent: "연세대", venue: "통영공설운동장", homeAway: null, status: "종료", score: { kyunghee: 1, opponent: 3 }, result: "패 (대회 전체 준우승으로 마감)",
@@ -2499,13 +2508,14 @@
     const scoreText = m.score && m.score.kyunghee !== null && m.score.opponent !== null
       ? `${m.score.kyunghee} : ${m.score.opponent}`
       : "-";
+    const pkText = m.pk ? `<span class="stage-note">PK ${m.pk.kyunghee}:${m.pk.opponent}</span>` : "";
     const opponentText = m.opponent ? m.opponent : '<span class="unverified" title="확인된 자료 없음">상대 미확인</span>';
     return `
     <tr class="fixture-row ${cls === "upcoming" ? "upcoming" : ""}" data-match-id="${m.id}" tabindex="0">
       <td>${dotDate(m.date)}${m.time ? `<br>${m.time}` : ""}</td>
       <td>${opponentText}${stage ? `<span class="stage-note">${stage}</span>` : ""}</td>
       <td>${fmt(m.homeAway)}</td>
-      <td>${scoreText}</td>
+      <td>${scoreText}${pkText}</td>
       <td><span class="status-pill ${cls}">${label}</span></td>
       <td>${fmt(m.venue)}</td>
     </tr>`;
