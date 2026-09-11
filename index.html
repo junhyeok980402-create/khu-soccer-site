@@ -44,6 +44,7 @@
     --accent-soft: #f0dedd;
     --gold: #b3872a;
     --gold-soft: #f5ecd6;
+    --gold-on-accent: #f5ecd6; /* 라이트/다크 모드 무관 고정값 — --accent(빨강) 배경 위의 텍스트 전용. --gold-soft는 다크모드에서 거의 검정으로 반전되어 여기엔 쓰면 안 됨 */
     --lose: #3f6690;
     --lose-soft: #e3eaf1;
     --shadow: 0 1px 2px rgba(36,18,17,.05), 0 8px 24px -12px rgba(36,18,17,.18);
@@ -136,7 +137,7 @@
     color: inherit;
     border-radius: 8px;
   }
-  .brand:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 4px; }
+  .brand:focus-visible { outline: 2px solid var(--gold-on-accent); outline-offset: 4px; }
   .crest {
     width: 36px; height: 36px; border-radius: 50%;
     background: var(--gold);
@@ -156,7 +157,7 @@
     font-weight: 400;
     font-size: 18px;
     letter-spacing: .01em;
-    color: var(--gold-soft);
+    color: var(--gold-on-accent);
     text-shadow: 0 2px 10px rgba(0,0,0,.25);
     position: relative;
   }
@@ -294,7 +295,7 @@
     font-size: 12px;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--gold-soft);
+    color: var(--gold-on-accent);
     margin-bottom: 6px;
   }
   .hero-slogan {
@@ -345,7 +346,7 @@
   }
   .cta:hover { filter: brightness(1.06); transform: translateY(-2px); box-shadow: 0 14px 30px -10px rgba(0,0,0,.55); }
   .cta:active { transform: translateY(0); }
-  .cta:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+  .cta:focus-visible { outline: 2px solid var(--gold-on-accent); outline-offset: 3px; }
 
   .hero-chips {
     display: flex;
@@ -519,7 +520,7 @@
     text-align: center;
     margin-top: 8px;
     font-size: 12.5px;
-    color: var(--gold-soft);
+    color: var(--gold-on-accent);
   }
   .match-dday {
     font-family: "Oswald", sans-serif;
