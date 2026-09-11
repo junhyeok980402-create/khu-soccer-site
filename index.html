@@ -984,6 +984,25 @@
     margin-bottom: 20px;
   }
   .stat-wide { grid-column: 1 / -1; }
+  .club-history { display: flex; flex-direction: column; }
+  .club-history-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 0;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  .club-history-row + .club-history-row { border-top: 1px dashed var(--line); }
+  .club-history-year {
+    font-family: "Oswald", sans-serif;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    flex: none;
+    min-width: 80px;
+    font-variant-numeric: tabular-nums;
+  }
+  .club-history-club { font-size: 14px; font-weight: 600; }
+  .club-history-note { font-size: 11.5px; font-weight: 400; color: var(--text-muted); }
   .stat-grid-3col { grid-template-columns: repeat(1, 1fr); }
   @media (min-width: 480px) {
     .stat-grid-3col { grid-template-columns: repeat(2, 1fr); }
@@ -1965,19 +1984,33 @@
     // AI 생성 자료에서 정인환(연세대)·이진호(울산과학대)·윤빛가람(중앙대) 등 오귀속 사례가 발견되어
     // 검증되지 않은 동문은 의도적으로 제외함(2026-09-10 확인).
     alumni: [
-      { id: "alumni-leeunjae", name: "이운재", position: "GK", extra: "체육학과 92학번", highSchool: "청주상업고등학교", clubHistory: "수원 삼성 블루윙즈(1996~2011, 창단멤버) → 전남 드래곤즈(2011~은퇴)", status: "은퇴", photo: "assets/alumni-leeunjae.jpg",
+      { id: "alumni-leeunjae", name: "이운재", position: "GK", extra: "체육학과 92학번", highSchool: "청주상업고등학교",
+        clubHistory: [{ period: "1996~2011", club: "수원 삼성 블루윙즈", note: "창단멤버" }, { period: "2011~은퇴", club: "전남 드래곤즈" }],
+        status: "은퇴", photo: "assets/alumni-leeunjae.jpg",
         note: "2002 한일 월드컵 4강 국가대표 골키퍼. 대한민국 역대 최고의 골키퍼 중 한 명으로 꼽힌다." },
-      { id: "alumni-parkgeonha", name: "박건하", position: "FW", extra: "졸업", highSchool: "대전상업고등학교", clubHistory: "이랜드 푸마(실업, 드래프트 거부 후 입단) → 수원 삼성 블루윙즈(1996 창단멤버~2001)", status: "은퇴", photo: "assets/alumni-parkgeonha.jpg",
+      { id: "alumni-parkgeonha", name: "박건하", position: "FW", extra: "졸업", highSchool: "대전상업고등학교",
+        clubHistory: [{ period: "1994~1996", club: "이랜드 푸마", note: "실업, 드래프트 거부 후 입단" }, { period: "1996~2001", club: "수원 삼성 블루윙즈", note: "창단멤버" }],
+        status: "은퇴", photo: "assets/alumni-parkgeonha.jpg",
         note: "수원 삼성 블루윙즈 레전드 공격수 출신. 이후 수원 삼성 감독(2020~2023)을 역임했다." },
-      { id: "alumni-gosengbeom", name: "고승범", position: "MF", extra: "스포츠지도학과 13학번", highSchool: "청주대성고등학교", clubHistory: "수원 삼성 블루윙즈(2016~2023, 대구FC 임대·김천상무 군복무 기간 제외) → 울산 HD(2024~2025) → 수원 삼성(2026~, 트레이드)", status: "현역", club: "수원 삼성 블루윙즈", photo: "assets/alumni-gosengbeom.jpg",
+      { id: "alumni-gosengbeom", name: "고승범", position: "MF", extra: "스포츠지도학과 13학번", highSchool: "청주대성고등학교",
+        clubHistory: [{ period: "2016~2023", club: "수원 삼성 블루윙즈", note: "대구FC 임대·김천상무 군복무 기간 제외" }, { period: "2024~2025", club: "울산 HD" }, { period: "2026~", club: "수원 삼성 블루윙즈", note: "트레이드" }],
+        status: "현역", club: "수원 삼성 블루윙즈", photo: "assets/alumni-gosengbeom.jpg",
         note: "경희대 시절 김광진 감독 체제에서 주전으로 활약, 덴소컵 한일대학축구정기전 대표 선발 경력." },
-      { id: "alumni-kimjinsu", name: "김진수", position: "LB", extra: null, highSchool: null, clubHistory: "알비렉스 니가타(2012~2014) → TSG 1899 호펜하임(2014~2017) → 전북현대(2017~2019) → 알나스르FC(2019~2021) → 전북현대(2021~2023, 임대) → FC서울(2024~)", status: "현역", club: "FC서울", photo: "assets/alumni-kimjinsu.jpg",
+      { id: "alumni-kimjinsu", name: "김진수", position: "LB", extra: null, highSchool: null,
+        clubHistory: [{ period: "2012~2014", club: "알비렉스 니가타" }, { period: "2014~2017", club: "TSG 1899 호펜하임" }, { period: "2017~2019", club: "전북현대" }, { period: "2019~2021", club: "알나스르FC" }, { period: "2021~2023", club: "전북현대", note: "임대" }, { period: "2024~", club: "FC서울" }],
+        status: "현역", club: "FC서울", photo: "assets/alumni-kimjinsu.jpg",
         note: "2014 인천 아시안게임 금메달·국가대표 출신 왼쪽 풀백. 2026시즌 FC서울 주장." },
-      { id: "alumni-parkbyeonggyu", name: "박병규", position: "WF", extra: null, highSchool: "풍생고등학교", clubHistory: "성남FC(2025~)", status: "현역", club: "성남FC", photo: "assets/alumni-parkbyeonggyu.png",
+      { id: "alumni-parkbyeonggyu", name: "박병규", position: "WF", extra: null, highSchool: "풍생고등학교",
+        clubHistory: [{ period: "2025~", club: "성남FC" }],
+        status: "현역", club: "성남FC", photo: "assets/alumni-parkbyeonggyu.png",
         note: "성남FC 유스(풍생고) 출신으로 특기생 입학, 경희대를 거쳐 2025시즌 성남FC(K리그2)에서 프로 데뷔. 빠른 스피드와 저돌적인 드리블이 강점이며, 2026시즌 극적인 데뷔골과 'MOM'급 활약을 이어가고 있다." },
-      { id: "alumni-kimminjun", name: "김민준", position: "DM", extra: null, highSchool: "과천고등학교", clubHistory: "서산 파이오니아FC(K4리그) → FC서울(2026~)", status: "현역", club: "FC서울", photo: "assets/alumni-kimminjun.png",
+      { id: "alumni-kimminjun", name: "김민준", position: "DM", extra: null, highSchool: "과천고등학교",
+        clubHistory: [{ period: "~2026", club: "서산 파이오니아FC", note: "K4리그" }, { period: "2026~", club: "FC서울" }],
+        status: "현역", club: "FC서울", photo: "assets/alumni-kimminjun.png",
         note: "과천고를 거쳐 경희대에서 뛴 뒤 K4리그 서산 파이오니아FC에서 경력을 쌓다가, 2026년 8월 K리그1 선두 FC서울로 전격 이적했다. 폭넓은 활동량으로 중원 균형을 잡는 스타일." },
-      { id: "alumni-janghayoon", name: "장하윤", position: "CB", extra: "스포츠지도학과", highSchool: "평택진위고등학교", clubHistory: "파주 프런티어FC(2026~)", status: "현역", club: "파주 프런티어FC", photo: "assets/alumni-janghayoon.jpg",
+      { id: "alumni-janghayoon", name: "장하윤", position: "CB", extra: "스포츠지도학과", highSchool: "평택진위고등학교",
+        clubHistory: [{ period: "2026~", club: "파주 프런티어FC" }],
+        status: "현역", club: "파주 프런티어FC", photo: "assets/alumni-janghayoon.jpg",
         note: "경희대 축구부 주장(2026시즌). U-21 올림픽대표팀 발탁, 덴소컵 한국대학선발 주장. 2026년 8월 K리그2 파주 프런티어FC 입단으로 프로 무대에 데뷔했다." },
     ],
 
@@ -2905,7 +2938,19 @@
       { label: "출신고교", value: fmt(a.highSchool) },
       a.extra ? { label: "학적", value: a.extra } : null,
       a.club ? { label: "현재 소속", value: `<span class="alumni-club-inline"><span class="alumni-club-logo">${alumniClubLogoHTML(a.club)}</span>${a.club}</span>` } : null,
-      { label: "소속 경력", value: fmt(a.clubHistory) },
+      {
+        label: "소속 경력",
+        value: a.clubHistory && a.clubHistory.length
+          ? `<div class="club-history">${a.clubHistory
+              .map(
+                (c) => `<div class="club-history-row">
+                  <span class="club-history-year">${escapeAttr(c.period)}</span>
+                  <span class="club-history-club">${escapeAttr(c.club)}${c.note ? ` <span class="club-history-note">· ${escapeAttr(c.note)}</span>` : ""}</span>
+                </div>`
+              )
+              .join("")}</div>`
+          : fmt(null),
+      },
     ].filter(Boolean);
     document.getElementById("lightbox-stats").innerHTML = rows
       .map((r) => `<div class="stat stat-wide"><div class="label">${r.label}</div><div class="value" style="font-size:15px">${r.value}</div></div>`)
