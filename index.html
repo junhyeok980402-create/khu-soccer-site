@@ -1867,6 +1867,10 @@
     ],
 
     matches: [
+      { id: "match-2026-cup-010", date: "2026-01-07", time: null, competition: "제22회 1,2학년 대학축구연맹전 (조별리그)", opponent: "구미대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 2 }, result: "승", source: "[단일 소스] 경희대 공식미디어" },
+      { id: "match-2026-cup-011", date: "2026-01-09", time: null, competition: "제22회 1,2학년 대학축구연맹전 (조별리그)", opponent: "칼빈대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 2, opponent: 0 }, result: "승", source: "[단일 소스] 경희대 공식미디어" },
+      { id: "match-2026-cup-012", date: "2026-01-11", time: null, competition: "제22회 1,2학년 대학축구연맹전 (조별리그, 조 1위 확정)", opponent: "용인대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 2, opponent: 1 }, result: "승", source: "[단일 소스] 경희대 공식미디어" },
+      { id: "match-2026-cup-013", date: "2026-01-16", time: "12:30", competition: "제22회 1,2학년 대학축구연맹전 (16강)", opponent: null, venue: null, homeAway: null, status: "결과 미확인(기사 작성 시점엔 예정 경기)", score: { kyunghee: null, opponent: null }, result: null },
       { id: "match-2026-cup-001", date: "2026-02-09", time: null, competition: "제62회 한산대첩기 춘계대학축구연맹전 (조별리그)", opponent: "인천대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 2 }, result: "승",
         scorers: { kyunghee: [{ name: "박태양", minute: null, note: "멀티골(최소 2골)" }], opponent: [] },
         note: "박태양 멀티골 외 나머지 득점자는 미확인.", source: "[단일 소스] 경희대 공식미디어" },
@@ -1892,6 +1896,12 @@
         scorers: { kyunghee: [{ name: "대구대 자책골", minute: "전반37'" }, { name: "이유석", minute: "후반11'" }, { name: "김세인", minute: null }, { name: "정주형", minute: null }, { name: "박근오", minute: null, note: "멀티골(2골)" }], opponent: [] },
         source: "[단일 소스] 일간스포츠" },
       { id: "match-2026-cup-007", date: "2026-07-14", time: null, competition: "제62회 추계대학축구연맹전 백두대간기 (8강)", opponent: "연세대", venue: "태백스포츠파크", homeAway: null, status: "종료", score: { kyunghee: 0, opponent: 3 }, result: "패 (대회 8강 탈락)" },
+      { id: "match-2026-cup-008", date: "2026-08-14", time: null, competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (조별예선)", opponent: "경기대", venue: "경남 합천군민체육공원 1구장", homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 3 }, result: "승",
+        scorers: { kyunghee: [{ name: "김세인", minute: "전반13'" }, { name: "한준희", minute: "전반18'" }, { name: "김세인", minute: "후반 추가 3'", note: "동점골" }, { name: "박민서", minute: "종료 직전", note: "역전골" }], opponent: [{ name: "김기완", minute: null }, { name: "권기원", minute: null, note: "멀티골(2골)" }] },
+        source: "[단일 소스] 일간스포츠" },
+      { id: "match-2026-cup-009", date: "2026-08-26", time: "21:00", competition: "수려한합천 제21회 1·2학년 대학축구연맹전 황가람기 (8강)", opponent: "김천대", venue: null, homeAway: null, status: "종료", score: { kyunghee: 4, opponent: 3 }, result: "승 (4강 진출)",
+        note: "득점자 명단은 출처(대전 유소년축구 카페)에 이경원·정주형(해트트릭)·이건곤으로 기재되어 있으나 합산 골 수가 스코어(4골)와 맞지 않아 scorers로는 반영하지 않음. 대회 4강 이후 결과는 미확인(경희대가 결승 진출자 명단에 없어 4강 탈락으로 추정되나 상대·스코어 미확인).",
+        source: "[단일 소스] 대전 유소년축구 다음카페" },
       { id: "match-2026-league-001", date: "2026-04-17", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "장안대", venue: "비봉습지공원축구장", homeAway: "원정", status: "종료", score: { kyunghee: 1, opponent: 0 }, result: "승" },
       { id: "match-2026-league-002", date: "2026-04-24", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "명지대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 1, opponent: 1 }, result: "무" },
       { id: "match-2026-league-003", date: "2026-05-01", time: null, competition: "KUSF 대학축구 U리그 3권역", opponent: "국제사이버대", venue: "기흥레스피아 A구장", homeAway: "홈", status: "종료", score: { kyunghee: 4, opponent: 2 }, result: "승" },
@@ -2509,17 +2519,24 @@
       return;
     }
 
-    const order = [];
+    // 대회 그룹 순서: 컵대회(날짜순) 먼저, 리그(날짜순)는 마지막 — 리그처럼 시즌 전체에
+    // 걸쳐 경기가 퍼져있는 대회가 첫 경기 날짜만으로 다른 컵대회 사이에 끼어들지 않도록 함.
     const byComp = {};
     rows.forEach((m) => {
       const name = baseCompetitionName(m.competition);
-      if (!byComp[name]) { byComp[name] = []; order.push(name); }
-      byComp[name].push(m);
+      if (!byComp[name]) byComp[name] = { matches: [], minDate: m.date, cat: competitionGroup(m) };
+      byComp[name].matches.push(m);
+      if (m.date < byComp[name].minDate) byComp[name].minDate = m.date;
+    });
+    const order = Object.keys(byComp).sort((a, b) => {
+      const ga = byComp[a], gb = byComp[b];
+      if (ga.cat !== gb.cat) return ga.cat === "컵대회" ? -1 : 1;
+      return ga.minDate < gb.minDate ? -1 : ga.minDate > gb.minDate ? 1 : 0;
     });
 
     container.innerHTML = order
       .map((name) => {
-        const matches = byComp[name];
+        const matches = byComp[name].matches;
         const tagClass = competitionGroup(matches[0]) === "리그" ? "league" : "cup";
         const tagLabel = competitionGroup(matches[0]);
         return `
