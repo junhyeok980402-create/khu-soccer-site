@@ -347,17 +347,6 @@
   .cta:active { transform: translateY(0); }
   .cta:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
 
-  /* ---- 홈 히어로 검색(DESIGN.md 1장: 첫 화면의 주인공은 검색창) ---- */
-  .hero-search {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: clamp(28px, 5vw, 36px);
-  }
-  .hero-search .search-input { max-width: none; }
-  .hero-search-row { display: flex; gap: 8px; }
-  .hero-search-row .search-input { flex: 1; }
-
   .hero-chips {
     display: flex;
     flex-wrap: wrap;
@@ -1547,16 +1536,7 @@
       </div>
       <h1>그라운드 위의 경희</h1>
       <p id="hero-summary">1955년 창단 이래 그라운드를 지켜온 경희대학교 축구부.<br>"U리그&nbsp;3권역 우승"을 목표로, 오늘도 정상을 향해 달립니다.</p>
-      <form class="hero-search" id="hero-search-form" role="search" aria-label="선수 검색">
-        <div class="filter-row" id="position-filter"></div>
-        <div class="hero-search-row">
-          <input type="search" id="player-search" class="search-input" placeholder="선수 이름으로 검색">
-          <button type="submit" class="hero-search-btn min-h-11 px-5 rounded-full bg-khu-red text-white font-bold text-sm whitespace-nowrap inline-flex items-center justify-center gap-1.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khu-red/50">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            검색
-          </button>
-        </div>
-      </form>
+      <button class="cta" data-nav="roster">선수단 보기</button>
       <div class="hero-chips">
         <div class="hero-chip"><span class="k">창단</span><span class="v">1955년</span></div>
         <div class="hero-chip"><span class="k">홈구장</span><span class="v" id="chip-venue">정보 입력 예정</span></div>
@@ -1615,6 +1595,8 @@
         </div>
         <span id="roster-count"></span>
       </div>
+      <div class="filter-row" id="position-filter"></div>
+      <input type="search" id="player-search" class="search-input" placeholder="선수 이름 검색">
       <div class="roster-grid reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="grid"></div>
       <div id="inactive-note"></div>
     </div>
@@ -2271,7 +2253,6 @@
         activeFilter = pos;
         renderPositionFilter();
         renderGrid();
-        goTo("roster"); // 검색·필터가 홈 히어로로 이동했으므로, 선택 즉시 결과(선수단) 페이지로 이동
       });
       positionFilterEl.appendChild(btn);
     });
@@ -2413,10 +2394,6 @@
   searchInput.addEventListener("input", () => {
     searchQuery = searchInput.value.trim();
     renderGrid();
-  });
-  document.getElementById("hero-search-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    goTo("roster"); // 검색·필터가 홈 히어로로 이동했으므로, 제출 시 결과(선수단) 페이지로 이동
   });
 
   // ---- 홈 위젯: 최근 경기 결과 ----
