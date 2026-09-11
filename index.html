@@ -747,6 +747,14 @@
     font-weight: 700;
     margin: 0;
   }
+  .squad-tag {
+    font-family: "Oswald", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
   .roster-meta span {
     font-family: "Oswald", "Noto Sans KR", sans-serif;
     font-size: 12px;
@@ -1480,7 +1488,10 @@
   <main class="page" id="page-roster" hidden>
     <div id="roster-list">
       <div class="roster-meta">
-        <h2>선수단 명단</h2>
+        <div>
+          <div class="squad-tag">2026 SQUAD</div>
+          <h2>선수단 명단</h2>
+        </div>
         <span id="roster-count"></span>
       </div>
       <div class="filter-row" id="position-filter"></div>
