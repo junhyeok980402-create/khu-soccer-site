@@ -944,6 +944,13 @@
     overflow: hidden;
     margin-bottom: 20px;
   }
+  .stat-grid-3col { grid-template-columns: repeat(1, 1fr); }
+  @media (min-width: 480px) {
+    .stat-grid-3col { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 700px) {
+    .stat-grid-3col { grid-template-columns: repeat(3, 1fr); }
+  }
   .stat {
     background: var(--surface);
     padding: 16px 18px;
@@ -1554,7 +1561,7 @@
     <div id="about-tab-overview">
       <p class="about-lede">1955년 창단해 대학 축구의 전통을 이어오고 있는 경희대학교 축구부를 소개합니다.</p>
 
-      <div class="stat-grid">
+      <div class="stat-grid stat-grid-3col">
         <div class="stat"><div class="label">정식 명칭</div><div class="value" style="font-size:15px">경희대학교 축구부<br><span style="font-size:12px;color:var(--text-muted)">慶熙大學校 蹴球部 · Kyung Hee University FC</span></div></div>
         <div class="stat"><div class="label">창단</div><div class="value" style="font-size:16px">1955년</div></div>
         <div class="stat"><div class="label">소속 협회</div><div class="value" style="font-size:15px">KFA · KUFC</div></div>
@@ -2351,10 +2358,21 @@
     return m.competition && m.competition.includes("U리그") ? "리그" : "컵대회";
   }
 
+  // 뷰어의 브라우저 시간대와 무관하게 항상 서울(KST, UTC+9) 기준 "오늘" 날짜로 계산합니다.
+  function kstTodayUTCms() {
+    const nowUtcMs = Date.now() + new Date().getTimezoneOffset() * 60000;
+    const kst = new Date(nowUtcMs + 9 * 3600000);
+    return Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate());
+  }
+  function dateOnlyUTCms(isoDate) {
+    const [y, m, d] = isoDate.split("-").map(Number);
+    return Date.UTC(y, m - 1, d);
+  }
+
   function nextMatchHTML(sorted) {
     const next = sorted.find((m) => m.status === "예정");
     if (!next) return "";
-    const dday = Math.max(0, Math.round((new Date(next.date) - new Date()) / 86400000));
+    const dday = Math.max(0, Math.round((dateOnlyUTCms(next.date) - kstTodayUTCms()) / 86400000));
     return `
       <div class="match-card">
         <span class="match-tag">다음 경기 · <span class="match-dday">D-${dday}</span></span>
