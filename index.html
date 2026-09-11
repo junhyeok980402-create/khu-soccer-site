@@ -209,13 +209,37 @@
     margin: 0 auto;
     padding: clamp(40px, 8vw, 76px) 20px clamp(32px, 6vw, 52px);
   }
+  .hero-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .hero-crest {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    overflow: hidden;
+    box-shadow: 0 0 0 3px var(--gold), 0 10px 22px -10px rgba(0,0,0,.55);
+  }
+  .hero-crest img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .hero-eyebrow {
     font-family: "Oswald", sans-serif;
     font-size: 12px;
     letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--gold-soft);
-    margin-bottom: 12px;
+    margin-bottom: 6px;
   }
   .hero-slogan {
     font-family: "Oswald", sans-serif;
@@ -225,7 +249,7 @@
     letter-spacing: .04em;
     color: var(--gold);
     text-shadow: 0 2px 14px rgba(0,0,0,.25);
-    margin: 0 0 14px;
+    margin: 0;
   }
   .hero-band h1 {
     font-family: "Black Han Sans", "Noto Sans KR", sans-serif;
@@ -592,23 +616,28 @@
     padding: 11px 10px;
     text-align: center;
     border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
     white-space: nowrap;
   }
+  .fixtures th:last-child, .fixtures td:last-child { border-right: none; }
   .fixtures th {
     font-size: 12.5px;
     color: var(--text-muted);
     letter-spacing: .04em;
-    font-weight: 600;
+    font-weight: 700;
     position: sticky;
     top: 0;
-    background: var(--bg);
+    background: var(--surface-2);
+    border-bottom: 2px solid var(--line);
   }
   .fixtures td { font-variant-numeric: tabular-nums; }
+  .fixtures td:nth-child(1) { color: var(--text-muted); }
   .fixtures td:nth-child(2) { text-align: left; font-weight: 600; }
+  .fixtures tbody tr:nth-child(even) td { background: var(--surface-2); }
   .fixtures tr.upcoming td { color: var(--text-muted); }
   .fixtures tr.upcoming td:nth-child(2) { color: var(--text); }
   .fixture-row { cursor: pointer; }
-  .fixture-row:hover td { background: var(--surface-2); }
+  .fixture-row:hover td { background: color-mix(in srgb, var(--accent) 10%, var(--surface-2)); }
   .fixture-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .stage-note {
     display: block;
@@ -1176,8 +1205,13 @@
 
 <section class="hero-band" id="hero-band">
   <div class="hero-inner">
-    <div class="hero-eyebrow" id="hero-eyebrow">2026 시즌</div>
-    <div class="hero-slogan">"Roar All Time" — 2026 시즌 슬로건</div>
+    <div class="hero-top">
+      <div class="hero-crest"><img src="assets/khu-univ-logo.png" alt="경희대학교 엠블럼"></div>
+      <div>
+        <div class="hero-eyebrow" id="hero-eyebrow">2026 시즌</div>
+        <div class="hero-slogan">"Roar All Time" — 2026 시즌 슬로건</div>
+      </div>
+    </div>
     <h1>그라운드 위의 경희</h1>
     <p id="hero-summary">1955년 창단 이래 그라운드를 지켜온 경희대학교 축구부.<br>"U리그&nbsp;3권역 우승"을 목표로, 오늘도 정상을 향해 달립니다.</p>
     <button class="cta" data-nav="roster">선수단 보기 →</button>
