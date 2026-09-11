@@ -383,6 +383,19 @@
     font-size: 13px;
     font-weight: 700;
   }
+  .widget-subtag {
+    font-family: "Oswald", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 2px 8px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
   .widget-head span {
     font-family: "Oswald", sans-serif;
     font-size: 12.5px;
@@ -1368,6 +1381,19 @@
   }
   .alumni-badge.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
   .alumni-role { font-size: 12.5px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+  .alumni-club {
+    display: inline-flex;
+    align-items: center;
+    font-family: "Oswald", sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--gold);
+    background: var(--gold-soft);
+    border-radius: 100px;
+    padding: 3px 10px;
+    margin: -2px 0 8px;
+  }
   .alumni-note {
     font-size: 12.5px;
     color: var(--text-muted);
@@ -1484,7 +1510,7 @@
         <div class="scoreboard" id="scoreboard"></div>
       </div>
       <div class="widget">
-        <div class="widget-head"><h3>리그 순위</h3><span id="standings-asof">2026 시즌</span></div>
+        <div class="widget-head"><h3>리그 순위 <span id="standings-league-name" class="widget-subtag"></span></h3><span id="standings-asof">2026 시즌</span></div>
         <table class="standings">
           <thead>
             <tr><th>순위</th><th>클럽</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득실차</th></tr>
@@ -1701,6 +1727,7 @@
         <span class="alumni-badge" id="lightbox-badge"></span>
       </div>
       <div class="alumni-role" id="lightbox-role"></div>
+      <div class="alumni-club" id="lightbox-club" hidden></div>
       <p class="alumni-note" id="lightbox-note"></p>
     </div>
   </div>
@@ -1722,6 +1749,7 @@
     "명지대": "assets/crests/myongji.gif",
     "수원대": "assets/crests/suwon.png",
     "인천대": "assets/crests/incheon.svg",
+    "경기대": "assets/crests/kyonggi.png",
   };
   function crestHTML(teamName, isUs) {
     if (isUs) return `<img src="assets/khu-univ-logo.png" alt="${CLUB_NAME} 엠블럼">`;
@@ -1847,7 +1875,7 @@
     ],
 
     staff: [
-      { id: "staff-001", name: "김광진", role: "감독", photo: null,
+      { id: "staff-001", name: "김광진", role: "감독", photo: "assets/staff-kimkwangjin.jpg",
         bio: "팀을 이끄는 사령탑. 2026시즌 한산대첩기 춘계연맹전에서 팀을 준우승으로 이끌었다." },
       { id: "staff-002", name: "공태현", role: "코치 / 피지컬코치", photo: null,
         bio: "피지컬 코치와 코치를 겸임하며 선수단을 지원한다." },
@@ -1864,15 +1892,15 @@
         note: "2002 한일 월드컵 4강 국가대표 골키퍼. 대한민국 역대 최고의 골키퍼 중 한 명으로 꼽힌다." },
       { id: "alumni-parkgeonha", name: "박건하", role: "공격수 · 졸업", status: "은퇴", photo: "assets/alumni-parkgeonha.jpg",
         note: "수원 삼성 블루윙즈 레전드 공격수 출신. 이후 수원 삼성 감독(2020~2023)을 역임했다." },
-      { id: "alumni-gosengbeom", name: "고승범", role: "미드필더 · 스포츠지도학과 13학번", status: "현역", photo: "assets/alumni-gosengbeom.jpg",
+      { id: "alumni-gosengbeom", name: "고승범", role: "미드필더 · 스포츠지도학과 13학번", status: "현역", club: "수원 삼성 블루윙즈", photo: "assets/alumni-gosengbeom.jpg",
         note: "경희대 시절 김광진 감독 체제에서 주전으로 활약, 덴소컵 한일대학축구정기전 대표 선발 경력. 울산 HD(2024~2025)를 거쳐 2026시즌 수원 삼성 소속(2026-02-20 트레이드 이적)." },
-      { id: "alumni-kimjinsu", name: "김진수", role: "왼쪽 풀백", status: "현역", photo: "assets/alumni-kimjinsu.jpg",
+      { id: "alumni-kimjinsu", name: "김진수", role: "왼쪽 풀백", status: "현역", club: "FC서울", photo: "assets/alumni-kimjinsu.jpg",
         note: "2014 인천 아시안게임 금메달·국가대표 출신 왼쪽 풀백. 2026시즌 FC서울 주장." },
-      { id: "alumni-parkbyeonggyu", name: "박병규", role: "윙어", status: "현역", photo: "assets/alumni-parkbyeonggyu.png",
+      { id: "alumni-parkbyeonggyu", name: "박병규", role: "윙어", status: "현역", club: "성남FC", photo: "assets/alumni-parkbyeonggyu.png",
         note: "성남FC 유스(풍생고) 출신으로 특기생 입학, 경희대를 거쳐 2025시즌 성남FC(K리그2)에서 프로 데뷔. 빠른 스피드와 저돌적인 드리블이 강점이며, 2026시즌 극적인 데뷔골과 'MOM'급 활약을 이어가고 있다." },
-      { id: "alumni-kimminjun", name: "김민준", role: "수비형 미드필더", status: "현역", photo: "assets/alumni-kimminjun.png",
+      { id: "alumni-kimminjun", name: "김민준", role: "수비형 미드필더", status: "현역", club: "FC서울", photo: "assets/alumni-kimminjun.png",
         note: "과천고를 거쳐 경희대에서 뛴 뒤 K4리그 서산 파이오니아FC에서 경력을 쌓다가, 2026년 8월 K리그1 선두 FC서울로 전격 이적했다. 폭넓은 활동량으로 중원 균형을 잡는 스타일." },
-      { id: "alumni-janghayoon", name: "장하윤", role: "센터백 · 스포츠지도학과", status: "현역", photo: "assets/alumni-janghayoon.jpg",
+      { id: "alumni-janghayoon", name: "장하윤", role: "센터백 · 스포츠지도학과", status: "현역", club: "파주 프런티어FC", photo: "assets/alumni-janghayoon.jpg",
         note: "경희대 축구부 주장(2026시즌). U-21 올림픽대표팀 발탁, 덴소컵 한국대학선발 주장. 2026년 8월 K리그2 파주 프런티어FC 입단으로 프로 무대에 데뷔했다." },
     ],
 
@@ -2329,6 +2357,8 @@
       return;
     }
     document.getElementById("standings-asof").textContent = `${dotDate(st.asOfDate)} 기준`;
+    const leagueShort = (st.competition || "").replace(/^KUSF\s*대학축구\s*/, "");
+    document.getElementById("standings-league-name").textContent = leagueShort;
     body.innerHTML = st.table
       .map(
         (r) => `
@@ -2726,6 +2756,7 @@
           <span class="alumni-badge${a.status === "현역" ? " active" : ""}">${a.status}</span>
         </div>
         <div class="alumni-role">${a.role}</div>
+        ${a.club ? `<div class="alumni-club">현재 소속 · ${a.club}</div>` : ""}
         <p class="alumni-note">${a.note}</p>
       </button>`
       )
@@ -2745,6 +2776,9 @@
     badge.textContent = a.status;
     badge.className = "alumni-badge" + (a.status === "현역" ? " active" : "");
     document.getElementById("lightbox-role").textContent = a.role;
+    const clubEl = document.getElementById("lightbox-club");
+    clubEl.hidden = !a.club;
+    clubEl.textContent = a.club ? `현재 소속 · ${a.club}` : "";
     document.getElementById("lightbox-note").textContent = a.note;
     document.getElementById("lightbox-photo").innerHTML = a.photo
       ? `<img src="${a.photo}" alt="${escapeAttr(a.name)}">`
@@ -2786,6 +2820,7 @@
       .map(
         (s) => `
       <div class="staff-card">
+        <div class="alumni-avatar">${s.photo ? `<img src="${s.photo}" alt="${escapeAttr(s.name)}">` : `<img class="fallback" src="assets/lion-mark-white.png" alt="">`}</div>
         <div class="staff-role">${fmt(s.role)}</div>
         <div class="staff-name">${s.name}</div>
         ${s.bio ? `<div class="staff-bio">${s.bio}</div>` : ""}
