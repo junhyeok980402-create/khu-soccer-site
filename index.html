@@ -2441,8 +2441,39 @@
     `;
   }
 
+  // ---- 선수 상세: 하위 탭(기본정보/시즌기록) ----
+  // showDetail()이 선수를 열 때마다 detailContent를 통째로 새로 그리므로
+  // (ABOUT_TABS처럼) el을 캐싱하지 않고 클릭 시마다 getElementById로 조회한다.
+  const PLAYER_DETAIL_TABS = [
+    { key: "profile", label: "기본정보" },
+    { key: "season", label: "시즌기록" },
+  ];
+  let playerDetailTabVal = "profile";
+  function renderPlayerDetailTabFilter() {
+    const el = document.getElementById("detail-tab-filter");
+    if (!el) return;
+    el.innerHTML = "";
+    PLAYER_DETAIL_TABS.forEach((tab) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "filter-pill" + (tab.key === playerDetailTabVal ? " active" : "");
+      btn.textContent = tab.label;
+      btn.addEventListener("click", () => {
+        playerDetailTabVal = tab.key;
+        renderPlayerDetailTabFilter();
+        PLAYER_DETAIL_TABS.forEach((t) => {
+          const panel = document.getElementById(`detail-tab-${t.key}`);
+          if (panel) panel.hidden = t.key !== playerDetailTabVal;
+        });
+        observeReveals(detailContent);
+      });
+      el.appendChild(btn);
+    });
+  }
+
   function showDetail(p) {
     const s = p.stats || {};
+    playerDetailTabVal = "profile";
     detailContent.innerHTML = `
       <div class="detail-head">
         <div class="detail-num">${p.number ?? "-"}</div>
@@ -2455,27 +2486,33 @@
           </div>
         </div>
       </div>
-      <div class="stat-grid">
-        <div class="stat"><div class="label">학년</div><div class="value" style="font-size:16px">${fmt(p.year)}</div></div>
-        <div class="stat"><div class="label">학과</div><div class="value" style="font-size:15px">${fmt(p.department)}</div></div>
-        <div class="stat"><div class="label">출신학교</div><div class="value" style="font-size:15px">${fmt(p.school)}</div></div>
-        <div class="stat"><div class="label">신장 / 체중</div><div class="value" style="font-size:16px">${fmt(p.height, "cm")} / ${fmt(p.weight, "kg")}</div></div>
-        <div class="stat"><div class="label">주발</div><div class="value" style="font-size:16px">${fmt(p.preferredFoot)}</div></div>
-        <div class="stat"><div class="label">출생년월</div><div class="value" style="font-size:15px">${fmt(p.birthDate)}</div></div>
-      </div>
-      <div class="apps-block">
-        <div class="label">시즌 기록${s.season ? ` · ${s.season}` : ""}${s.competition ? ` · ${s.competition}` : ""}</div>
+      <div class="filter-row" id="detail-tab-filter"></div>
+      <div id="detail-tab-profile">
         <div class="stat-grid">
-          <div class="stat"><div class="label">출전</div><div class="value">${statNum(s.appearances)}</div></div>
-          <div class="stat"><div class="label">득점</div><div class="value">${statNum(s.goals)}</div></div>
-          <div class="stat"><div class="label">도움</div><div class="value">${statNum(s.assists)}</div></div>
-          <div class="stat"><div class="label">경고 / 퇴장</div><div class="value">${statNum(s.yellowCards)} / ${statNum(s.redCards)}</div></div>
+          <div class="stat"><div class="label">학년</div><div class="value" style="font-size:16px">${fmt(p.year)}</div></div>
+          <div class="stat"><div class="label">학과</div><div class="value" style="font-size:15px">${fmt(p.department)}</div></div>
+          <div class="stat"><div class="label">출신학교</div><div class="value" style="font-size:15px">${fmt(p.school)}</div></div>
+          <div class="stat"><div class="label">신장 / 체중</div><div class="value" style="font-size:16px">${fmt(p.height, "cm")} / ${fmt(p.weight, "kg")}</div></div>
+          <div class="stat"><div class="label">주발</div><div class="value" style="font-size:16px">${fmt(p.preferredFoot)}</div></div>
+          <div class="stat"><div class="label">출생년월</div><div class="value" style="font-size:15px">${fmt(p.birthDate)}</div></div>
         </div>
-        ${s.note ? `<p class="note">${s.note}</p>` : ""}
+        ${bioHTML(p)}
       </div>
-      ${bioHTML(p)}
+      <div id="detail-tab-season" hidden>
+        <div class="apps-block">
+          <div class="label">시즌 기록${s.season ? ` · ${s.season}` : ""}${s.competition ? ` · ${s.competition}` : ""}</div>
+          <div class="stat-grid">
+            <div class="stat"><div class="label">출전</div><div class="value">${statNum(s.appearances)}</div></div>
+            <div class="stat"><div class="label">득점</div><div class="value">${statNum(s.goals)}</div></div>
+            <div class="stat"><div class="label">도움</div><div class="value">${statNum(s.assists)}</div></div>
+            <div class="stat"><div class="label">경고 / 퇴장</div><div class="value">${statNum(s.yellowCards)} / ${statNum(s.redCards)}</div></div>
+          </div>
+          ${s.note ? `<p class="note">${s.note}</p>` : ""}
+        </div>
+      </div>
       ${relatedNewsHTML(p)}
     `;
+    renderPlayerDetailTabFilter();
     rosterList.hidden = true;
     rosterDetail.hidden = false;
     backBtn.focus();
