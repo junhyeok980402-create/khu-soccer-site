@@ -1703,9 +1703,9 @@
       <span>KUFC·KUSF 공식 자료 기준</span>
     </div>
 
-    <div class="filter-row" id="about-tab-filter"></div>
+    <div class="filter-row" id="about-tab-filter" role="tablist" aria-label="구단소개 하위 탭"></div>
 
-    <div id="about-tab-overview">
+    <div id="about-tab-overview" role="tabpanel" aria-labelledby="about-tab-btn-overview" tabindex="0">
       <p class="about-lede">1955년 창단해 대학 축구의 전통을 이어오고 있는 경희대학교 축구부를 소개합니다.</p>
 
       <div class="stat-grid stat-grid-3col">
@@ -1740,20 +1740,21 @@
       <div class="staff-grid reveal" id="staff-grid"></div>
     </div>
 
-    <div id="about-tab-alumni" hidden>
+    <div id="about-tab-alumni" hidden role="tabpanel" aria-labelledby="about-tab-btn-alumni" tabindex="0">
       <h3 class="section-heading">주요 동문</h3>
       <p class="caption">위키백과·나무위키 등에서 재학 사실이 확인된 동문만 소개합니다.</p>
-      <div class="filter-row" id="alumni-status-filter"></div>
+      <div class="filter-row" id="alumni-status-filter" role="group" aria-label="동문 상태 필터"></div>
       <div class="alumni-grid reveal" id="alumni-grid"></div>
     </div>
 
-    <div id="about-tab-records" hidden>
+    <div id="about-tab-records" hidden role="tabpanel" aria-labelledby="about-tab-btn-records" tabindex="0">
+      <p class="about-lede">1955년 창단 이래 경희대학교 축구부가 쌓아온 발자취와 기록을 모았습니다. 이 팀을 거쳐간 사람들의 이야기는 <b>동문</b> 탭에서 볼 수 있습니다.</p>
       <h3 class="section-heading">구단 연혁</h3>
       <p class="caption">KUFC·KUSF 공식 기록과 언론 보도를 바탕으로 정리했습니다.</p>
       <div class="timeline reveal">
         <div class="timeline-item">
           <div class="timeline-year">1955</div>
-          <div class="timeline-text">경희대학교 축구부, 창단하다.</div>
+          <div class="timeline-text">경희대학교가 종합대학교로 승격한 그해, 축구부도 함께 닻을 올리다.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-year">1960 – 1994</div>
@@ -1762,6 +1763,10 @@
         <div class="timeline-item">
           <div class="timeline-year">1966 – 2015</div>
           <div class="timeline-text">춘계대학축구연맹전에서만 여덟 차례 정상에 서다 (1966·1972·1973·1976·1990·2000·2003·2015).</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1985 – 1993</div>
+          <div class="timeline-text"><b>차경복</b> 감독이 지휘봉을 잡다. 이후 대한민국 축구 국가대표팀 수석코치 등을 역임한 지도자다.</div>
         </div>
         <div class="timeline-item">
           <div class="timeline-year">2002</div>
@@ -2934,7 +2939,7 @@
   const ABOUT_TABS = [
     { key: "overview", label: "개요", el: document.getElementById("about-tab-overview") },
     { key: "alumni", label: "동문", el: document.getElementById("about-tab-alumni") },
-    { key: "records", label: "기록", el: document.getElementById("about-tab-records") },
+    { key: "records", label: "역사관", el: document.getElementById("about-tab-records") },
   ];
   let aboutTabVal = "overview";
   function renderAboutTabFilter() {
@@ -2943,8 +2948,12 @@
     ABOUT_TABS.forEach((tab) => {
       const btn = document.createElement("button");
       btn.type = "button";
+      btn.id = `about-tab-btn-${tab.key}`;
       btn.className = "filter-pill" + (tab.key === aboutTabVal ? " active" : "");
       btn.textContent = tab.label;
+      btn.setAttribute("role", "tab");
+      btn.setAttribute("aria-selected", tab.key === aboutTabVal ? "true" : "false");
+      btn.setAttribute("aria-controls", tab.el.id);
       btn.addEventListener("click", () => {
         aboutTabVal = tab.key;
         renderAboutTabFilter();
@@ -2975,6 +2984,7 @@
       btn.type = "button";
       btn.className = "filter-pill" + (status === alumniStatusFilter ? " active" : "");
       btn.textContent = status;
+      btn.setAttribute("aria-pressed", status === alumniStatusFilter ? "true" : "false");
       btn.addEventListener("click", () => {
         alumniStatusFilter = status;
         renderAlumniStatusFilter();
