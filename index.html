@@ -627,6 +627,7 @@
     background: var(--gold-soft);
     color: var(--gold);
     font-weight: 700;
+    white-space: nowrap;
     margin-left: 6px;
     cursor: help;
   }
@@ -730,7 +731,7 @@
     border-bottom: 2px solid var(--line);
   }
   .fixtures td { font-variant-numeric: tabular-nums; }
-  .fixtures td:nth-child(1) { color: var(--text-muted); }
+  .fixtures td:nth-child(1) { color: var(--text-muted); white-space: nowrap; }
   .fixtures td:nth-child(2) { text-align: center; font-weight: 600; }
   .fixtures tbody tr:nth-child(even) td { background: var(--surface-2); }
   .fixtures tr.upcoming td { color: var(--text-muted); }
@@ -763,6 +764,7 @@
     padding: 3px 11px;
     border-radius: 100px;
     font-weight: 700;
+    white-space: nowrap;
   }
   .comp-tag.league { background: var(--accent-soft); color: var(--accent); }
   .comp-tag.cup { background: var(--gold-soft); color: var(--gold); }
@@ -868,6 +870,7 @@
     border-radius: 100px;
     padding: 3px 9px;
     margin-top: 4px;
+    white-space: nowrap;
   }
   .card-num.captain {
     box-shadow: 0 0 0 2px var(--gold);
@@ -970,19 +973,24 @@
     text-transform: uppercase;
     padding: 4px 10px;
     border-radius: 100px;
+    white-space: nowrap;
   }
   .tag.pos { background: var(--accent-soft); color: var(--accent); }
   .tag.cap { background: var(--gold-soft); color: var(--gold); }
 
   .stat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(1, 1fr);
     gap: 1px;
     background: var(--line);
     border: 1px solid var(--line);
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 20px;
+  }
+  @media (min-width: 480px) {
+    /* 고정 2열: auto-fit이 항목 수에 따라 마지막 줄 칸이 안 맞게 남던 문제 방지(4·6개 항목 모두 짝수 행으로 정렬) */
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
   }
   .stat-wide { grid-column: 1 / -1; }
   .club-history { display: flex; flex-direction: column; }
@@ -1054,6 +1062,27 @@
     color: var(--text-muted);
     line-height: 1.7;
   }
+  .story-card {
+    margin-top: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow-card);
+  }
+  .story-card .label {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: .03em;
+    margin-bottom: 12px;
+  }
+  .story-card p {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.75;
+    margin: 0 0 14px;
+  }
+  .story-card p:last-child { margin-bottom: 0; }
 
   /* ---- 구단소개 ---- */
   .about-lede {
@@ -1267,6 +1296,7 @@
     border-radius: 100px;
     font-size: 11.5px;
     letter-spacing: .04em;
+    white-space: nowrap;
   }
   .news-eyebrow .cat.cat-result { background: var(--accent-soft); color: var(--accent); }
   .news-eyebrow .cat.cat-transfer { background: var(--gold-soft); color: var(--gold); }
@@ -1872,7 +1902,10 @@
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null },
         verification: "[복수 자료 확인] KUFC + KUSF 명단 일치(개인기록 없음)", confirmedActiveIn2026: true },
       { id: "player-005", number: 5, name: "장하윤", nameEn: null, position: "DF", year: "3학년", department: "스포츠지도학과", birthDate: "2005-06", height: 191, weight: 86, preferredFoot: "오른발", school: "평택진위고등학교", photo: null, captain: true,
-        bio: "팀의 주장이자 중앙수비수. 2026년 3월 U-21 올림픽대표팀(2028 LA 올림픽 대비)에 발탁됐는데, 대학 선수 신분으로는 이례적인 발탁이었다. 춘계대학축구연맹전 우수선수상에 이어 한일 정기전 '덴소컵'에서는 한국대학선발대표팀 주장으로 우수선수상까지 받은 팀의 에이스. 8월에는 K리그2 파주 프런티어FC 입단을 확정지으며 프로 무대로 향했다 — 시즌 중 이적이라 9월 이후 기록은 경희대 소속 시절과 다를 수 있다.",
+        bio: [
+          "팀의 주장이자 중앙수비수. 2026년 3월 U-21 올림픽대표팀(2028 LA 올림픽 대비)에 발탁됐는데, 대학 선수 신분으로는 이례적인 발탁이었다. 춘계대학축구연맹전 우수선수상에 이어 한일 정기전 '덴소컵'에서는 한국대학선발대표팀 주장으로 우수선수상까지 받은 팀의 에이스다.",
+          "지도자들은 그가 배우려는 자세로 피드백을 적극적으로 받아들이며 기량을 키워왔다고 평가한다. 8월에는 K리그2 파주 프런티어FC 입단을 확정지으며 프로 무대로 향했다 — 시즌 중 이적이라 9월 이후 기록은 경희대 소속 시절과 다를 수 있다.",
+        ],
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 1, assists: null, yellowCards: 2, redCards: 0 },
         verification: "[복수 자료 확인] KUFC + KUSF + 경희대 공식미디어 일치", confirmedActiveIn2026: true },
       { id: "player-006", number: 6, name: "김유성", nameEn: null, position: "MF/FW", year: "2학년", department: null, birthDate: "2005-03", height: 174, weight: 67, preferredFoot: null, school: "서해고등학교", photo: null, captain: false,
@@ -1892,7 +1925,10 @@
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 3, starts: null, goals: 0, assists: null, yellowCards: 0, redCards: 0 },
         verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
       { id: "player-010", number: 10, name: "이호연", nameEn: null, position: "MF/FW", year: "4학년", department: "스포츠지도학과", birthDate: "2005-02", height: 173, weight: 70, preferredFoot: null, school: "부평고등학교", photo: null, captain: false,
-        bio: "스포츠지도학과 23학번. 2025시즌 주장을 맡아 추계대학축구연맹전 48년 만의 우승을 이끌었다. 미드필더와 공격수를 겸하며, 2월 국제사이버대전에서는 어시스트를 기록했다. 2026 U리그 출전 여부는 아직 확인되지 않았다.",
+        bio: [
+          "스포츠지도학과 23학번. 2025시즌 주장을 맡아 추계대학축구연맹전 48년 만의 우승을 이끌었다.",
+          "미드필더와 공격수를 겸하는 멀티 롤로, 2월 국제사이버대전에서는 어시스트를 기록했다. 2026 U리그 출전 여부는 아직 확인되지 않았다.",
+        ],
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: null, starts: null, goals: null, assists: null, yellowCards: null, redCards: null, note: "포지션: KUFC=MF, KUSF=FW로 상이." },
         verification: "[복수 자료 확인, 포지션은 출처 상이] KUFC=MF / KUSF=FW 양쪽 모두 표기", confirmedActiveIn2026: true },
       { id: "player-011", number: 11, name: "이재모", nameEn: null, position: "FW", year: "2학년", department: null, birthDate: "2006-05", height: 173, weight: 68, preferredFoot: null, school: "제주제일부설방송통신고등학교", photo: null, captain: false,
@@ -1948,7 +1984,10 @@
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 3, starts: null, goals: 0, assists: null, yellowCards: 1, redCards: 0 },
         verification: "[복수 자료 확인] KUFC + KUSF 일치", confirmedActiveIn2026: true },
       { id: "player-024", number: 24, name: "박태양", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-03", height: 187, weight: 76, preferredFoot: null, school: "서울영등포공고", photo: null, captain: false,
-        bio: "26학번 새내기. 입학 시즌부터 존재감을 보여줬다 — 2월 춘계연맹전에서 멀티골을 포함해 5골을 몰아치더니, U리그에서도 7경기 4골로 팀 내 득점 공동 1위에 올랐다. 이 활약을 발판 삼아 2026-07-12 일본 J3리그 카마타마레 사누키 입단을 확정지으며 2026/27시즌부터 해외 무대로 향한다 — 이적 이후 기록은 경희대 소속 시절과 다를 수 있다.",
+        bio: [
+          "26학번 새내기. 입학 시즌부터 존재감을 보여줬다 — 2월 춘계연맹전 조별리그 3경기에서만 멀티골 포함 5골을 몰아치더니, U리그에서도 7경기 4골로 팀 내 득점 공동 1위에 올랐다. 국제사이버대전에서는 골키퍼와 1대1로 마주한 순간에도 침착하게 마무리하는 결정력을 보여줬다.",
+          "이 활약을 발판 삼아 2026년 7월 일본 J3리그 카마타마레 사누키 입단을 확정지으며 2026/27시즌부터 해외 무대로 향한다 — 이적 이후 기록은 경희대 소속 시절과 다를 수 있다.",
+        ],
         stats: { season: "2026", competition: "KUSF 대학축구 U리그 3권역", appearances: 7, starts: null, goals: 4, assists: null, yellowCards: 0, redCards: 0, note: "한산대첩기 춘계연맹전(별도 대회) 5골은 이 필드에 포함되지 않음 — 대회별로 구분 집계" },
         verification: "[복수 자료 확인] KUFC + KUSF + 경희대 공식미디어 + 언론보도", confirmedActiveIn2026: true },
       { id: "player-025", number: 25, name: "김세인", nameEn: null, position: "FW", year: "1학년", department: null, birthDate: "2007-05", height: 185, weight: 88, preferredFoot: null, school: "충남아산FC U18", photo: null, captain: false,
@@ -2095,6 +2134,10 @@
         summary: "1,2학년연맹전 조별리그에서 3연승을 거두며 16강에 진출했다. (사진=한국대학축구연맹 제공)", url: "https://vou.khu.ac.kr/bbs/board.php?bo_table=univJubo&wr_id=38467" },
       { id: "news-2026-004", title: "[2025 캡틴뷰] 대회 우승? 우린 아직 진행 중이다! _ep.3 경희대학교 이호연", date: "2026-02-20", category: "인터뷰",
         summary: "2025시즌 주장을 지낸 이호연 선수의 인터뷰. 태백산기 제61회 추계대학축구연맹전 우승(승부차기 포함) 등 2025시즌을 돌아보는 내용을 다룬다. 2026 U리그 3권역 기록과는 다른 시즌(2025)을 다룬 기사이니 혼동에 주의.", url: "https://kusf.or.kr/news/uni_news_view.html?page=8&seq=18&ecode=45" },
+      { id: "news-2026-007", title: "축구부, 조별리그 3연승으로 춘계대학축구연맹전 16강 진출", date: "2026-02-13", category: "경기결과",
+        summary: "제62회 한산대첩기 춘계대학축구연맹전 조별리그 3연승으로 조 1위 16강 진출. 신입생 박태양이 조별리그 3경기에서 5골을 몰아쳤고, 주장 장하윤은 국제사이버대전에서 헤딩골을 터뜨렸다.", url: "https://media.khu.ac.kr/bbs/board.php?bo_table=univJubo&wr_id=38577" },
+      { id: "news-2026-008", title: "축구부 주장 장하윤, U-21 올림픽 대표팀 발탁", date: "2026-03-20", category: "발탁",
+        summary: "장하윤이 2028 LA 올림픽을 준비하는 U-21 대표팀 24인에 이름을 올렸다. 24명 중 18명이 프로 선수인 명단에 대학 선수 신분으로 발탁된 이례적인 사례다.", url: "https://media.khu.ac.kr/bbs/board.php?bo_table=univJubo&wr_id=38848" },
       { id: "news-2026-005", title: "[공식발표] '덴소컵 주장+U-21 대표' 장하윤, 파주서 프로 무대 도전", date: "2026-08-19", category: "이적",
         summary: "경희대 축구부 주장 장하윤이 K리그2 파주 프런티어FC에 입단해 프로 무대에 도전한다. 191cm 센터백으로 U-21 대표팀·덴소컵 대학선발 주장 경력.", url: "https://www.osen.co.kr/article/G1112859793" },
       { id: "news-2026-006", title: "경희대 공격수 박태양, 일본 J3 카마타마레 사누키 입단 내정", date: "2026-07-12", category: "이적",
@@ -2387,6 +2430,17 @@
     rosterList.hidden = false;
   }
 
+  function bioHTML(p) {
+    if (!p.bio) return "";
+    const paragraphs = Array.isArray(p.bio) ? p.bio : [p.bio];
+    return `
+      <div class="story-card">
+        <div class="label">선수 이야기</div>
+        ${paragraphs.map((t) => `<p>${t}</p>`).join("")}
+      </div>
+    `;
+  }
+
   function showDetail(p) {
     const s = p.stats || {};
     detailContent.innerHTML = `
@@ -2419,7 +2473,7 @@
         </div>
         ${s.note ? `<p class="note">${s.note}</p>` : ""}
       </div>
-      ${p.bio ? `<p class="bio-text">${p.bio}</p>` : ""}
+      ${bioHTML(p)}
       ${relatedNewsHTML(p)}
     `;
     rosterList.hidden = true;
