@@ -604,6 +604,11 @@
   .standings tbody tr:nth-child(even) td { background: var(--surface-2); }
   .standings tr:last-child td { border-bottom: none; }
   .standings tr.us td { background: var(--accent-soft); color: var(--accent); }
+  @media (max-width: 480px) {
+    .standings { font-size: 11.5px; }
+    .standings th, .standings td { padding: 7px 4px; }
+    .standings th { font-size: 10.5px; }
+  }
   .standings td:first-child { font-family: "Oswald", sans-serif; color: var(--text-muted); }
   .standings tr.us td:first-child { color: var(--accent); font-weight: 700; }
 
