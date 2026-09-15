@@ -789,6 +789,17 @@
   .fixtures tbody tr:nth-child(even) td { background: var(--surface-2); }
   .fixtures tr.upcoming td { color: var(--text-muted); }
   .fixtures tr.upcoming td:nth-child(2) { color: var(--text); }
+  @media (max-width: 640px) {
+    .fixtures { min-width: 0; font-size: 10.5px; }
+    .fixtures th, .fixtures td { padding: 7px 3px; }
+    .fixtures th:nth-child(1), .fixtures td:nth-child(1) { width: 16%; }
+    .fixtures th:nth-child(2), .fixtures td:nth-child(2) { width: 19%; }
+    .fixtures th:nth-child(3), .fixtures td:nth-child(3) { width: 8%; }
+    .fixtures th:nth-child(4), .fixtures td:nth-child(4) { width: 15%; }
+    .fixtures th:nth-child(5), .fixtures td:nth-child(5) { width: 26%; }
+    .fixtures th:nth-child(6), .fixtures td:nth-child(6) { width: 16%; }
+    .fixtures .status-pill { white-space: normal; font-size: 9.5px; padding: 2px 5px; line-height: 1.3; }
+  }
   .fixture-row { cursor: pointer; }
   .fixture-row:hover td { background: color-mix(in srgb, var(--accent) 10%, var(--surface-2)); }
   .fixture-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
