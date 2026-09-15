@@ -116,6 +116,7 @@
     box-shadow: 0 1px 0 rgba(255,255,255,.08), 0 12px 28px -16px rgba(0,0,0,.45);
   }
   .topnav-inner {
+    position: relative;
     max-width: 980px;
     margin: 0 auto;
     padding: 10px 20px;
@@ -205,6 +206,10 @@
   .nav-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .nav-link[aria-current="page"] { color: #241d08; background: linear-gradient(135deg, #f0d488, var(--gold) 65%); box-shadow: 0 4px 12px -4px rgba(0,0,0,.35); }
   .nav-external {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
     text-decoration: none;
@@ -214,6 +219,9 @@
     border: 1px solid rgba(245, 236, 214, .3);
   }
   .nav-external:hover { color: #fff; border-color: #fff; background: rgba(0,0,0,.15); }
+  @media (max-width: 760px) {
+    .nav-external { position: static; transform: none; justify-self: center; margin-top: 4px; }
+  }
 
   main.page { padding: clamp(24px, 5vw, 48px) 0 64px; }
 
@@ -1693,7 +1701,7 @@
     <div class="nav-links nav-links-left" role="navigation">
       <button class="nav-link" data-nav="home">홈</button>
       <button class="nav-link" data-nav="roster">선수단</button>
-      <button class="nav-link" data-nav="schedule">경기일정</button>
+      <button class="nav-link" data-nav="staff">코칭스태프</button>
     </div>
     <button class="brand" data-nav="home" aria-label="홈으로 이동">
       <span class="crest"><img src="assets/khu-univ-logo.png" alt="경희대학교 엠블럼"></span>
@@ -1703,13 +1711,14 @@
       </span>
     </button>
     <div class="nav-links nav-links-right" role="navigation">
+      <button class="nav-link" data-nav="schedule">경기일정</button>
       <button class="nav-link" data-nav="news">소식</button>
       <button class="nav-link" data-nav="about">구단소개</button>
-      <a class="nav-link nav-external gap-1" href="https://www.khu.ac.kr" target="_blank" rel="noopener" title="경희대학교 공식 홈페이지로 이동">
-        <span>학교 홈페이지</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-      </a>
     </div>
+    <a class="nav-link nav-external gap-1" href="https://www.khu.ac.kr" target="_blank" rel="noopener" title="경희대학교 공식 홈페이지로 이동">
+      <span>학교 홈페이지</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+    </a>
   </div>
 </nav>
 
@@ -1797,6 +1806,16 @@
     </div>
   </main>
 
+  <!-- ===== 코칭스태프 ===== -->
+  <main class="page" id="page-staff" hidden>
+    <div class="roster-meta">
+      <h2>코칭스태프</h2>
+      <span>2026 시즌</span>
+    </div>
+    <p class="about-lede">2026시즌 경희대학교 축구부를 이끄는 코칭스태프입니다.</p>
+    <div class="staff-grid reveal" id="staff-grid"></div>
+  </main>
+
   <!-- ===== 경기일정 ===== -->
   <main class="page" id="page-schedule" hidden>
     <div id="schedule-list">
@@ -1869,11 +1888,6 @@
         <p>경희대학교의 공식 상징 동물은 '웃는 사자'입니다. 진취적 기상과 거침없는 강인함을 나타내는 동시에, 여유와 포용력을 함께 지닌 존재로 소개됩니다. 응원가에는 "쌍두의 사자"라는 구절이 등장하며, 같은 사자를 상징으로 쓰는 한양대학교와는 'THE LION MATCH'라는 이름의 스포츠 교류전을 열기도 합니다.</p>
       </div>
       <p class="caption">출처: 경희대학교 공식 홈페이지 '상징' 소개 페이지</p>
-    </div>
-
-    <div id="about-tab-staff" hidden role="tabpanel" aria-labelledby="about-tab-btn-staff" tabindex="0">
-      <p class="about-lede">2026시즌 경희대학교 축구부를 이끄는 코칭스태프입니다.</p>
-      <div class="staff-grid reveal" id="staff-grid"></div>
     </div>
 
     <div id="about-tab-alumni" hidden role="tabpanel" aria-labelledby="about-tab-btn-alumni" tabindex="0">
@@ -2363,6 +2377,7 @@
   const pages = {
     home: document.getElementById("page-home"),
     roster: document.getElementById("page-roster"),
+    staff: document.getElementById("page-staff"),
     schedule: document.getElementById("page-schedule"),
     news: document.getElementById("page-news"),
     about: document.getElementById("page-about"),
@@ -3074,7 +3089,6 @@
   // ---- 구단소개: 하위 탭(개요/동문/기록) ----
   const ABOUT_TABS = [
     { key: "overview", label: "개요", el: document.getElementById("about-tab-overview") },
-    { key: "staff", label: "코칭스태프", el: document.getElementById("about-tab-staff") },
     { key: "alumni", label: "동문", el: document.getElementById("about-tab-alumni") },
     { key: "records", label: "역사관", el: document.getElementById("about-tab-records") },
   ];
