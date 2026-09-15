@@ -185,9 +185,14 @@
   .nav-links-left { justify-content: flex-end; }
   .nav-links-right { justify-content: flex-start; }
   @media (max-width: 760px) {
-    .topnav-inner { grid-template-columns: 1fr; row-gap: 6px; padding: 12px 16px; }
+    .topnav-inner { grid-template-columns: 1fr; row-gap: 4px; padding: 10px 16px; }
     .brand { order: -1; padding: 2px 6px 6px; }
-    .nav-links-left, .nav-links-right { justify-content: center; }
+    .nav-links-left, .nav-links-right { justify-content: center; gap: 4px; }
+    .nav-link { font-size: 13.5px; padding: 8px 13px; letter-spacing: .01em; }
+    .nav-external { font-size: 12.5px; }
+  }
+  @media (max-width: 360px) {
+    .nav-link { font-size: 12.5px; padding: 7px 10px; }
   }
   .nav-link {
     background: none;
