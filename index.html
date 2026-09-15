@@ -192,11 +192,11 @@
     background: none;
     border: none;
     font: inherit;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
-    letter-spacing: .03em;
+    letter-spacing: .02em;
     color: rgba(245, 236, 214, .78);
-    padding: 8px 12px;
+    padding: 10px 16px;
     border-radius: 100px;
     cursor: pointer;
   }
@@ -209,7 +209,7 @@
     align-items: center;
     text-decoration: none;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13.5px;
     color: rgba(245, 236, 214, .6);
     border: 1px solid rgba(245, 236, 214, .3);
   }
@@ -846,9 +846,16 @@
   /* 레이아웃(컬럼 수·간격)은 DESIGN.md 4장 기준으로 HTML의 Tailwind 유틸리티(grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4)가 담당 */
   .roster-grid { display: grid; }
 
+  /* ---- club card 시그니처: 골드 상단 바 + 미세 대각선 텍스처(.match-card와 같은 계열) ----
+     .player-card / .staff-card / .alumni-card / .news-card / .widget / .apps-block /
+     .story-card / .news-featured / .trophy / .crest-showcase 에 공통으로 반복 적용 */
   .player-card {
+    position: relative;
+    overflow: hidden;
     text-align: left;
-    background: var(--surface);
+    background:
+      repeating-linear-gradient(135deg, color-mix(in srgb, var(--text) 4%, transparent) 0px, color-mix(in srgb, var(--text) 4%, transparent) 2px, transparent 2px, transparent 14px),
+      var(--surface);
     border: 1px solid var(--line);
     border-radius: 14px;
     padding: 16px;
@@ -861,11 +868,21 @@
     box-shadow: var(--shadow-card);
     transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
   }
+  .player-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), #fff6da, var(--gold));
+    opacity: .75;
+    transition: opacity .2s var(--ease);
+  }
   .player-card:hover {
     border-color: var(--accent);
     box-shadow: var(--shadow-lift);
     transform: translateY(-4px);
   }
+  .player-card:hover::before { opacity: 1; }
   .player-card:active { transform: translateY(-1px); }
   .player-card:focus-visible {
     outline: 2px solid var(--accent);
@@ -1169,7 +1186,11 @@
     margin-bottom: clamp(28px, 5vw, 40px);
   }
   .staff-card {
-    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, color-mix(in srgb, var(--text) 4%, transparent) 0px, color-mix(in srgb, var(--text) 4%, transparent) 2px, transparent 2px, transparent 14px),
+      var(--surface);
     border: 1px solid var(--line);
     border-radius: 14px;
     padding: 16px;
@@ -1179,7 +1200,17 @@
     box-shadow: var(--shadow-card);
     transition: transform .2s var(--ease), box-shadow .2s var(--ease);
   }
+  .staff-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), #fff6da, var(--gold));
+    opacity: .75;
+    transition: opacity .2s var(--ease);
+  }
   .staff-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+  .staff-card:hover::before { opacity: 1; }
   .staff-role {
     font-family: "Oswald", sans-serif;
     font-size: 12.5px;
@@ -1267,7 +1298,9 @@
     gap: 14px;
   }
   .news-card {
-    background: var(--surface);
+    background:
+      repeating-linear-gradient(135deg, color-mix(in srgb, var(--text) 4%, transparent) 0px, color-mix(in srgb, var(--text) 4%, transparent) 2px, transparent 2px, transparent 14px),
+      var(--surface);
     border: 1px solid var(--line);
     border-radius: 16px;
     overflow: hidden;
@@ -1385,7 +1418,11 @@
     margin-bottom: clamp(28px, 5vw, 40px);
   }
   .alumni-card {
-    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(135deg, color-mix(in srgb, var(--text) 4%, transparent) 0px, color-mix(in srgb, var(--text) 4%, transparent) 2px, transparent 2px, transparent 14px),
+      var(--surface);
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 18px 20px;
@@ -1397,7 +1434,17 @@
     width: 100%;
     cursor: pointer;
   }
+  .alumni-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), #fff6da, var(--gold));
+    opacity: .75;
+    transition: opacity .2s var(--ease);
+  }
   .alumni-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--accent); }
+  .alumni-card:hover::before { opacity: 1; }
   .alumni-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* ---- 동문 라이트박스 ---- */
