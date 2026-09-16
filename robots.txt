@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://khu-soccer.netlify.app/sitemap.xml
